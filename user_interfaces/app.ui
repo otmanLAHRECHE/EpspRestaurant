@@ -191,10 +191,10 @@ QPushButton:hover{
             <widget class="QLabel" name="label_2">
              <property name="geometry">
               <rect>
-               <x>0</x>
-               <y>0</y>
-               <width>221</width>
-               <height>41</height>
+               <x>10</x>
+               <y>10</y>
+               <width>211</width>
+               <height>31</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -412,9 +412,15 @@ QPushButton:hover{
              </property>
              <item row="0" column="0" colspan="2">
               <widget class="QPushButton" name="pushButton_4">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
-                 <width>100</width>
+                 <width>25</width>
                  <height>0</height>
                 </size>
                </property>
@@ -424,15 +430,21 @@ padding-left: 50px;
 background-position: center left;</string>
                </property>
                <property name="text">
-                <string>HOME</string>
+                <string>ttttttttt</string>
                </property>
               </widget>
              </item>
              <item row="1" column="0" colspan="2">
               <widget class="QPushButton" name="pushButton_3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
-                 <width>100</width>
+                 <width>25</width>
                  <height>0</height>
                 </size>
                </property>
@@ -442,18 +454,24 @@ padding-left: 50px;
 background-position: center left;</string>
                </property>
                <property name="text">
-                <string>ACCOUNT</string>
+                <string>tttttttt</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="0">
+             <item row="2" column="0" colspan="2">
               <widget class="QPushButton" name="pushButton">
                <property name="enabled">
                 <bool>true</bool>
                </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
-                 <width>100</width>
+                 <width>25</width>
                  <height>0</height>
                 </size>
                </property>
@@ -463,15 +481,21 @@ padding-left: 50px;
 background-position: center left;</string>
                </property>
                <property name="text">
-                <string>PushButton</string>
+                <string>tttttttt</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="0">
+             <item row="3" column="0" colspan="2">
               <widget class="QPushButton" name="pushButton_5">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
-                 <width>100</width>
+                 <width>25</width>
                  <height>0</height>
                 </size>
                </property>
@@ -481,15 +505,21 @@ padding-left: 50px;
 background-position: center left;</string>
                </property>
                <property name="text">
-                <string>PushButton</string>
+                <string>tttttttt</string>
                </property>
               </widget>
              </item>
-             <item row="4" column="0">
+             <item row="4" column="1">
               <widget class="QPushButton" name="pushButton_6">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
-                 <width>100</width>
+                 <width>25</width>
                  <height>0</height>
                 </size>
                </property>
@@ -499,7 +529,7 @@ padding-left: 50px;
 background-position: center left;</string>
                </property>
                <property name="text">
-                <string>PushButton</string>
+                <string>tttttttt</string>
                </property>
               </widget>
              </item>
@@ -508,10 +538,22 @@ background-position: center left;</string>
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
-              <width>100</width>
+              <width>25</width>
               <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>25</width>
+              <height>53</height>
              </size>
             </property>
             <property name="styleSheet">
@@ -520,7 +562,7 @@ padding-left: 50px;
 background-position: center left;</string>
             </property>
             <property name="text">
-             <string>SETTINGS</string>
+             <string>tttttttttttttttttttttt</string>
             </property>
            </widget>
           </item>
