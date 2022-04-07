@@ -1,7 +1,8 @@
-from PyQt5 import QtWidgets, uic, Qt, QtCore, QtGui
+from PyQt5 import QtWidgets, uic, QtCore, QtGui
 from PyQt5.QtCore import QSize, QPropertyAnimation
 from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect
+
 
 WINDOW_SIZE = 0
 
@@ -73,12 +74,11 @@ class AppUi(QtWidgets.QMainWindow):
         self.restoreButton.clicked.connect(lambda: self.restore_or_maximize_window())
 
         def moveWindow(e):
-
-            if self.isMaximized() == False:  # Not maximized
-                if e.buttons() == Qt.LeftButton:
-                    self.move(self.pos() + e.globalPos() - self.clickPosition)
-                    self.clickPosition = e.globalPos()
-                    e.accept()
+            if self.isMaximized() == False:
+                print("true")
+                self.move(self.pos() + e.globalPos() - self.clickPosition)
+                self.clickPosition = e.globalPos()
+                e.accept()
 
         self.main_header.mouseMoveEvent = moveWindow
 
@@ -106,11 +106,23 @@ class AppUi(QtWidgets.QMainWindow):
         # If minimized
         if width == 50:
             # Expand menu
-            newWidth = 150
-        # If maximized
+            newWidth = 180
+            self.pushButton_4.setText("معلومات عامة")
+            self.pushButton_3.setText("التموين")
+            self.pushButton.setText("المشتريات")
+            self.pushButton_5.setText("إحصائيات")
+            self.pushButton_6.setText("البرنامج اليومي")
+            self.pushButton_2.setText("إعدادات  ")
+
         else:
             # Restore menu
             newWidth = 50
+            self.pushButton_4.setText("ttttttttt")
+            self.pushButton_3.setText("tttttttt")
+            self.pushButton.setText("tttttttt")
+            self.pushButton_5.setText("tttttttt")
+            self.pushButton_6.setText("tttttttt")
+            self.pushButton_2.setText(" tttttttttttttttttttttt")
 
         # Animate the transition
         self.animation = QPropertyAnimation(self.left_side_menu, b"minimumWidth")  # Animate minimumWidht

@@ -385,6 +385,9 @@ QPushButton:hover{
           </property>
           <item>
            <widget class="QFrame" name="left_menu_top_buttons">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
@@ -413,7 +416,7 @@ QPushButton:hover{
              <item row="0" column="0" colspan="2">
               <widget class="QPushButton" name="pushButton_4">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -423,6 +426,9 @@ QPushButton:hover{
                  <width>25</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
                </property>
                <property name="styleSheet">
                 <string notr="true">background-repeat: none;
@@ -437,7 +443,7 @@ background-position: center left;</string>
              <item row="1" column="0" colspan="2">
               <widget class="QPushButton" name="pushButton_3">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -447,6 +453,9 @@ background-position: center left;</string>
                  <width>25</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
                </property>
                <property name="styleSheet">
                 <string notr="true">background-repeat: none;
@@ -464,7 +473,7 @@ background-position: center left;</string>
                 <bool>true</bool>
                </property>
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -474,6 +483,9 @@ background-position: center left;</string>
                  <width>25</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
                </property>
                <property name="styleSheet">
                 <string notr="true">background-repeat: none;
@@ -488,7 +500,7 @@ background-position: center left;</string>
              <item row="3" column="0" colspan="2">
               <widget class="QPushButton" name="pushButton_5">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -498,6 +510,9 @@ background-position: center left;</string>
                  <width>25</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
                </property>
                <property name="styleSheet">
                 <string notr="true">background-repeat: none;
@@ -512,7 +527,7 @@ background-position: center left;</string>
              <item row="4" column="1">
               <widget class="QPushButton" name="pushButton_6">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -522,6 +537,9 @@ background-position: center left;</string>
                  <width>25</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
                </property>
                <property name="styleSheet">
                 <string notr="true">background-repeat: none;
@@ -539,7 +557,7 @@ background-position: center left;</string>
           <item>
            <widget class="QPushButton" name="pushButton_2">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -552,9 +570,12 @@ background-position: center left;</string>
             </property>
             <property name="maximumSize">
              <size>
-              <width>25</width>
-              <height>53</height>
+              <width>16777215</width>
+              <height>16777215</height>
              </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="styleSheet">
              <string notr="true">background-repeat: none;
@@ -562,7 +583,7 @@ padding-left: 50px;
 background-position: center left;</string>
             </property>
             <property name="text">
-             <string>tttttttttttttttttttttt</string>
+             <string> tttttttttttttttttttttt</string>
             </property>
            </widget>
           </item>
