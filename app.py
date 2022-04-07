@@ -75,7 +75,6 @@ class AppUi(QtWidgets.QMainWindow):
 
         def moveWindow(e):
             if self.isMaximized() == False:
-                print("true")
                 self.move(self.pos() + e.globalPos() - self.clickPosition)
                 self.clickPosition = e.globalPos()
                 e.accept()
