@@ -30,9 +30,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.left_menu_toggle_btn.setIcon(QIcon("./icons/cil-menu.png"))
         self.left_menu_toggle_btn.setIconSize(QSize(24, 24))
 
-        self.restoreButton = self.findChild(QtWidgets.QPushButton, "restoreButton")
-        self.restoreButton.setIcon(QIcon("./icons/maximize.png"))
-        self.restoreButton.setIconSize(QSize(24, 24))
+
 
         self.minimizeButton = self.findChild(QtWidgets.QPushButton, "minimizeButton")
         self.minimizeButton.setIcon(QIcon("./icons/minus.png"))
@@ -86,7 +84,7 @@ class AppUi(QtWidgets.QMainWindow):
         # Close window
         self.closeButton.clicked.connect(self.close)
         # Restore/Maximize window
-        self.restoreButton.clicked.connect(self.restore_or_maximize_window)
+
 
         self.pushButton_4.clicked.connect(self.h)
         self.pushButton_3.clicked.connect(self.sort)
