@@ -1,0 +1,65 @@
+CREATE TABLE user (
+   user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+   user_name text NOT NULL,
+   password text NOT NULL
+);
+
+CREATE TABLE product (
+   product_id INTEGER PRIMARY KEY AUTOINCREMENT,
+   name text NOT NULL,
+   type text NOT NULL,
+   unit text NOT NULL
+);
+
+CREATE TABLE stock (
+   stock_id INTEGER PRIMARY KEY AUTOINCREMENT,
+   qnt REAL NOT NULL,
+   stocked_id INTEGER NOT NULL,
+   FOREIGN KEY(stocked_id) REFERENCES product(product_id)
+);
+
+CREATE TABLE fb (
+   fb_id INTEGER PRIMARY KEY AUTOINCREMENT,
+   name TEXT NOT NULL,
+   type TEXT NOT NULL
+);
+
+CREATE TABLE bon (
+   bon_id INTEGER PRIMARY KEY AUTOINCREMENT,
+   dt TEXT NOT NULL,
+   type TEXT NOT NULL,
+   fb_fk_id INTEGER NOT NULL,
+   FOREIGN KEY(fb_fk_id) REFERENCES fb(fb_id)
+);
+
+CREATE TABLE opertation (
+   op_id INTEGER PRIMARY KEY AUTOINCREMENT,
+   product_op_id INTEGER NOT NULL,
+   bon_op_id INTEGER NOT NULL,
+   qnt REAL NOT NULL,
+   FOREIGN KEY(product_op_id) REFERENCES product(product_id),
+   FOREIGN KEY(bon_op_id) REFERENCES bon(bon_id)
+);
+
+CREATE TABLE menu (
+   menu_id INTEGER PRIMARY KEY AUTOINCREMENT,
+   m INTEGER NOT NULL,
+   y INTEGER NOT NULL
+);
+
+CREATE TABLE plat (
+   plat_id INTEGER PRIMARY KEY AUTOINCREMENT,
+   repas_p TEXT NOT NULL,
+   repas_s TEXT NOT NULL,
+   dessert TEXT NOT NULL
+);
+
+CREATE TABLE jour (
+   jour_id INTEGER PRIMARY KEY AUTOINCREMENT,
+   menu_fk_id INTEGER NOT NULL,
+   plat_lunch_id INTEGER NOT NULL,
+   plat_dinner_id INTEGER NOT NULL,
+   FOREIGN KEY(menu_fk_id) REFERENCES menu(menu_id),
+   FOREIGN KEY(plat_lunch_id) REFERENCES plat(plat_id),
+   FOREIGN KEY(plat_dinner_id) REFERENCES plat(plat_id)
+);
