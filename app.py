@@ -74,11 +74,19 @@ class AppUi(QtWidgets.QMainWindow):
         self.fragment = self.findChild(QtWidgets.QStackedWidget, "stackedWidget")
 
 
-        self.minimizeButton.clicked.connect(lambda: self.showMinimized())
+        self.minimizeButton.clicked.connect(self.showMinimized)
         # Close window
-        self.closeButton.clicked.connect(lambda: self.close())
+        self.closeButton.clicked.connect(self.close)
         # Restore/Maximize window
-        self.restoreButton.clicked.connect(lambda: self.restore_or_maximize_window())
+        self.restoreButton.clicked.connect(self.restore_or_maximize_window)
+
+        self.pushButton_4.clicked.connect(self.h)
+        self.pushButton_3.clicked.connect(self.sort)
+        self.pushButton.clicked.connect(self.ent)
+        self.pushButton_7.clicked.connect(self.sto)
+        self.pushButton_5.clicked.connect(self.stat)
+        self.pushButton_6.clicked.connect(self.prog)
+        self.pushButton_2.clicked.connect(self.sett)
 
         def moveWindow(e):
             if self.isMaximized() == False:
@@ -89,6 +97,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.main_header.mouseMoveEvent = moveWindow
 
         self.left_menu_toggle_btn.clicked.connect(lambda: self.slideLeftMenu())
+
+
 
     def mousePressEvent(self, event):
         self.clickPosition = event.globalPos()
@@ -140,7 +150,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
         self.animation.start()
 
-    def home(self):
+    def h(self):
         self.pushButton_4.setStyleSheet("background-color: rgb(0, 92, 157);")
         self.pushButton.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton_2.setStyleSheet("background-color: rgb(0, 0, 0);")
@@ -149,7 +159,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.pushButton_6.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton_7.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.fragment.setCurrentIndex(0)
-    def sortie(self):
+
+    def sort(self):
         self.pushButton_3.setStyleSheet("background-color: rgb(0, 92, 157);")
         self.pushButton_4.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton.setStyleSheet("background-color: rgb(0, 0, 0);")
@@ -158,7 +169,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.pushButton_6.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton_7.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.fragment.setCurrentIndex(1)
-    def entree(self):
+
+    def ent(self):
         self.pushButton.setStyleSheet("background-color: rgb(0, 92, 157);")
         self.pushButton_2.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton_5.setStyleSheet("background-color: rgb(0, 0, 0);")
@@ -167,7 +179,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.pushButton_3.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton_4.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.fragment.setCurrentIndex(2)
-    def stock(self):
+
+    def sto(self):
         self.pushButton_7.setStyleSheet("background-color: rgb(0, 92, 157);")
         self.pushButton_3.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton_4.setStyleSheet("background-color: rgb(0, 0, 0);")
@@ -176,7 +189,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.pushButton_5.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton_6.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.fragment.setCurrentIndex(3)
-    def statistiques(self):
+
+    def stat(self):
         self.pushButton_5.setStyleSheet("background-color: rgb(0, 92, 157);")
         self.pushButton_6.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton_7.setStyleSheet("background-color: rgb(0, 0, 0);")
@@ -185,7 +199,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.pushButton.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton_2.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.fragment.setCurrentIndex(4)
-    def programe(self):
+
+    def prog(self):
         self.pushButton_6.setStyleSheet("background-color: rgb(0, 92, 157);")
         self.pushButton_7.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton_3.setStyleSheet("background-color: rgb(0, 0, 0);")
@@ -194,7 +209,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.pushButton_2.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton_5.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.fragment.setCurrentIndex(5)
-    def settings(self):
+
+    def sett(self):
         self.pushButton_2.setStyleSheet("background-color: rgb(0, 92, 157);")
         self.pushButton_5.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.pushButton_6.setStyleSheet("background-color: rgb(0, 0, 0);")
