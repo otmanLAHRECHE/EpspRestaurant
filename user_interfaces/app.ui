@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1100</width>
+    <width>1114</width>
     <height>700</height>
    </rect>
   </property>
@@ -633,13 +633,13 @@ background-position: center left;</string>
              </size>
             </property>
             <property name="currentIndex">
-             <number>6</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="home">
              <widget class="QLabel" name="label">
               <property name="geometry">
                <rect>
-                <x>840</x>
+                <x>860</x>
                 <y>0</y>
                 <width>161</width>
                 <height>31</height>
@@ -657,12 +657,43 @@ background-position: center left;</string>
                <string>معلومات عامة:</string>
               </property>
              </widget>
+             <widget class="QWidget" name="widget" native="true">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>1011</width>
+                <height>2</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(5, 122, 185);</string>
+              </property>
+             </widget>
             </widget>
             <widget class="QWidget" name="sortie">
              <widget class="QLabel" name="label_3">
               <property name="geometry">
                <rect>
-                <x>840</x>
+                <x>860</x>
                 <y>0</y>
                 <width>161</width>
                 <height>31</height>
@@ -680,12 +711,43 @@ background-position: center left;</string>
                <string>طلبيات التموين:</string>
               </property>
              </widget>
+             <widget class="QWidget" name="widget_2" native="true">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>1011</width>
+                <height>2</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(5, 122, 185);</string>
+              </property>
+             </widget>
             </widget>
             <widget class="QWidget" name="entree">
              <widget class="QLabel" name="label_4">
               <property name="geometry">
                <rect>
-                <x>840</x>
+                <x>860</x>
                 <y>0</y>
                 <width>161</width>
                 <height>31</height>
@@ -703,12 +765,43 @@ background-position: center left;</string>
                <string>المشتريات:</string>
               </property>
              </widget>
+             <widget class="QWidget" name="widget_3" native="true">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>1011</width>
+                <height>2</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(5, 122, 185);</string>
+              </property>
+             </widget>
             </widget>
             <widget class="QWidget" name="stock">
              <widget class="QLabel" name="label_5">
               <property name="geometry">
                <rect>
-                <x>840</x>
+                <x>860</x>
                 <y>0</y>
                 <width>161</width>
                 <height>31</height>
@@ -726,12 +819,273 @@ background-position: center left;</string>
                <string>المخزون:</string>
               </property>
              </widget>
+             <widget class="QWidget" name="widget_4" native="true">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>1011</width>
+                <height>2</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(5, 122, 185);</string>
+              </property>
+              <widget class="QWidget" name="widget_8" native="true">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>1011</width>
+                 <height>2</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>2</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>2</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(5, 122, 185);</string>
+               </property>
+              </widget>
+             </widget>
+             <widget class="QLabel" name="label_9">
+              <property name="geometry">
+               <rect>
+                <x>890</x>
+                <y>60</y>
+                <width>121</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>13</pointsize>
+               </font>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string>مخزون اللحوم:</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_10">
+              <property name="geometry">
+               <rect>
+                <x>350</x>
+                <y>60</y>
+                <width>221</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>13</pointsize>
+               </font>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string>مخزون الخضر و المواد الغذائية:</string>
+              </property>
+             </widget>
+             <widget class="QWidget" name="widget_9" native="true">
+              <property name="geometry">
+               <rect>
+                <x>580</x>
+                <y>50</y>
+                <width>2</width>
+                <height>490</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>2</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>2</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(5, 122, 185);</string>
+              </property>
+             </widget>
+             <widget class="QTableWidget" name="tableWidget">
+              <property name="geometry">
+               <rect>
+                <x>20</x>
+                <y>121</y>
+                <width>541</width>
+                <height>421</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <row>
+               <property name="text">
+                <string>New Row</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>1</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>2</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>3</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>4</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>5</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>6</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>7</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>9</string>
+               </property>
+              </row>
+              <column>
+               <property name="text">
+                <string>المادة</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>المادة</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>الوحدة</string>
+               </property>
+              </column>
+             </widget>
+             <widget class="QTableWidget" name="tableWidget_2">
+              <property name="geometry">
+               <rect>
+                <x>605</x>
+                <y>121</y>
+                <width>401</width>
+                <height>421</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <row>
+               <property name="text">
+                <string>New Row</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>1</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>2</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>3</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>5</string>
+               </property>
+              </row>
+              <column>
+               <property name="text">
+                <string>المادة</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>الكمية</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>الوحدة</string>
+               </property>
+              </column>
+             </widget>
             </widget>
             <widget class="QWidget" name="statistiques">
              <widget class="QLabel" name="label_6">
               <property name="geometry">
                <rect>
-                <x>840</x>
+                <x>860</x>
                 <y>0</y>
                 <width>161</width>
                 <height>31</height>
@@ -749,12 +1103,43 @@ background-position: center left;</string>
                <string>إحصائيات:</string>
               </property>
              </widget>
+             <widget class="QWidget" name="widget_5" native="true">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>1011</width>
+                <height>2</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(5, 122, 185);</string>
+              </property>
+             </widget>
             </widget>
             <widget class="QWidget" name="programe">
              <widget class="QLabel" name="label_7">
               <property name="geometry">
                <rect>
-                <x>750</x>
+                <x>770</x>
                 <y>0</y>
                 <width>251</width>
                 <height>31</height>
@@ -772,12 +1157,43 @@ background-position: center left;</string>
                <string>البرنامج البومي للمطعم:</string>
               </property>
              </widget>
+             <widget class="QWidget" name="widget_6" native="true">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>1011</width>
+                <height>2</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(5, 122, 185);</string>
+              </property>
+             </widget>
             </widget>
             <widget class="QWidget" name="settings">
              <widget class="QLabel" name="label_8">
               <property name="geometry">
                <rect>
-                <x>840</x>
+                <x>860</x>
                 <y>0</y>
                 <width>161</width>
                 <height>31</height>
@@ -793,6 +1209,37 @@ background-position: center left;</string>
               </property>
               <property name="text">
                <string>إعدادات:</string>
+              </property>
+             </widget>
+             <widget class="QWidget" name="widget_7" native="true">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>1011</width>
+                <height>2</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(5, 122, 185);</string>
               </property>
              </widget>
             </widget>
