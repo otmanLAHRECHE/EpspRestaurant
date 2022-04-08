@@ -15,7 +15,7 @@ class AppUi(QtWidgets.QMainWindow):
 
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
-        self.move(110, 20)
+        self.move(115, 20)
 
         self.shadow = QGraphicsDropShadowEffect(self)
         self.shadow.setBlurRadius(20)
