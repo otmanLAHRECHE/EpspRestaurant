@@ -645,7 +645,7 @@ background-position: center left;</string>
             </property>
             <property name="maximumSize">
              <size>
-              <width>910</width>
+              <width>16777215</width>
               <height>16777215</height>
              </size>
             </property>
@@ -717,7 +717,7 @@ background-position: center left;</string>
                <enum>Qt::RightToLeft</enum>
               </property>
               <property name="text">
-               <string>الإستيراد:</string>
+               <string>المشتريات:</string>
               </property>
              </widget>
             </widget>

@@ -73,6 +73,14 @@ class AppUi(QtWidgets.QMainWindow):
 
         self.fragment = self.findChild(QtWidgets.QStackedWidget, "stackedWidget")
 
+        self.pushButton_4.setStyleSheet("""
+                background-color: rgb(0, 92, 157);
+                background-repeat: none;
+                padding-left: 50px;
+                background-position: center left;
+                """)
+        self.fragment.setCurrentIndex(0)
+
 
         self.minimizeButton.clicked.connect(self.showMinimized)
         # Close window
@@ -151,71 +159,225 @@ class AppUi(QtWidgets.QMainWindow):
         self.animation.start()
 
     def h(self):
-        self.pushButton_4.setStyleSheet("background-color: rgb(0, 92, 157);")
-        self.pushButton.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_2.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_3.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_5.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_6.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_7.setStyleSheet("background-color: rgb(0, 0, 0);")
+        self.pushButton_4.setStyleSheet("""
+        background-color: rgb(0, 92, 157);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;
+        """)
+        self.pushButton.setStyleSheet("""
+        background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;
+        """)
+        self.pushButton_2.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;
+        """)
+        self.pushButton_3.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;
+        """)
+        self.pushButton_5.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;
+        """)
+        self.pushButton_6.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_7.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
         self.fragment.setCurrentIndex(0)
 
     def sort(self):
-        self.pushButton_3.setStyleSheet("background-color: rgb(0, 92, 157);")
-        self.pushButton_4.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_2.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_5.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_6.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_7.setStyleSheet("background-color: rgb(0, 0, 0);")
+        self.pushButton_3.setStyleSheet("""background-color: rgb(0, 92, 157);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_4.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_2.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_5.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_6.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_7.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
         self.fragment.setCurrentIndex(1)
 
     def ent(self):
-        self.pushButton.setStyleSheet("background-color: rgb(0, 92, 157);")
-        self.pushButton_2.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_5.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_6.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_7.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_3.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_4.setStyleSheet("background-color: rgb(0, 0, 0);")
+        self.pushButton.setStyleSheet("""background-color: rgb(0, 92, 157);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_2.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_5.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_6.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_7.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_3.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_4.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
         self.fragment.setCurrentIndex(2)
 
     def sto(self):
-        self.pushButton_7.setStyleSheet("background-color: rgb(0, 92, 157);")
-        self.pushButton_3.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_4.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_2.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_5.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_6.setStyleSheet("background-color: rgb(0, 0, 0);")
+        self.pushButton_7.setStyleSheet("""background-color: rgb(0, 92, 157);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_3.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_4.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_2.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_5.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_6.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
         self.fragment.setCurrentIndex(3)
 
     def stat(self):
-        self.pushButton_5.setStyleSheet("background-color: rgb(0, 92, 157);")
-        self.pushButton_6.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_7.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_3.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_4.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_2.setStyleSheet("background-color: rgb(0, 0, 0);")
+        self.pushButton_5.setStyleSheet("""background-color: rgb(0, 92, 157);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_6.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_7.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_3.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_4.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_2.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
         self.fragment.setCurrentIndex(4)
 
     def prog(self):
-        self.pushButton_6.setStyleSheet("background-color: rgb(0, 92, 157);")
-        self.pushButton_7.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_3.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_4.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_2.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_5.setStyleSheet("background-color: rgb(0, 0, 0);")
+        self.pushButton_6.setStyleSheet("""background-color: rgb(0, 92, 157);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_7.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_3.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_4.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_2.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_5.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
         self.fragment.setCurrentIndex(5)
 
     def sett(self):
-        self.pushButton_2.setStyleSheet("background-color: rgb(0, 92, 157);")
-        self.pushButton_5.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_6.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_7.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_3.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton_4.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.pushButton.setStyleSheet("background-color: rgb(0, 0, 0);")
+        self.pushButton_2.setStyleSheet("""background-color: rgb(0, 92, 157);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_5.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_6.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_7.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_3.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton_4.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
+        self.pushButton.setStyleSheet("""background-color: rgb(0, 0, 0);
+        background-repeat: none;
+        padding-left: 50px;
+        background-position: center left;""")
         self.fragment.setCurrentIndex(6)
