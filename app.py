@@ -59,6 +59,10 @@ class AppUi(QtWidgets.QMainWindow):
         self.pushButton_5.setIcon(QIcon("./icons/bar-chart-2.png"))
         self.pushButton_5.setIconSize(QSize(32, 32))
 
+        self.pushButton_7 = self.findChild(QtWidgets.QPushButton, "pushButton_7")
+        self.pushButton_7.setIcon(QIcon("./icons/clipboard.png"))
+        self.pushButton_7.setIconSize(QSize(32, 32))
+
         self.pushButton_6 = self.findChild(QtWidgets.QPushButton, "pushButton_6")
         self.pushButton_6.setIcon(QIcon("./icons/calendar.png"))
         self.pushButton_6.setIconSize(QSize(32, 32))
@@ -113,6 +117,7 @@ class AppUi(QtWidgets.QMainWindow):
             self.pushButton_3.setText("التموين")
             self.pushButton.setText("المشتريات")
             self.pushButton_5.setText("إحصائيات")
+            self.pushButton_7.setText("المخزون")
             self.pushButton_6.setText("البرنامج اليومي")
             self.pushButton_2.setText("إعدادات  ")
 
@@ -124,6 +129,7 @@ class AppUi(QtWidgets.QMainWindow):
             self.pushButton.setText("tttttttt")
             self.pushButton_5.setText("tttttttt")
             self.pushButton_6.setText("tttttttt")
+            self.pushButton_7.setText("tttttttt")
             self.pushButton_2.setText(" tttttttttttttttttttttt")
 
         # Animate the transition
