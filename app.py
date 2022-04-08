@@ -67,6 +67,9 @@ class AppUi(QtWidgets.QMainWindow):
         self.pushButton_2.setIcon(QIcon("./icons/settings.png"))
         self.pushButton_2.setIconSize(QSize(32, 32))
 
+        self.fragment = self.findChild(QtWidgets.QStackedWidget, "stackedWidget")
+
+
         self.minimizeButton.clicked.connect(lambda: self.showMinimized())
         # Close window
         self.closeButton.clicked.connect(lambda: self.close())
@@ -130,3 +133,25 @@ class AppUi(QtWidgets.QMainWindow):
         self.animation.setEndValue(newWidth)  # end value is the new menu width
         self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
         self.animation.start()
+
+    def home(self):
+        self.pushButton_4.setStyleSheet("background-color: rgb(0, 92, 157);")
+        self.fragment.setCurrentIndex(0)
+    def sortie(self):
+        self.pushButton_3.setStyleSheet("background-color: rgb(0, 92, 157);")
+        self.fragment.setCurrentIndex(1)
+    def entree(self):
+        self.pushButton.setStyleSheet("background-color: rgb(0, 92, 157);")
+        self.fragment.setCurrentIndex(2)
+    def stock(self):
+        self.pushButton_4.setStyleSheet("background-color: rgb(0, 92, 157);")
+        self.fragment.setCurrentIndex(3)
+    def statistiques(self):
+        self.pushButton_4.setStyleSheet("background-color: rgb(0, 92, 157);")
+        self.fragment.setCurrentIndex(4)
+    def programe(self):
+        self.pushButton_4.setStyleSheet("background-color: rgb(0, 92, 157);")
+        self.fragment.setCurrentIndex(5)
+    def settings(self):
+        self.pushButton_4.setStyleSheet("background-color: rgb(0, 92, 157);")
+        self.fragment.setCurrentIndex(6)

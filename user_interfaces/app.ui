@@ -193,7 +193,7 @@ QPushButton:hover{
               <rect>
                <x>10</x>
                <y>10</y>
-               <width>211</width>
+               <width>281</width>
                <height>31</height>
               </rect>
              </property>
@@ -202,7 +202,7 @@ QPushButton:hover{
 color: rgb(255, 255, 255);</string>
              </property>
              <property name="text">
-              <string>EPSP Djanet</string>
+              <string>EPSP Djanet ( Service de restaurant )</string>
              </property>
             </widget>
            </widget>
@@ -604,25 +604,188 @@ background-position: center left;</string>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>910</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="currentIndex">
              <number>0</number>
             </property>
-            <widget class="QWidget" name="page">
-             <widget class="QLineEdit" name="lineEdit">
+            <widget class="QWidget" name="home">
+             <widget class="QLabel" name="label">
               <property name="geometry">
                <rect>
-                <x>40</x>
+                <x>740</x>
                 <y>20</y>
-                <width>113</width>
-                <height>20</height>
+                <width>161</width>
+                <height>31</height>
                </rect>
               </property>
+              <property name="font">
+               <font>
+                <pointsize>18</pointsize>
+               </font>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
               <property name="text">
-               <string>hello</string>
+               <string>معلومات عامة:</string>
               </property>
              </widget>
             </widget>
-            <widget class="QWidget" name="page_2"/>
+            <widget class="QWidget" name="sortie">
+             <widget class="QLabel" name="label_3">
+              <property name="geometry">
+               <rect>
+                <x>740</x>
+                <y>20</y>
+                <width>161</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>18</pointsize>
+               </font>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string>طلبيات التموين:</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="entree">
+             <widget class="QLabel" name="label_4">
+              <property name="geometry">
+               <rect>
+                <x>740</x>
+                <y>20</y>
+                <width>161</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>18</pointsize>
+               </font>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string>الإستيراد:</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="stock">
+             <widget class="QLabel" name="label_5">
+              <property name="geometry">
+               <rect>
+                <x>740</x>
+                <y>20</y>
+                <width>161</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>18</pointsize>
+               </font>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string>المخزون:</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="statistiques">
+             <widget class="QLabel" name="label_6">
+              <property name="geometry">
+               <rect>
+                <x>740</x>
+                <y>20</y>
+                <width>161</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>18</pointsize>
+               </font>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string>إحصائيات:</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="programe">
+             <widget class="QLabel" name="label_7">
+              <property name="geometry">
+               <rect>
+                <x>650</x>
+                <y>20</y>
+                <width>251</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>18</pointsize>
+               </font>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string>البرنامج البومي للمطعم:</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="settings">
+             <widget class="QLabel" name="label_8">
+              <property name="geometry">
+               <rect>
+                <x>740</x>
+                <y>20</y>
+                <width>161</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>18</pointsize>
+               </font>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string>إعدادات:</string>
+              </property>
+             </widget>
+            </widget>
            </widget>
           </item>
          </layout>
@@ -645,26 +808,7 @@ background-position: center left;</string>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="font">
-             <font>
-              <family>a_Concepto</family>
-              <pointsize>15</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>RIGHT MENU</string>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <layout class="QVBoxLayout" name="verticalLayout_4"/>
         </widget>
        </item>
       </layout>
