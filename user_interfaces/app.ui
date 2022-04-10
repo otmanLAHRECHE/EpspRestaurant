@@ -1140,9 +1140,9 @@ background-position: center left;</string>
               <property name="geometry">
                <rect>
                 <x>605</x>
-                <y>121</y>
+                <y>91</y>
                 <width>401</width>
-                <height>421</height>
+                <height>451</height>
                </rect>
               </property>
               <property name="cursor" stdset="0">
@@ -1292,6 +1292,63 @@ background-position: center left;</string>
                 <string>الوحدة</string>
                </property>
               </column>
+             </widget>
+             <widget class="QLineEdit" name="lineEdit">
+              <property name="geometry">
+               <rect>
+                <x>390</x>
+                <y>90</y>
+                <width>171</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <property name="text">
+               <string>بحث</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_8">
+              <property name="geometry">
+               <rect>
+                <x>290</x>
+                <y>90</y>
+                <width>91</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <property name="text">
+               <string>بحث</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_9">
+              <property name="geometry">
+               <rect>
+                <x>180</x>
+                <y>90</y>
+                <width>101</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <property name="text">
+               <string>اعادة</string>
+              </property>
              </widget>
             </widget>
             <widget class="QWidget" name="statistiques">
