@@ -1122,12 +1122,17 @@ background-position: center left;</string>
               </row>
               <column>
                <property name="text">
-                <string>المادة</string>
+                <string>id</string>
                </property>
               </column>
               <column>
                <property name="text">
                 <string>المادة</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>الكمية</string>
                </property>
               </column>
               <column>
@@ -1279,6 +1284,11 @@ background-position: center left;</string>
               </row>
               <column>
                <property name="text">
+                <string>id</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
                 <string>المادة</string>
                </property>
               </column>
@@ -1309,7 +1319,7 @@ background-position: center left;</string>
                <string notr="true">background-color: rgb(199, 238, 255);</string>
               </property>
               <property name="text">
-               <string>بحث</string>
+               <string/>
               </property>
              </widget>
              <widget class="QPushButton" name="pushButton_8">

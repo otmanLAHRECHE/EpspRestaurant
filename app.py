@@ -12,67 +12,50 @@ class AppUi(QtWidgets.QMainWindow):
         uic.loadUi("./user_interfaces/app.ui", self)
 
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
-
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-
         self.move(115, 20)
-
         self.shadow = QGraphicsDropShadowEffect(self)
         self.shadow.setBlurRadius(20)
         self.shadow.setXOffset(0)
         self.shadow.setYOffset(0)
         self.shadow.setColor(QColor(0, 92, 157, 150))
+
         # Appy shadow to central widget
         self.centralwidget.setGraphicsEffect(self.shadow)
-
         self.main_header = self.findChild(QtWidgets.QFrame, "main_header")
         self.left_side_menu = self.findChild(QtWidgets.QFrame, "left_side_menu")
-
         self.left_menu_toggle_btn = self.findChild(QtWidgets.QPushButton, "left_menu_toggle_btn")
         self.left_menu_toggle_btn.setIcon(QIcon("./icons/cil-menu.png"))
         self.left_menu_toggle_btn.setIconSize(QSize(24, 24))
-
-
-
         self.minimizeButton = self.findChild(QtWidgets.QPushButton, "minimizeButton")
         self.minimizeButton.setIcon(QIcon("./icons/minus.png"))
         self.minimizeButton.setIconSize(QSize(24, 24))
-
         self.closeButton = self.findChild(QtWidgets.QPushButton, "closeButton")
         self.closeButton.setIcon(QIcon("./icons/x.png"))
         self.closeButton.setIconSize(QSize(24, 24))
-
         self.pushButton_4 = self.findChild(QtWidgets.QPushButton, "pushButton_4")
         self.pushButton_4.setIcon(QIcon("./icons/home.png"))
         self.pushButton_2.setMinimumSize(QSize(100, 0))
         self.pushButton_4.setIconSize(QSize(32, 32))
-
         self.pushButton_3 = self.findChild(QtWidgets.QPushButton, "pushButton_3")
         self.pushButton_3.setIcon(QIcon("./icons/log-out.png"))
         self.pushButton_3.setIconSize(QSize(32, 32))
-
         self.pushButton = self.findChild(QtWidgets.QPushButton, "pushButton")
         self.pushButton.setIcon(QIcon("./icons/log-in.png"))
         self.pushButton.setIconSize(QSize(32, 32))
-
         self.pushButton_5 = self.findChild(QtWidgets.QPushButton, "pushButton_5")
         self.pushButton_5.setIcon(QIcon("./icons/bar-chart-2.png"))
         self.pushButton_5.setIconSize(QSize(32, 32))
-
         self.pushButton_7 = self.findChild(QtWidgets.QPushButton, "pushButton_7")
         self.pushButton_7.setIcon(QIcon("./icons/clipboard.png"))
         self.pushButton_7.setIconSize(QSize(32, 32))
-
         self.pushButton_6 = self.findChild(QtWidgets.QPushButton, "pushButton_6")
         self.pushButton_6.setIcon(QIcon("./icons/calendar.png"))
         self.pushButton_6.setIconSize(QSize(32, 32))
-
         self.pushButton_2 = self.findChild(QtWidgets.QPushButton, "pushButton_2")
         self.pushButton_2.setIcon(QIcon("./icons/settings.png"))
         self.pushButton_2.setIconSize(QSize(32, 32))
-
         self.fragment = self.findChild(QtWidgets.QStackedWidget, "stackedWidget")
-
         self.pushButton_4.setStyleSheet("""
                 background-color: rgb(0, 92, 157);
                 background-repeat: none;
@@ -81,13 +64,18 @@ class AppUi(QtWidgets.QMainWindow):
                 """)
         self.fragment.setCurrentIndex(0)
 
-
         self.minimizeButton.clicked.connect(self.showMinimized)
-        # Close window
         self.closeButton.clicked.connect(self.close)
-        # Restore/Maximize window
 
+        ##################### Stock page :
 
+        self.stock_table_food = self.findChild(QtWidgets.QTableWidget, "tableWidget")
+        self.stock_table_meat = self.findChild(QtWidgets.QTableWidget, "tableWidget_2")
+        self.stock_search_field = self.findChild(QtWidgets.QLineEdit, "lineEdit")
+        self.stock_search_button = self.findChild(QtWidgets.QPushButton, "pushButton_8")
+        self.stock_reset_button = self.findChild(QtWidgets.QPushButton, "pushButton_9")
+
+        #####################
         self.pushButton_4.clicked.connect(self.h)
         self.pushButton_3.clicked.connect(self.sort)
         self.pushButton.clicked.connect(self.ent)
