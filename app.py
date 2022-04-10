@@ -95,6 +95,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.stock_add_button.clicked.connect(self.add_stock)
 
         ##################### End stock page initialisation
+
+        
         self.pushButton_4.clicked.connect(self.h)
         self.pushButton_3.clicked.connect(self.sort)
         self.pushButton.clicked.connect(self.ent)
