@@ -67,17 +67,31 @@ class AppUi(QtWidgets.QMainWindow):
         self.minimizeButton.clicked.connect(self.showMinimized)
         self.closeButton.clicked.connect(self.close)
 
-        ##################### Stock page :
+        ##################### Stock page initialisation :
 
         self.stock_table_food = self.findChild(QtWidgets.QTableWidget, "tableWidget")
         self.stock_table_meat = self.findChild(QtWidgets.QTableWidget, "tableWidget_2")
         self.stock_search_field = self.findChild(QtWidgets.QLineEdit, "lineEdit")
         self.stock_search_button = self.findChild(QtWidgets.QPushButton, "pushButton_8")
         self.stock_reset_button = self.findChild(QtWidgets.QPushButton, "pushButton_9")
+        self.stock_add_button = self.findChild(QtWidgets.QPushButton, "pushButton_10")
+        self.stock_edit_button = self.findChild(QtWidgets.QPushButton, "pushButton_11")
         self.stock_search_button.setIcon(QIcon("./icons/search.png"))
         self.stock_reset_button.setIcon(QIcon("./icons/refresh.png"))
+        self.stock_add_button.setIcon(QIcon("./icons/plus.png"))
+        self.stock_edit_button.setIcon(QIcon("./icons/edit.png"))
 
-        #####################
+        self.stock_table_food.hideColumn(0)
+        self.stock_table_food.setColumnWidth(1, 200)
+        self.stock_table_food.setColumnWidth(2, 150)
+        self.stock_table_food.setColumnWidth(3, 150)
+
+        self.stock_table_meat.hideColumn(0)
+        self.stock_table_meat.setColumnWidth(1, 160)
+        self.stock_table_meat.setColumnWidth(2, 100)
+        self.stock_table_meat.setColumnWidth(3, 100)
+
+        ##################### End stock page initialisation
         self.pushButton_4.clicked.connect(self.h)
         self.pushButton_3.clicked.connect(self.sort)
         self.pushButton.clicked.connect(self.ent)

@@ -1325,9 +1325,9 @@ background-position: center left;</string>
              <widget class="QPushButton" name="pushButton_8">
               <property name="geometry">
                <rect>
-                <x>290</x>
+                <x>310</x>
                 <y>90</y>
-                <width>91</width>
+                <width>71</width>
                 <height>23</height>
                </rect>
               </property>
@@ -1344,9 +1344,9 @@ background-position: center left;</string>
              <widget class="QPushButton" name="pushButton_9">
               <property name="geometry">
                <rect>
-                <x>180</x>
+                <x>230</x>
                 <y>90</y>
-                <width>101</width>
+                <width>71</width>
                 <height>23</height>
                </rect>
               </property>
@@ -1358,6 +1358,32 @@ background-position: center left;</string>
               </property>
               <property name="text">
                <string>اعادة</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_10">
+              <property name="geometry">
+               <rect>
+                <x>874</x>
+                <y>560</y>
+                <width>131</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>اضافة مخزون جديد</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_11">
+              <property name="geometry">
+               <rect>
+                <x>710</x>
+                <y>560</y>
+                <width>151</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>تعديل على مخزون</string>
               </property>
              </widget>
             </widget>
