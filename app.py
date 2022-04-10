@@ -3,6 +3,7 @@ from PyQt5.QtCore import QSize, QPropertyAnimation
 from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect
 
+from dialogs import Add_new_stock
 
 WINDOW_SIZE = 0
 
@@ -91,6 +92,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.stock_table_meat.setColumnWidth(2, 100)
         self.stock_table_meat.setColumnWidth(3, 100)
 
+        self.stock_add_button.clicked.connect(self.add_stock)
+
         ##################### End stock page initialisation
         self.pushButton_4.clicked.connect(self.h)
         self.pushButton_3.clicked.connect(self.sort)
@@ -161,6 +164,11 @@ class AppUi(QtWidgets.QMainWindow):
         self.animation.setEndValue(newWidth)  # end value is the new menu width
         self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
         self.animation.start()
+
+
+    def add_stock(self):
+        self.dialog = Add_new_stock()
+        self.dialog.show()
 
     def h(self):
         self.pushButton_4.setStyleSheet("""
