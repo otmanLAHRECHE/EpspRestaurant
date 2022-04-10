@@ -74,6 +74,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.stock_search_field = self.findChild(QtWidgets.QLineEdit, "lineEdit")
         self.stock_search_button = self.findChild(QtWidgets.QPushButton, "pushButton_8")
         self.stock_reset_button = self.findChild(QtWidgets.QPushButton, "pushButton_9")
+        self.stock_search_button.setIcon(QIcon("./icons/search.png"))
+        self.stock_reset_button.setIcon(QIcon("./icons/refresh.png"))
 
         #####################
         self.pushButton_4.clicked.connect(self.h)

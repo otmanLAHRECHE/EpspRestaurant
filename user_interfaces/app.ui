@@ -1332,7 +1332,7 @@ background-position: center left;</string>
                </rect>
               </property>
               <property name="layoutDirection">
-               <enum>Qt::RightToLeft</enum>
+               <enum>Qt::LeftToRight</enum>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color: rgb(199, 238, 255);</string>
@@ -1351,7 +1351,7 @@ background-position: center left;</string>
                </rect>
               </property>
               <property name="layoutDirection">
-               <enum>Qt::RightToLeft</enum>
+               <enum>Qt::LeftToRight</enum>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color: rgb(199, 238, 255);</string>
