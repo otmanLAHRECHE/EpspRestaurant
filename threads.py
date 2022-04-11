@@ -111,3 +111,30 @@ class ThreadLoadStock(QThread):
 
         self._signal_result.emit(True)
 
+
+class ThreadUpdateStock(QThread):
+    _signal = pyqtSignal(int)
+    _signal_result = pyqtSignal(bool)
+
+    def __init__(self, name, type, qnt, unit):
+        super(ThreadUpdateStock, self).__init__()
+        self.name = name
+        self.type = type
+        self.qnt = qnt
+        self.unit = unit
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+
+        add_new_product(self.name, self.type, self.unit)
+        id = get_product_id_by_name(self.name)
+        id = id[0]
+        add_new_stock(id[0], self.qnt)
+        for i in range(100):
+            self._signal.emit(i)
+
+        self._signal_result.emit(True)
+

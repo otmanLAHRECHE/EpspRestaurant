@@ -280,6 +280,19 @@ class AppUi(QtWidgets.QMainWindow):
                 qne = self.stock_table_meat.item(self.to_update_row, 2)
                 unit = self.stock_table_meat.item(self.to_update_row, 2)
 
+            self.dialog = Threading_loading()
+            self.dialog.ttl.setText("إنتظر من فضلك")
+            self.dialog.progress.setValue(0)
+            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+            self.dialog.show()
+
+            self.thr = ThreadUpdateStock()
+            self.thr._signal.connect(self.signal_stock_load_accepted)
+            self.thr._signal_list.connect(self.signal_stock_load_accepted)
+            self.thr._signal_result.connect(self.signal_stock_load_accepted)
+            self.thr.start()
+
+
     def food_selected(self, selected, deselected):
         self.to_update_table = "food"
         self.to_update_row = selected.indexes()[0].row()
