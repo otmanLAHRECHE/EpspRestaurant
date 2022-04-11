@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 from PyQt5.QtCore import QSize, QPropertyAnimation
 from PyQt5.QtGui import QIcon, QColor
-from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem
+from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp
 
 from dialogs import Add_new_stock, Threading_loading
 from threads import ThreadAddStock, ThreadLoadStock
@@ -21,6 +21,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.shadow.setXOffset(0)
         self.shadow.setYOffset(0)
         self.shadow.setColor(QColor(0, 92, 157, 150))
+        self.to_update_table = "non"
+        self.to_update_row = "non"
 
         # Appy shadow to central widget
         self.centralwidget.setGraphicsEffect(self.shadow)
@@ -228,6 +230,10 @@ class AppUi(QtWidgets.QMainWindow):
                 self.alert_(message)
 
     def load_stock(self):
+
+        self.stock_table_food.selectionModel().selectionChanged.connect(self.food_selected)
+        self.stock_table_meat.selectionModel().selectionChanged.connect(self.meat_selected)
+
         self.dialog = Threading_loading()
         self.dialog.ttl.setText("إنتظر من فضلك")
         self.dialog.progress.setValue(0)
@@ -258,6 +264,29 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
+
+    def edit_stock(self):
+        print(self.to_update_table, self.to_update_row)
+        if self.to_update_table == "non":
+            message = "إختار مخزون"
+            self.alert_(message)
+        else:
+            if self.to_update_table == "food":
+                product_name = self.stock_table_food.item(self.to_update_row, 1)
+                qne = self.stock_table_food.item(self.to_update_row, 2)
+                unit = self.stock_table_food.item(self.to_update_row, 2)
+            else:
+                product_name = self.stock_table_meat.item(self.to_update_row, 1)
+                qne = self.stock_table_meat.item(self.to_update_row, 2)
+                unit = self.stock_table_meat.item(self.to_update_row, 2)
+
+    def food_selected(self, selected, deselected):
+        self.to_update_table = "food"
+        self.to_update_row = selected.indexes()[0].row()
+
+    def meat_selected(self, selected, deselected):
+        self.to_update_table = "meat"
+        self.to_update_row = selected.indexes()[0].row()
 
     def h(self):
         self.pushButton_4.setStyleSheet("""
