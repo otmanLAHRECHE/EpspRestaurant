@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 from PyQt5.QtCore import QSize, QPropertyAnimation
 from PyQt5.QtGui import QIcon, QColor
-from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox
+from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem
 
 from dialogs import Add_new_stock, Threading_loading
 from threads import ThreadAddStock, ThreadLoadStock
@@ -238,6 +238,25 @@ class AppUi(QtWidgets.QMainWindow):
         self.thr._signal_list.connect(self.signal_stock_load_accepted)
         self.thr._signal_result.connect(self.signal_stock_load_accepted)
         self.thr.start()
+
+    def signal_stock_load_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        elif type(progress) == list:
+            if progress[0] == "meat":
+                self.stock_table_meat.setItem(0, QTableWidgetItem(str(progress[1])))
+                self.stock_table_meat.setItem(1, QTableWidgetItem(str(progress[2])))
+                self.stock_table_meat.setItem(2, QTableWidgetItem(str(progress[3])))
+                self.stock_table_meat.setItem(3, QTableWidgetItem(str(progress[4])))
+            else:
+                self.stock_table_food.setItem(0, QTableWidgetItem(str(progress[1])))
+                self.stock_table_food.setItem(1, QTableWidgetItem(str(progress[2])))
+                self.stock_table_food.setItem(2, QTableWidgetItem(str(progress[3])))
+                self.stock_table_food.setItem(3, QTableWidgetItem(str(progress[4])))
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
 
     def h(self):
         self.pushButton_4.setStyleSheet("""
