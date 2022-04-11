@@ -58,15 +58,11 @@ class ThreadAddStock(QThread):
 
 class ThreadLoadStock(QThread):
     _signal = pyqtSignal(int)
+    _signal_list = pyqtSignal(list)
     _signal_result = pyqtSignal(bool)
 
-    def __init__(self, name, type, qnt, unit):
-        super(ThreadAddStock, self).__init__()
-        self.name = name
-        self.type = type
-        self.qnt = qnt
-        self.unit = unit
-
+    def __init__(self):
+        super(ThreadLoadStock, self).__init__()
     def __del__(self):
         self.terminate()
         self.wait()
@@ -75,7 +71,36 @@ class ThreadLoadStock(QThread):
         meats = get_all_product("meat")
         foods = get_all_product("food")
 
-        for i in range(100):
+        for i in range(50):
+            self._signal.emit(i)
+
+        for meat in meats:
+            list = []
+            list.append("meat")
+            list.append(meat[0])
+            list.append(meat[1])
+            list.append(meat[2])
+            if meat[3] == "no_unit":
+                list.append(" ")
+            else:
+                list.append(meat[3])
+
+            self._signal_list.emit(list)
+
+        for food in foods:
+            list = []
+            list.append("food")
+            list.append(food[0])
+            list.append(food[1])
+            list.append(food[2])
+            if food[3] == "no_unit":
+                list.append(" ")
+            else:
+                list.append(food[3])
+
+            self._signal_list.emit(list)
+
+        for i in range(50, 100):
             self._signal.emit(i)
 
         self._signal_result.emit(True)

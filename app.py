@@ -4,7 +4,7 @@ from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox
 
 from dialogs import Add_new_stock, Threading_loading
-from threads import ThreadAddStock
+from threads import ThreadAddStock, ThreadLoadStock
 
 WINDOW_SIZE = 0
 
@@ -233,8 +233,11 @@ class AppUi(QtWidgets.QMainWindow):
         self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.dialog.show()
 
-
-
+        self.thr = ThreadLoadStock()
+        self.thr._signal.connect(self.signal_stock_load_accepted)
+        self.thr._signal_list.connect(self.signal_stock_load_accepted)
+        self.thr._signal_result.connect(self.signal_stock_load_accepted)
+        self.thr.start()
 
     def h(self):
         self.pushButton_4.setStyleSheet("""
