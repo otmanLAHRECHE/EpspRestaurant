@@ -198,7 +198,7 @@ class AppUi(QtWidgets.QMainWindow):
                 else:
                     u = dialog_add_stock.stock_unite.currentText()
 
-                self.thr = ThreadAddStock(dialog_add_stock.stock_name.text(), t, dialog_add_stock.stock_qnt.value, u)
+                self.thr = ThreadAddStock(dialog_add_stock.stock_name. t, dialog_add_stock.stock_qnt.value, u)
                 self.thr._signal.connect(self.signal_stock_accepted)
                 self.thr._signal_result.connect(self.signal_stock_accepted)
                 self.thr.start()
@@ -388,6 +388,8 @@ class AppUi(QtWidgets.QMainWindow):
         padding-left: 50px;
         background-position: center left;""")
         self.fragment.setCurrentIndex(3)
+
+        self.load_stock()
 
     def stat(self):
         self.pushButton_5.setStyleSheet("""background-color: rgb(0, 92, 157);

@@ -9,7 +9,7 @@ class Add_new_stock(QtWidgets.QDialog):
         uic.loadUi('./user_interfaces/add_new_stock.ui', self)
 
         self.setWindowTitle("إضافة مخزون جديد")
-        self.stock_name = self.findChild(QtWidgets.QLabel, "lineEdit")
+        self.stock_name = self.findChild(QtWidgets.QLineEdit, "lineEdit")
         self.stock_type = self.findChild(QtWidgets.QComboBox, "comboBox")
         self.stock_qnt = self.findChild(QtWidgets.QDoubleSpinBox, "doubleSpinBox")
         self.stock_unite = self.findChild(QtWidgets.QComboBox, "comboBox_2")
