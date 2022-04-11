@@ -60,6 +60,8 @@ class ThreadAddStock(QThread):
 class ThreadLoadStock(QThread):
     _signal = pyqtSignal(int)
     _signal_list = pyqtSignal(list)
+    _signal_auto_meat = pyqtSignal(list)
+    _signal_auto_food = pyqtSignal(list)
     _signal_result = pyqtSignal(bool)
 
     def __init__(self):
@@ -74,6 +76,9 @@ class ThreadLoadStock(QThread):
 
         for i in range(50):
             self._signal.emit(i)
+
+
+        list_auto_food = []
 
         row = 0
         for meat in meats:
@@ -103,12 +108,15 @@ class ThreadLoadStock(QThread):
                 list.append(" ")
             else:
                 list.append(food[3])
+            list_auto_food.append(food[1])
 
             self._signal_list.emit(list)
             row = row + 1
 
         for i in range(50, 100):
             self._signal.emit(i)
+
+        self._signal_auto_food.emit(list_auto_food)
 
         self._signal_result.emit(True)
 

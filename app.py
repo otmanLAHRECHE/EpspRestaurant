@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 from PyQt5.QtCore import QSize, QPropertyAnimation
 from PyQt5.QtGui import QIcon, QColor
-from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp
+from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp, QCompleter
 
 from dialogs import Add_new_stock, Threading_loading
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock
@@ -97,6 +97,8 @@ class AppUi(QtWidgets.QMainWindow):
 
         self.stock_add_button.clicked.connect(self.add_stock)
         self.stock_edit_button.clicked.connect(self.edit_stock)
+        self.stock_search_button.clicked.connect(self.search_stock)
+        self.stock_reset_button.clicked.connect(self.reset_stock)
 
         ##################### End stock page initialisation
 
@@ -244,6 +246,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.thr._signal.connect(self.signal_stock_load_accepted)
         self.thr._signal_list.connect(self.signal_stock_load_accepted)
         self.thr._signal_result.connect(self.signal_stock_load_accepted)
+        self.thr._signal_auto_food.connect(self.stock_auto_complete)
         self.thr.start()
 
     def signal_stock_load_accepted(self, progress):
@@ -337,6 +340,27 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
             self.load_stock()
+
+
+    def stock_auto_complete(self, progress):
+        completer = QCompleter(progress)
+        self.stock_search_field.setCompleter(completer)
+
+    def search_stock(self):
+        self.dialog = Threading_loading()
+        self.dialog.ttl.setText("إنتظر من فضلك")
+        self.dialog.progress.setValue(0)
+        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self.dialog.show()
+
+        self.thr = ThreadLoadStock()
+        self.thr._signal.connect(self.signal_stock_load_accepted)
+        self.thr._signal_list.connect(self.signal_stock_load_accepted)
+        self.thr._signal_result.connect(self.signal_stock_load_accepted)
+        self.thr.start()
+
+    def reset_stock(self):
+        self.load_stock()
 
 
     def food_selected(self, selected, deselected):
