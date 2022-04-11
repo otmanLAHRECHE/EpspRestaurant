@@ -369,6 +369,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.load_stock()
 
     def signal_stock_search_accepted(self, progress):
+        last_index = 0
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
@@ -376,7 +377,14 @@ class AppUi(QtWidgets.QMainWindow):
             self.stock_table_food.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
             self.stock_table_food.setItem(progress[1], 2, QTableWidgetItem(str(progress[4])))
             self.stock_table_food.setItem(progress[1], 3, QTableWidgetItem(str(progress[5])))
+            last_index = progress[1]
         else:
+            last_index = last_index + 1
+            for i in range(last_index, 28):
+                self.stock_table_food.setItem(i, 0, QTableWidgetItem(str("")))
+                self.stock_table_food.setItem(i, 1, QTableWidgetItem(str("")))
+                self.stock_table_food.setItem(i, 2, QTableWidgetItem(str("")))
+                self.stock_table_food.setItem(i, 3, QTableWidgetItem(str("")))
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
