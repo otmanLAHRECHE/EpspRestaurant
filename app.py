@@ -4,7 +4,7 @@ from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp, QCompleter
 
 from dialogs import Add_new_stock, Threading_loading
-from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock
+from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock
 
 WINDOW_SIZE = 0
 
@@ -236,6 +236,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.stock_table_food.selectionModel().selectionChanged.connect(self.food_selected)
         self.stock_table_meat.selectionModel().selectionChanged.connect(self.meat_selected)
 
+        self.stock_search_field.setText("")
+
         self.dialog = Threading_loading()
         self.dialog.ttl.setText("إنتظر من فضلك")
         self.dialog.progress.setValue(0)
@@ -347,22 +349,26 @@ class AppUi(QtWidgets.QMainWindow):
         self.stock_search_field.setCompleter(completer)
 
     def search_stock(self):
-        self.dialog = Threading_loading()
-        self.dialog.ttl.setText("إنتظر من فضلك")
-        self.dialog.progress.setValue(0)
-        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-        self.dialog.show()
+        if self.stock_search_field.text() == "":
+            message = "خطأ في الإدخال"
+            self.alert_(message)
+        else:
+            self.dialog = Threading_loading()
+            self.dialog.ttl.setText("إنتظر من فضلك")
+            self.dialog.progress.setValue(0)
+            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+            self.dialog.show()
 
-        self.thr = ThreadLoadStock()
-        self.thr._signal.connect(self.signal_stock_load_accepted)
-        self.thr._signal_list.connect(self.signal_stock_load_accepted)
-        self.thr._signal_result.connect(self.signal_stock_load_accepted)
-        self.thr.start()
+            self.thr = ThreadSearchStock(self.stock_search_field.text())
+            self.thr._signal.connect(self.signal_stock_search_accepted)
+            self.thr._signal_list.connect(self.signal_stock_search_accepted)
+            self.thr._signal_result.connect(self.signal_stock_search_accepted)
+            self.thr.start()
 
     def reset_stock(self):
         self.load_stock()
 
-    def signal_stock_load_accepted(self, progress):
+    def signal_stock_search_accepted(self, progress):
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
