@@ -87,3 +87,12 @@ def get_product_id_by_stock_id(stock_id):
     result = cur.fetchall()
     connection.close()
     return result
+
+def search_food(search_text):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select stock.stock_id, product.name, stock.qnt, product.unit from stock inner join product on stock.stocked_id = product.product_id where product.type =? and product.name like ?'
+    cur.execute(sql_q, ("food", "%" + str(search_text) + "%"))
+    result = cur.fetchall()
+    connection.close()
+    return result

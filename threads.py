@@ -4,7 +4,7 @@ import PyQt5
 from PyQt5.QtCore import pyqtSignal, QThread
 
 from database_operation import is_product_exist, add_new_product, get_product_id_by_name, add_new_stock, \
-    get_all_product, get_product_id_by_stock_id, update_product, update_stock
+    get_all_product, get_product_id_by_stock_id, update_product, update_stock, search_food
 
 
 class ThreadLoadingApp(QThread):
@@ -60,7 +60,6 @@ class ThreadAddStock(QThread):
 class ThreadLoadStock(QThread):
     _signal = pyqtSignal(int)
     _signal_list = pyqtSignal(list)
-    _signal_auto_meat = pyqtSignal(list)
     _signal_auto_food = pyqtSignal(list)
     _signal_result = pyqtSignal(bool)
 
@@ -152,6 +151,49 @@ class ThreadUpdateStock(QThread):
 
         for i in range(50, 100):
             self._signal.emit(i)
+
+        self._signal_result.emit(True)
+
+
+class ThreadSearchStock(QThread):
+    _signal = pyqtSignal(int)
+    _signal_list = pyqtSignal(list)
+    _signal_result = pyqtSignal(bool)
+
+    def __init__(self, search_text):
+        super(ThreadSearchStock, self).__init__()
+        self.search_text = search_text
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+
+        foods = search_food(self.search_text)
+
+        for i in range(50):
+            self._signal.emit(i)
+
+        row = 0
+        for food in foods:
+            list = []
+            list.append("food")
+            list.append(row)
+            list.append(food[0])
+            list.append(food[1])
+            list.append(food[2])
+            if food[3] == "no_unit":
+                list.append(" ")
+            else:
+                list.append(food[3])
+
+            self._signal_list.emit(list)
+            row = row + 1
+
+        for i in range(50, 100):
+            self._signal.emit(i)
+
 
         self._signal_result.emit(True)
 

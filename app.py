@@ -362,6 +362,19 @@ class AppUi(QtWidgets.QMainWindow):
     def reset_stock(self):
         self.load_stock()
 
+    def signal_stock_load_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        elif type(progress) == list:
+            self.stock_table_food.setItem(progress[1], 0, QTableWidgetItem(str(progress[2])))
+            self.stock_table_food.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
+            self.stock_table_food.setItem(progress[1], 2, QTableWidgetItem(str(progress[4])))
+            self.stock_table_food.setItem(progress[1], 3, QTableWidgetItem(str(progress[5])))
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
+
 
     def food_selected(self, selected, deselected):
         self.to_update_table = "food"
