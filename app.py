@@ -245,15 +245,15 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
             if progress[0] == "meat":
-                self.stock_table_meat.setItem(0, QTableWidgetItem(str(progress[1])))
-                self.stock_table_meat.setItem(1, QTableWidgetItem(str(progress[2])))
-                self.stock_table_meat.setItem(2, QTableWidgetItem(str(progress[3])))
-                self.stock_table_meat.setItem(3, QTableWidgetItem(str(progress[4])))
+                self.stock_table_meat.setItem(progress[1], 0, QTableWidgetItem(str(progress[2])))
+                self.stock_table_meat.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
+                self.stock_table_meat.setItem(progress[1], 2, QTableWidgetItem(str(progress[4])))
+                self.stock_table_meat.setItem(progress[1], 3, QTableWidgetItem(str(progress[5])))
             else:
-                self.stock_table_food.setItem(0, QTableWidgetItem(str(progress[1])))
-                self.stock_table_food.setItem(1, QTableWidgetItem(str(progress[2])))
-                self.stock_table_food.setItem(2, QTableWidgetItem(str(progress[3])))
-                self.stock_table_food.setItem(3, QTableWidgetItem(str(progress[4])))
+                self.stock_table_food.setItem(progress[1], 0, QTableWidgetItem(str(progress[2])))
+                self.stock_table_food.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
+                self.stock_table_food.setItem(progress[1], 2, QTableWidgetItem(str(progress[4])))
+                self.stock_table_food.setItem(progress[1], 3, QTableWidgetItem(str(progress[5])))
         else:
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")

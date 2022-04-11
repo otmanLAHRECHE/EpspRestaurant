@@ -77,9 +77,11 @@ class ThreadLoadStock(QThread):
         for i in range(50):
             self._signal.emit(i)
 
+        row = 0
         for meat in meats:
             list = []
             list.append("meat")
+            list.append(row)
             list.append(meat[0])
             list.append(meat[1])
             list.append(meat[2])
@@ -89,10 +91,13 @@ class ThreadLoadStock(QThread):
                 list.append(meat[3])
 
             self._signal_list.emit(list)
+            row = row + 1
 
+        row = 0
         for food in foods:
             list = []
             list.append("food")
+            list.append(row)
             list.append(food[0])
             list.append(food[1])
             list.append(food[2])
@@ -102,6 +107,7 @@ class ThreadLoadStock(QThread):
                 list.append(food[3])
 
             self._signal_list.emit(list)
+            row = row + 1
 
         for i in range(50, 100):
             self._signal.emit(i)

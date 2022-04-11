@@ -4,7 +4,7 @@ import sqlite3
 def get_all_product(type):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
-    sql_q = 'Select stock.stock_id, product.name, stock.qnt, product.unit from stock inner join product on stock.stock_id = product.product_id where product.type =?'
+    sql_q = 'Select stock.stock_id, product.name, stock.qnt, product.unit from stock inner join product on stock.stocked_id = product.product_id where product.type =?'
     cur.execute(sql_q, (type,))
     result = cur.fetchall()
     connection.close()
