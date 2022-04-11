@@ -44,7 +44,7 @@ def add_new_stock(product_id, qnt):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
     sql_q = 'insert into stock (qnt, stocked_id) values (?, ?)'
-    cur.execute(sql_q, (qnt, product_id))
+    cur.execute(sql_q, (float(qnt), product_id))
     connection.commit()
     connection.close()
 
@@ -71,9 +71,9 @@ def is_product_exist(name):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
     sql_q = 'Select count(*) from product where product.name =?'
-    cur.execute(sql_q, (name))
-    connection.close()
+    cur.execute(sql_q, (name,))
     count = cur.fetchall()[0]
+    connection.close()
     if count[0] == 0:
         return False
     else:

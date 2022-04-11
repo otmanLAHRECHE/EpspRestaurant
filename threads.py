@@ -71,6 +71,9 @@ class ThreadLoadStock(QThread):
         meats = get_all_product("meat")
         foods = get_all_product("food")
 
+        print(meats)
+        print(foods)
+
         for i in range(50):
             self._signal.emit(i)
 

@@ -178,7 +178,7 @@ class AppUi(QtWidgets.QMainWindow):
     def add_stock(self):
         dialog_add_stock = Add_new_stock()
         if dialog_add_stock.exec() == QtWidgets.QDialog.Accepted:
-            if dialog_add_stock.stock_name == "":
+            if dialog_add_stock.stock_name.text() == "":
                 message = "خطأ في إسم المخزون"
                 self.alert_(message)
             else:
@@ -198,7 +198,7 @@ class AppUi(QtWidgets.QMainWindow):
                 else:
                     u = dialog_add_stock.stock_unite.currentText()
 
-                self.thr = ThreadAddStock(dialog_add_stock.stock_name. t, dialog_add_stock.stock_qnt.value, u)
+                self.thr = ThreadAddStock(dialog_add_stock.stock_name.text(), t, dialog_add_stock.stock_qnt.value(), u)
                 self.thr._signal.connect(self.signal_stock_accepted)
                 self.thr._signal_result.connect(self.signal_stock_accepted)
                 self.thr.start()
@@ -219,6 +219,7 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.ttl.setText("اضيف بنجاح")
                 self.dialog.progress.setValue(100)
                 self.dialog.close()
+                self.load_stock()
             else:
                 self.dialog.ttl.setText("خطأ")
                 self.dialog.progress.setValue(100)
