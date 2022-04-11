@@ -188,7 +188,17 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
                 self.dialog.show()
 
-                self.thr = ThreadAddStock(dialog_add_stock.stock_name.text(), dialog_add_stock.stock_type.currentText(), dialog_add_stock.stock_qnt.value, dialog_add_stock.stock_unite.currentText())
+                if dialog_add_stock.stock_type.currentIndex() == 0:
+                    t = "food"
+                else:
+                    t = "meat"
+
+                if dialog_add_stock.stock_unite.currentIndex() == 0:
+                    u = "no_unit"
+                else:
+                    u = dialog_add_stock.stock_unite.currentText()
+
+                self.thr = ThreadAddStock(dialog_add_stock.stock_name.text(), t, dialog_add_stock.stock_qnt.value, u)
                 self.thr._signal.connect(self.signal_stock_accepted)
                 self.thr._signal_result.connect(self.signal_stock_accepted)
                 self.thr.start()
@@ -215,6 +225,15 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.close()
                 message = "المخزون موجود سابقا"
                 self.alert_(message)
+
+    def load_stock(self):
+        self.dialog = Threading_loading()
+        self.dialog.ttl.setText("إنتظر من فضلك")
+        self.dialog.progress.setValue(0)
+        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self.dialog.show()
+
+
 
 
     def h(self):
