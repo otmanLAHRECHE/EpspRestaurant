@@ -4,7 +4,7 @@ from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp
 
 from dialogs import Add_new_stock, Threading_loading
-from threads import ThreadAddStock, ThreadLoadStock
+from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock
 
 WINDOW_SIZE = 0
 
@@ -266,7 +266,6 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.close()
 
     def edit_stock(self):
-        print(self.to_update_table, self.to_update_row)
         if self.to_update_table == "non":
             message = "إختار مخزون"
             self.alert_(message)
@@ -276,23 +275,49 @@ class AppUi(QtWidgets.QMainWindow):
                 product_name = self.stock_table_food.item(self.to_update_row, 1)
                 qne = self.stock_table_food.item(self.to_update_row, 2)
                 unit = self.stock_table_food.item(self.to_update_row, 2)
+                i = 0
             else:
                 id = self.stock_table_food.item(self.to_update_row, 0)
                 product_name = self.stock_table_meat.item(self.to_update_row, 1)
                 qne = self.stock_table_meat.item(self.to_update_row, 2)
                 unit = self.stock_table_meat.item(self.to_update_row, 2)
+                i = 1
 
-            self.dialog = Threading_loading()
-            self.dialog.ttl.setText("إنتظر من فضلك")
-            self.dialog.progress.setValue(0)
-            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-            self.dialog.show()
 
-            self.thr = ThreadUpdateStock()
-            self.thr._signal.connect(self.signal_stock_load_accepted)
-            self.thr._signal_list.connect(self.signal_stock_load_accepted)
-            self.thr._signal_result.connect(self.signal_stock_load_accepted)
-            self.thr.start()
+            dialog = Add_new_stock()
+            dialog.setWindowTitle("تغيير مخزون")
+            dialog.ttl.setText("تغيير مخزون")
+            dialog.stock_name.setText(str(product_name))
+            dialog.stock_type.setCurrentIndex(i)
+            if unit == "kg":
+                dialog.stock_unite.setCurrentIndex(1)
+            elif unit == "litre":
+                dialog.stock_unite.setCurrentIndex(2)
+            else:
+                dialog.stock_unite.setCurrentIndex(0)
+            dialog.stock_qnt.setValue(float(qne))
+
+            if dialog.exec() == QtWidgets.QDialog.Accepted:
+                dialog.close()
+                self.dialog = Threading_loading()
+                self.dialog.ttl.setText("إنتظر من فضلك")
+                self.dialog.progress.setValue(0)
+                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                self.dialog.show()
+
+                self.thr = ThreadUpdateStock()
+                self.thr._signal.connect(self.signal_stock_update_accepted)
+                self.thr._signal_list.connect(self.signal_stock_update_accepted)
+                self.thr._signal_result.connect(self.signal_stock_update_accepted)
+                self.thr.start()
+
+    def signal_stock_update_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
 
 
     def food_selected(self, selected, deselected):
