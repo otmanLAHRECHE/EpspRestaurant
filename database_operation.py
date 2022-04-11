@@ -49,20 +49,20 @@ def add_new_stock(product_id, qnt):
     connection.close()
 
 
-def update_product(name, type, unit):
+def update_product(id, name, type, unit):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
-    sql_q = 'update product set name = ? and  type = ? and  unit = ?'
-    cur.execute(sql_q, (name, type, unit))
+    sql_q = 'update product set name = ? and  type = ? and  unit = ? where product.product_id = ?'
+    cur.execute(sql_q, (name, type, unit, id))
     connection.commit()
     connection.close()
 
 
-def update_stock(product_id, qnt):
+def update_stock(id, qnt):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
-    sql_q = 'update stock set qnt = ? and  stocked_id = ? '
-    cur.execute(sql_q, (qnt, product_id))
+    sql_q = 'update stock set qnt = ?  where stock.stock_id = ?'
+    cur.execute(sql_q, (qnt, id))
     connection.commit()
     connection.close()
 
@@ -78,3 +78,12 @@ def is_product_exist(name):
         return False
     else:
         return True
+
+def get_product_id_by_stock_id(stock_id):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select stock.stocked_id from stock where stock.stock_id =?'
+    cur.execute(sql_q, (stock_id,))
+    result = cur.fetchall()
+    connection.close()
+    return result

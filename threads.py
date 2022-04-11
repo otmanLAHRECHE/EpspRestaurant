@@ -3,7 +3,8 @@ import time
 import PyQt5
 from PyQt5.QtCore import pyqtSignal, QThread
 
-from database_operation import is_product_exist, add_new_product, get_product_id_by_name, add_new_stock, get_all_product
+from database_operation import is_product_exist, add_new_product, get_product_id_by_name, add_new_stock, \
+    get_all_product, get_product_id_by_stock_id, update_product, update_stock
 
 
 class ThreadLoadingApp(QThread):
@@ -116,12 +117,13 @@ class ThreadUpdateStock(QThread):
     _signal = pyqtSignal(int)
     _signal_result = pyqtSignal(bool)
 
-    def __init__(self, name, type, qnt, unit):
+    def __init__(self,stock_id, name, type, qnt, unit):
         super(ThreadUpdateStock, self).__init__()
         self.name = name
         self.type = type
         self.qnt = qnt
         self.unit = unit
+        self.stock_id = stock_id
 
     def __del__(self):
         self.terminate()
@@ -129,11 +131,14 @@ class ThreadUpdateStock(QThread):
 
     def run(self):
 
-        add_new_product(self.name, self.type, self.unit)
-        id = get_product_id_by_name(self.name)
-        id = id[0]
-        add_new_stock(id[0], self.qnt)
-        for i in range(100):
+        for i in range(50):
+            self._signal.emit(i)
+
+        id = get_product_id_by_stock_id(self.stock_id)[0]
+        update_product(id, self.name, self.type, self.unit)
+        update_stock(self.stock_id, self.qnt)
+
+        for i in range(50, 100):
             self._signal.emit(i)
 
         self._signal_result.emit(True)

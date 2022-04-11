@@ -272,10 +272,12 @@ class AppUi(QtWidgets.QMainWindow):
             self.alert_(message)
         else:
             if self.to_update_table == "food":
+                id = self.stock_table_food.item(self.to_update_row, 0)
                 product_name = self.stock_table_food.item(self.to_update_row, 1)
                 qne = self.stock_table_food.item(self.to_update_row, 2)
                 unit = self.stock_table_food.item(self.to_update_row, 2)
             else:
+                id = self.stock_table_food.item(self.to_update_row, 0)
                 product_name = self.stock_table_meat.item(self.to_update_row, 1)
                 qne = self.stock_table_meat.item(self.to_update_row, 2)
                 unit = self.stock_table_meat.item(self.to_update_row, 2)
