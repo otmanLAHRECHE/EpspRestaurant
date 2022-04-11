@@ -52,7 +52,7 @@ def add_new_stock(product_id, qnt):
 def update_product(id, name, type, unit):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
-    sql_q = 'update product set name = ? and  type = ? and  unit = ? where product.product_id = ?'
+    sql_q = 'update product set name = ?, type = ?, unit = ? where product.product_id = ?'
     cur.execute(sql_q, (name, type, unit, id))
     connection.commit()
     connection.close()

@@ -277,7 +277,7 @@ class AppUi(QtWidgets.QMainWindow):
                 unit = self.stock_table_food.item(self.to_update_row, 3).text()
                 i = 0
             else:
-                id = self.stock_table_food.item(self.to_update_row, 0).text()
+                id = self.stock_table_meat.item(self.to_update_row, 0).text()
                 product_name = self.stock_table_meat.item(self.to_update_row, 1).text()
                 qne = self.stock_table_meat.item(self.to_update_row, 2).text()
                 unit = self.stock_table_meat.item(self.to_update_row, 3).text()
@@ -318,7 +318,12 @@ class AppUi(QtWidgets.QMainWindow):
                     else:
                         u = dialog.stock_unite.currentText()
 
-                    self.thr = ThreadUpdateStock(int(id), dialog.stock_name.text(), self.to_update_table, dialog.stock_qnt.value(), u)
+                    if dialog.stock_type.currentIndex() == 0:
+                        t = "food"
+                    else:
+                        t = "meat"
+
+                    self.thr = ThreadUpdateStock(int(id), dialog.stock_name.text(), t, dialog.stock_qnt.value(), u)
                     self.thr._signal.connect(self.signal_stock_update_accepted)
                     self.thr._signal_result.connect(self.signal_stock_update_accepted)
                     self.thr.start()
