@@ -116,6 +116,16 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(199, 238, 255);</string>
    </property>
+   <item>
+    <property name="text">
+     <string>مواد غذائية او خضر</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>لحوم او بيض</string>
+    </property>
+   </item>
   </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
@@ -179,6 +189,21 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(199, 238, 255);</string>
    </property>
+   <item>
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>kg</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>litres</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>

@@ -1,9 +1,10 @@
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 from PyQt5.QtCore import QSize, QPropertyAnimation
 from PyQt5.QtGui import QIcon, QColor
-from PyQt5.QtWidgets import QGraphicsDropShadowEffect
+from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox
 
-from dialogs import Add_new_stock
+from dialogs import Add_new_stock, Threading_loading
+from threads import ThreadAddStock
 
 WINDOW_SIZE = 0
 
@@ -93,6 +94,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.stock_table_meat.setColumnWidth(3, 100)
 
         self.stock_add_button.clicked.connect(self.add_stock)
+        self.stock_edit_button.clicked.connect(self.edit_stock)
 
         ##################### End stock page initialisation
 
@@ -116,6 +118,11 @@ class AppUi(QtWidgets.QMainWindow):
         self.left_menu_toggle_btn.clicked.connect(lambda: self.slideLeftMenu())
 
 
+    def alert_(self, message):
+        alert = QMessageBox()
+        alert.setWindowTitle("alert")
+        alert.setText(message)
+        alert.exec_()
 
     def mousePressEvent(self, event):
         self.clickPosition = event.globalPos()
@@ -169,8 +176,46 @@ class AppUi(QtWidgets.QMainWindow):
 
 
     def add_stock(self):
+        dialog_add_stock = Add_new_stock()
+        if dialog_add_stock.exec() == QtWidgets.QDialog.Accepted:
+            if dialog_add_stock.stock_name == "":
+                message = "خطأ في إسم المخزون"
+                self.alert_(message)
+            else:
+                self.dialog  = Threading_loading()
+                self.dialog.ttl.setText("إنتظر من فضلك")
+                self.dialog.progress.setValue(0)
+                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                self.dialog.show()
+
+                self.thr = ThreadAddStock(dialog_add_stock.stock_name.text(), dialog_add_stock.stock_type.currentText(), dialog_add_stock.stock_qnt.value, dialog_add_stock.stock_unite.currentText())
+                self.thr._signal.connect(self.signal_stock_accepted)
+                self.thr._signal_result.connect(self.signal_stock_accepted)
+                self.thr.start()
+
+
+
+
+    def edit_stock(self):
         self.dialog = Add_new_stock()
         self.dialog.show()
+
+
+    def signal_stock_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        else:
+            if progress:
+                self.dialog.ttl.setText("اضيف بنجاح")
+                self.dialog.progress.setValue(100)
+                self.dialog.close()
+            else:
+                self.dialog.ttl.setText("خطأ")
+                self.dialog.progress.setValue(100)
+                self.dialog.close()
+                message = "المخزون موجود سابقا"
+                self.alert_(message)
+
 
     def h(self):
         self.pushButton_4.setStyleSheet("""

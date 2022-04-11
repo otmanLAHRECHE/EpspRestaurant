@@ -66,3 +66,16 @@ def update_stock(product_id, qnt):
     connection.commit()
 
     connection.close()
+
+
+def is_product_exist(name):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select count(*) from product where product.name =?'
+    cur.execute(sql_q, (name))
+    connection.close()
+    count = cur.fetchall()[0]
+    if count[0] == 0:
+        return False
+    else:
+        return True
