@@ -117,7 +117,7 @@ class ThreadUpdateStock(QThread):
     _signal = pyqtSignal(int)
     _signal_result = pyqtSignal(bool)
 
-    def __init__(self,stock_id, name, type, qnt, unit):
+    def __init__(self, stock_id, name, type, qnt, unit):
         super(ThreadUpdateStock, self).__init__()
         self.name = name
         self.type = type
@@ -135,7 +135,11 @@ class ThreadUpdateStock(QThread):
             self._signal.emit(i)
 
         id = get_product_id_by_stock_id(self.stock_id)[0]
-        update_product(id, self.name, self.type, self.unit)
+        print(id[0])
+        print(self.name)
+        print(self.type)
+        print(self.unit)
+        update_product(id[0], self.name, self.type, self.unit)
         update_stock(self.stock_id, self.qnt)
 
         for i in range(50, 100):

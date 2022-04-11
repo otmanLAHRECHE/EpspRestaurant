@@ -271,23 +271,23 @@ class AppUi(QtWidgets.QMainWindow):
             self.alert_(message)
         else:
             if self.to_update_table == "food":
-                id = self.stock_table_food.item(self.to_update_row, 0)
-                product_name = self.stock_table_food.item(self.to_update_row, 1)
-                qne = self.stock_table_food.item(self.to_update_row, 2)
-                unit = self.stock_table_food.item(self.to_update_row, 2)
+                id = self.stock_table_food.item(self.to_update_row, 0).text()
+                product_name = self.stock_table_food.item(self.to_update_row, 1).text()
+                qne = self.stock_table_food.item(self.to_update_row, 2).text()
+                unit = self.stock_table_food.item(self.to_update_row, 3).text()
                 i = 0
             else:
-                id = self.stock_table_food.item(self.to_update_row, 0)
-                product_name = self.stock_table_meat.item(self.to_update_row, 1)
-                qne = self.stock_table_meat.item(self.to_update_row, 2)
-                unit = self.stock_table_meat.item(self.to_update_row, 2)
+                id = self.stock_table_food.item(self.to_update_row, 0).text()
+                product_name = self.stock_table_meat.item(self.to_update_row, 1).text()
+                qne = self.stock_table_meat.item(self.to_update_row, 2).text()
+                unit = self.stock_table_meat.item(self.to_update_row, 3).text()
                 i = 1
 
 
             dialog = Add_new_stock()
             dialog.setWindowTitle("تغيير مخزون")
             dialog.ttl.setText("تغيير مخزون")
-            dialog.stock_name.setText(str(product_name))
+            dialog.stock_name.setText(product_name)
             dialog.stock_type.setCurrentIndex(i)
             if unit == "kg":
                 dialog.stock_unite.setCurrentIndex(1)
@@ -295,21 +295,34 @@ class AppUi(QtWidgets.QMainWindow):
                 dialog.stock_unite.setCurrentIndex(2)
             else:
                 dialog.stock_unite.setCurrentIndex(0)
-            dialog.stock_qnt.setValue(float(qne))
+
+            dialog.stock_qnt.setValue(float(str(qne)))
+
+
+
 
             if dialog.exec() == QtWidgets.QDialog.Accepted:
-                dialog.close()
-                self.dialog = Threading_loading()
-                self.dialog.ttl.setText("إنتظر من فضلك")
-                self.dialog.progress.setValue(0)
-                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-                self.dialog.show()
+                if dialog.stock_name.text() == "":
+                    message = "خطأ في إسم المخزون"
+                    self.alert_(message)
+                    dialog.close()
+                else:
+                    self.dialog = Threading_loading()
+                    self.dialog.ttl.setText("إنتظر من فضلك")
+                    self.dialog.progress.setValue(0)
+                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                    self.dialog.show()
 
-                self.thr = ThreadUpdateStock()
-                self.thr._signal.connect(self.signal_stock_update_accepted)
-                self.thr._signal_list.connect(self.signal_stock_update_accepted)
-                self.thr._signal_result.connect(self.signal_stock_update_accepted)
-                self.thr.start()
+                    if dialog.stock_unite.currentIndex() == 0:
+                        u = "no_unit"
+                    else:
+                        u = dialog.stock_unite.currentText()
+
+                    self.thr = ThreadUpdateStock(int(id), dialog.stock_name.text(), self.to_update_table, dialog.stock_qnt.value(), u)
+                    self.thr._signal.connect(self.signal_stock_update_accepted)
+                    self.thr._signal_result.connect(self.signal_stock_update_accepted)
+                    self.thr.start()
+                    dialog.close()
 
     def signal_stock_update_accepted(self, progress):
         if type(progress) == int:
@@ -318,6 +331,7 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
+            self.load_stock()
 
 
     def food_selected(self, selected, deselected):
