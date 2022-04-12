@@ -5,7 +5,7 @@ from PyQt5.QtCore import pyqtSignal, QThread
 
 from database_operation import is_product_exist, add_new_product, get_product_id_by_name, add_new_stock, \
     get_all_product, get_product_id_by_stock_id, update_product, update_stock, search_food, add_new_four_ben, \
-    is_four_ben_exist
+    is_four_ben_exist, get_all_four_ben
 
 
 class ThreadLoadingApp(QThread):
@@ -229,3 +229,49 @@ class ThreadAddFourBen(QThread):
                 self._signal.emit(i)
 
             self._signal_result.emit(True)
+
+
+class ThreadLoadFourBen(QThread):
+    _signal = pyqtSignal(int)
+    _signal_list = pyqtSignal(list)
+    _signal_result = pyqtSignal(bool)
+
+    def __init__(self):
+        super(ThreadLoadFourBen, self).__init__()
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+        fours = get_all_four_ben("four")
+        bens = get_all_four_ben("ben")
+
+        for i in range(50):
+            self._signal.emit(i)
+
+
+        row = 0
+        for four in fours:
+            list = []
+            list.append("four")
+            list.append(row)
+            list.append(four[0])
+
+            self._signal_list.emit(list)
+            row = row + 1
+
+        row = 0
+        for ben in bens:
+            list = []
+            list.append("ben")
+            list.append(row)
+            list.append(ben[0])
+
+            self._signal_list.emit(list)
+            row = row + 1
+
+        for i in range(50, 100):
+            self._signal.emit(i)
+
+
+        self._signal_result.emit(True)
