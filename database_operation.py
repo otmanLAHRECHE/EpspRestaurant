@@ -125,3 +125,11 @@ def get_all_four_ben(type):
     result = cur.fetchall()
     connection.close()
     return result
+
+def update_four_ben(id, name):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'update fb set name = ? where fb.fb_id = ?'
+    cur.execute(sql_q, (name,  id))
+    connection.commit()
+    connection.close()

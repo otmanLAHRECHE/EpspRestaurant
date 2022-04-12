@@ -275,3 +275,30 @@ class ThreadLoadFourBen(QThread):
 
 
         self._signal_result.emit(True)
+
+
+class ThreadUpdateFourBen(QThread):
+    _signal = pyqtSignal(int)
+    _signal_result = pyqtSignal(bool)
+
+    def __init__(self, id, name, type):
+        super(ThreadUpdateFourBen, self).__init__()
+        self.name = name
+        self.type = type
+        self.id = id
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+
+        for i in range(50):
+            self._signal.emit(i)
+
+        update_product(self.id, self.name, self.type)
+
+        for i in range(50, 100):
+            self._signal.emit(i)
+
+        self._signal_result.emit(True)
