@@ -38,7 +38,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.closeButton.setIcon(QIcon("./icons/x.png"))
         self.closeButton.setIconSize(QSize(24, 24))
         self.pushButton_4 = self.findChild(QtWidgets.QPushButton, "pushButton_4")
-        self.pushButton_4.setIcon(QIcon("./icons/home.png"))
+        self.pushButton_4.setIcon(QIcon("./icons/users.png"))
         self.pushButton_2.setMinimumSize(QSize(100, 0))
         self.pushButton_4.setIconSize(QSize(32, 32))
         self.pushButton_3 = self.findChild(QtWidgets.QPushButton, "pushButton_3")
@@ -70,6 +70,15 @@ class AppUi(QtWidgets.QMainWindow):
 
         self.minimizeButton.clicked.connect(self.showMinimized)
         self.closeButton.clicked.connect(self.close)
+
+        ##################### home page initialisation :
+
+
+
+        ##################### End home page initialisation
+
+
+
 
         ##################### Stock page initialisation :
 
@@ -151,7 +160,7 @@ class AppUi(QtWidgets.QMainWindow):
         if width == 50:
             # Expand menu
             newWidth = 180
-            self.pushButton_4.setText("معلومات عامة")
+            self.pushButton_4.setText("الممونين و المستفيدين")
             self.pushButton_3.setText("التموين")
             self.pushButton.setText("المشتريات")
             self.pushButton_5.setText("إحصائيات")
