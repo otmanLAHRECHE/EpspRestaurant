@@ -175,25 +175,30 @@ class ThreadSearchStock(QThread):
         for i in range(50):
             self._signal.emit(i)
 
-        row = 0
-        for food in foods:
-            list = []
-            list.append("food")
-            list.append(row)
-            list.append(food[0])
-            list.append(food[1])
-            list.append(food[2])
-            if food[3] == "no_unit":
-                list.append(" ")
-            else:
-                list.append(food[3])
+        if foods:
+            row = 0
+            for food in foods:
+                list = []
+                list.append("food")
+                list.append(row)
+                list.append(food[0])
+                list.append(food[1])
+                list.append(food[2])
+                if food[3] == "no_unit":
+                    list.append(" ")
+                else:
+                    list.append(food[3])
 
-            self._signal_list.emit(list)
-            row = row + 1
+                self._signal_list.emit(list)
+                row = row + 1
 
-        for i in range(50, 100):
-            self._signal.emit(i)
+            for i in range(50, 100):
+                self._signal.emit(i)
+            self._signal_result.emit(True)
+        else:
+            for i in range(50, 100):
+                self._signal.emit(i)
 
 
-        self._signal_result.emit(True)
+            self._signal_result.emit(False)
 

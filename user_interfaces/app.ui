@@ -975,6 +975,9 @@ background-position: center left;</string>
               <property name="editTriggers">
                <set>QAbstractItemView::NoEditTriggers</set>
               </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
               <row>
                <property name="text">
                 <string>1</string>
@@ -1161,6 +1164,9 @@ background-position: center left;</string>
               </property>
               <property name="editTriggers">
                <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
               </property>
               <row>
                <property name="text">
