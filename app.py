@@ -95,6 +95,13 @@ class AppUi(QtWidgets.QMainWindow):
         self.home_table_ben.hideColumn(0)
         self.home_table_ben.setColumnWidth(1, 300)
 
+        self.home_four_add_button.clicked.connect(self.home_four_add)
+        self.home_four_edit_button.clicked.conncect(self.home_four_edit)
+        self.home_four_delete_button.clicked.conncect(self.home_four_delete)
+
+        self.home_ben_add_button.clicked.connect(self.home_ben_add)
+        self.home_ben_edit_button.clicked.conncect(self.home_ben_edit)
+        self.home_ben_delete_button.clicked.conncect(self.home_ben_delete)
 
 
         ##################### End home page initialisation

@@ -96,3 +96,23 @@ def search_food(search_text):
     result = cur.fetchall()
     connection.close()
     return result
+
+def is_four_ben_exist(name):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select count(*) from fb where fb.name =?'
+    cur.execute(sql_q, (name,))
+    count = cur.fetchall()[0]
+    connection.close()
+    if count[0] == 0:
+        return False
+    else:
+        return True
+
+def add_new_four_ben(name, type):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'insert into fb (name, type) values (?, ?)'
+    cur.execute(sql_q, (name, type))
+    connection.commit()
+    connection.close()
