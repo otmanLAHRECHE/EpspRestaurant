@@ -73,6 +73,30 @@ class AppUi(QtWidgets.QMainWindow):
 
         ##################### home page initialisation :
 
+        self.home_table_fourn = self.findChild(QtWidgets.QTableWidget, "tableWidget_3")
+        self.home_table_ben = self.findChild(QtWidgets.QTableWidget, "tableWidget_4")
+        self.home_four_add_button = self.findChild(QtWidgets.QPushButton, "pushButton_12")
+        self.home_four_edit_button = self.findChild(QtWidgets.QPushButton, "pushButton_13")
+        self.home_four_delete_button = self.findChild(QtWidgets.QPushButton, "pushButton_14")
+        self.home_ben_add_button = self.findChild(QtWidgets.QPushButton, "pushButton_15")
+        self.home_ben_edit_button = self.findChild(QtWidgets.QPushButton, "pushButton_16")
+        self.home_ben_delete_button = self.findChild(QtWidgets.QPushButton, "pushButton_17")
+        self.stock_edit_button.setIcon(QIcon("./icons/edit.png"))
+
+        self.stock_table_food.hideColumn(0)
+        self.stock_table_food.setColumnWidth(1, 200)
+        self.stock_table_food.setColumnWidth(2, 150)
+        self.stock_table_food.setColumnWidth(3, 150)
+
+        self.stock_table_meat.hideColumn(0)
+        self.stock_table_meat.setColumnWidth(1, 160)
+        self.stock_table_meat.setColumnWidth(2, 100)
+        self.stock_table_meat.setColumnWidth(3, 100)
+
+        self.stock_add_button.clicked.connect(self.add_stock)
+        self.stock_edit_button.clicked.connect(self.edit_stock)
+        self.stock_search_button.clicked.connect(self.search_stock)
+        self.stock_reset_button.clicked.connect(self.reset_stock)
 
 
         ##################### End home page initialisation
