@@ -34,3 +34,12 @@ class Threading_loading(QtWidgets.QMainWindow):
 
         self.ttl = self.findChild(QtWidgets.QLabel, "loading_progress_status")
         self.progress = self.findChild(QtWidgets.QProgressBar, "my_progressBar")
+
+class Add_new_fb(QtWidgets.QDialog):
+    def __init__(self):
+        super(Add_new_fb, self).__init__()
+        uic.loadUi('./user_interfaces/add_new_fb', self)
+
+        self.ttl = self.findChild(QtWidgets.QLabel, "label_4")
+        self.label = self.findChild(QtWidgets.QLabel, "label")
+        self.fb_name = self.findChild(QtWidgets.QLineEdit, "lineEdit")

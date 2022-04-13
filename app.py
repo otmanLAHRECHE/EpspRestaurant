@@ -3,8 +3,9 @@ from PyQt5.QtCore import QSize, QPropertyAnimation
 from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp, QCompleter
 
-from dialogs import Add_new_stock, Threading_loading
-from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock
+from dialogs import Add_new_stock, Threading_loading, Add_new_fb
+from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
+    ThreadUpdateFourBen
 
 WINDOW_SIZE = 0
 
@@ -446,6 +447,200 @@ class AppUi(QtWidgets.QMainWindow):
         self.to_update_table = "meat"
         self.to_update_row = selected.indexes()[0].row()
 
+    def four_selected(self, selected, deselected):
+        self.to_update_table = "four"
+        self.to_update_row = selected.indexes()[0].row()
+
+    def ben_selected(self, selected, deselected):
+        self.to_update_table = "ben"
+        self.to_update_row = selected.indexes()[0].row()
+
+    def home_four_add(self):
+        dial = Add_new_fb()
+        dial.setWindowTitle("إضافة ممون جديد")
+        dial.ttl.setText("إضافة ممون جديد")
+        dial.label.setText("إسم الممون")
+        if dial.exec() == QtWidgets.QDialog.Accepted:
+            if dial.fb_name.text() == "":
+                message = "خطأ في إسم الممون"
+                self.alert_(message)
+            else:
+                self.dialog = Threading_loading()
+                self.dialog.ttl.setText("إنتظر من فضلك")
+                self.dialog.progress.setValue(0)
+                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                self.dialog.show()
+
+                self.thr = ThreadAddFourBen(dial.fb_name.text(), "four")
+                self.thr._signal.connect(self.signal_f_accepted)
+                self.thr._signal_result.connect(self.signal_f_accepted)
+                self.thr.start()
+
+    def signal_f_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        else:
+            if progress:
+                self.dialog.ttl.setText("اضيف بنجاح")
+                self.dialog.progress.setValue(100)
+                self.dialog.close()
+                self.load_stock()
+            else:
+                self.dialog.ttl.setText("خطأ")
+                self.dialog.progress.setValue(100)
+                self.dialog.close()
+                message = "المخزون موجود سابقا"
+                self.alert_(message)
+
+    def home_four_edit(self):
+        if self.to_update_table != "four":
+            message = "إختار الممون"
+            self.alert_(message)
+        else:
+            id = self.home_table_fourn.item(self.to_update_row, 0).text()
+            name = self.home_table_fourn.item(self.to_update_row, 1).text()
+
+
+            dialog = Add_new_fb()
+            dialog.setWindowTitle("تغيير الممون")
+            dialog.ttl.setText("تغيير الممون")
+            dialog.label.setText("الإسم الجديد للممون")
+            dialog.fb_name.setText(name)
+
+            if dialog.exec() == QtWidgets.QDialog.Accepted:
+                if dialog.stock_name.text() == "":
+                    message = "خطأ في إسم الممون"
+                    self.alert_(message)
+                    dialog.close()
+                else:
+                    self.dialog = Threading_loading()
+                    self.dialog.ttl.setText("إنتظر من فضلك")
+                    self.dialog.progress.setValue(0)
+                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                    self.dialog.show()
+
+                    self.thr = ThreadUpdateFourBen(int(id), dialog.fb_name.text())
+                    self.thr._signal.connect(self.signal_fb_update_accepted)
+                    self.thr._signal_result.connect(self.signal_fb_update_accepted)
+                    self.thr.start()
+                    dialog.close()
+
+    def signal_fb_update_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
+            self.load_stock()
+
+
+    def home_four_delete(self):
+        if self.to_update_table != "four":
+            message = "إختار الممون"
+            self.alert_(message)
+        else:
+            id = self.home_table_fourn.item(self.to_update_row, 0).text()
+            self.dialog = Threading_loading()
+            self.dialog.ttl.setText("إنتظر من فضلك")
+            self.dialog.progress.setValue(0)
+            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+            self.dialog.show()
+
+            self.thr = ThreadUpdateFourBen(int(id))
+            self.thr._signal.connect(self.signal_fb_update_accepted)
+            self.thr._signal_result.connect(self.signal_fb_update_accepted)
+            self.thr.start()
+
+    def home_ben_add(self):
+        dial = Add_new_fb()
+        dial.setWindowTitle("إضافة مستفيد جديد جديد")
+        dial.ttl.setText("إضافة مستفيد جديد جديد")
+        dial.label.setText("إسم المستفيد او المصلحة")
+        if dial.exec() == QtWidgets.QDialog.Accepted:
+            if dial.fb_name.text() == "":
+                message = "خطأ في الإسم"
+                self.alert_(message)
+            else:
+                self.dialog = Threading_loading()
+                self.dialog.ttl.setText("إنتظر من فضلك")
+                self.dialog.progress.setValue(0)
+                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                self.dialog.show()
+
+                self.thr = ThreadAddFourBen(dial.fb_name.text(), "ben")
+                self.thr._signal.connect(self.signal_b_accepted)
+                self.thr._signal_result.connect(self.signal_b_accepted)
+                self.thr.start()
+
+    def signal_b_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        else:
+            if progress:
+                self.dialog.ttl.setText("اضيف بنجاح")
+                self.dialog.progress.setValue(100)
+                self.dialog.close()
+                self.load_stock()
+            else:
+                self.dialog.ttl.setText("خطأ")
+                self.dialog.progress.setValue(100)
+                self.dialog.close()
+                message = "المستفيد موجود سابقا"
+                self.alert_(message)
+
+    def home_ben_edit(self):
+        if self.to_update_table != "ben":
+            message = "إختار الممون"
+            self.alert_(message)
+        else:
+            id = self.home_table_ben.item(self.to_update_row, 0).text()
+            name = self.home_table_ben.item(self.to_update_row, 1).text()
+
+
+            dialog = Add_new_fb()
+            dialog.setWindowTitle("تغيير المستفيد")
+            dialog.ttl.setText("تغيير المستفيد")
+            dialog.label.setText("الإسم الجديد للمستفيد")
+            dialog.fb_name.setText(name)
+
+            if dialog.exec() == QtWidgets.QDialog.Accepted:
+                if dialog.stock_name.text() == "":
+                    message = "خطأ في إسم المستفيد"
+                    self.alert_(message)
+                    dialog.close()
+                else:
+                    self.dialog = Threading_loading()
+                    self.dialog.ttl.setText("إنتظر من فضلك")
+                    self.dialog.progress.setValue(0)
+                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                    self.dialog.show()
+
+                    self.thr = ThreadUpdateFourBen(int(id), dialog.fb_name.text())
+                    self.thr._signal.connect(self.signal_fb_update_accepted)
+                    self.thr._signal_result.connect(self.signal_fb_update_accepted)
+                    self.thr.start()
+                    dialog.close()
+
+
+    def home_ben_delete(self):
+        if self.to_update_table != "ben":
+            message = "إختار الممون"
+            self.alert_(message)
+        else:
+            id = self.home_table_ben.item(self.to_update_row, 0).text()
+            self.dialog = Threading_loading()
+            self.dialog.ttl.setText("إنتظر من فضلك")
+            self.dialog.progress.setValue(0)
+            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+            self.dialog.show()
+
+            self.thr = ThreadUpdateFourBen(int(id))
+            self.thr._signal.connect(self.signal_fb_update_accepted)
+            self.thr._signal_result.connect(self.signal_fb_update_accepted)
+            self.thr.start()
+
+
     def h(self):
         self.pushButton_4.setStyleSheet("""
         background-color: rgb(0, 92, 157);
@@ -484,6 +679,8 @@ class AppUi(QtWidgets.QMainWindow):
         background-position: center left;""")
         self.fragment.setCurrentIndex(0)
 
+        self.to_update_table = "non"
+
     def sort(self):
         self.pushButton_3.setStyleSheet("""background-color: rgb(0, 92, 157);
         background-repeat: none;
@@ -514,6 +711,7 @@ class AppUi(QtWidgets.QMainWindow):
         padding-left: 50px;
         background-position: center left;""")
         self.fragment.setCurrentIndex(1)
+        self.to_update_table = "non"
 
     def ent(self):
         self.pushButton.setStyleSheet("""background-color: rgb(0, 92, 157);
@@ -545,6 +743,7 @@ class AppUi(QtWidgets.QMainWindow):
         padding-left: 50px;
         background-position: center left;""")
         self.fragment.setCurrentIndex(2)
+        self.to_update_table = "non"
 
     def sto(self):
         self.pushButton_7.setStyleSheet("""background-color: rgb(0, 92, 157);
@@ -576,6 +775,7 @@ class AppUi(QtWidgets.QMainWindow):
         padding-left: 50px;
         background-position: center left;""")
         self.fragment.setCurrentIndex(3)
+        self.to_update_table = "non"
 
         self.load_stock()
 
@@ -609,6 +809,7 @@ class AppUi(QtWidgets.QMainWindow):
         padding-left: 50px;
         background-position: center left;""")
         self.fragment.setCurrentIndex(4)
+        self.to_update_table = "non"
 
     def prog(self):
         self.pushButton_6.setStyleSheet("""background-color: rgb(0, 92, 157);
@@ -640,6 +841,7 @@ class AppUi(QtWidgets.QMainWindow):
         padding-left: 50px;
         background-position: center left;""")
         self.fragment.setCurrentIndex(5)
+        self.to_update_table = "non"
 
     def sett(self):
         self.pushButton_2.setStyleSheet("""background-color: rgb(0, 92, 157);
@@ -671,3 +873,4 @@ class AppUi(QtWidgets.QMainWindow):
         padding-left: 50px;
         background-position: center left;""")
         self.fragment.setCurrentIndex(6)
+        self.to_update_table = "non"
