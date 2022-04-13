@@ -256,6 +256,7 @@ class ThreadLoadFourBen(QThread):
             list.append("four")
             list.append(row)
             list.append(four[0])
+            list.append(four[1])
 
             self._signal_list.emit(list)
             row = row + 1
@@ -266,6 +267,7 @@ class ThreadLoadFourBen(QThread):
             list.append("ben")
             list.append(row)
             list.append(ben[0])
+            list.append(ben[1])
 
             self._signal_list.emit(list)
             row = row + 1

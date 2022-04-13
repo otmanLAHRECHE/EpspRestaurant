@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidget
 
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
-    ThreadUpdateFourBen
+    ThreadUpdateFourBen, ThreadLoadFourBen
 
 WINDOW_SIZE = 0
 
@@ -639,6 +639,38 @@ class AppUi(QtWidgets.QMainWindow):
             self.thr._signal.connect(self.signal_fb_update_accepted)
             self.thr._signal_result.connect(self.signal_fb_update_accepted)
             self.thr.start()
+
+    def load_fb(self):
+
+        self.home_table_fourn.selectionModel().selectionChanged.connect(self.four_selected)
+        self.home_table_ben.selectionModel().selectionChanged.connect(self.ben_selected)
+
+        self.dialog = Threading_loading()
+        self.dialog.ttl.setText("إنتظر من فضلك")
+        self.dialog.progress.setValue(0)
+        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self.dialog.show()
+
+        self.thr = ThreadLoadFourBen()
+        self.thr._signal.connect(self.signal_fb_load_accepted)
+        self.thr._signal_list.connect(self.signal_fb_load_accepted)
+        self.thr._signal_result.connect(self.signal_fb_load_accepted)
+        self.thr.start()
+
+    def signal_fb_load_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        elif type(progress) == list:
+            if progress[0] == "four":
+                self.home_table_fourn.setItem(progress[1], 0, QTableWidgetItem(str(progress[2])))
+                self.home_table_fourn.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
+            else:
+                self.home_table_ben.setItem(progress[1], 0, QTableWidgetItem(str(progress[2])))
+                self.home_table_ben.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
 
 
     def h(self):
