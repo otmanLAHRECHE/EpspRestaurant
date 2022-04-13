@@ -24,6 +24,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.shadow.setColor(QColor(0, 92, 157, 150))
         self.to_update_table = "non"
         self.to_update_row = "non"
+        self.last_index = [0,0]
 
         # Appy shadow to central widget
         self.centralwidget.setGraphicsEffect(self.shadow)
@@ -544,6 +545,9 @@ class AppUi(QtWidgets.QMainWindow):
             self.alert_(message)
         else:
             id = self.home_table_fourn.item(self.to_update_row, 0).text()
+            self.home_table_fourn.setItem(self.to_update_row, 0, QTableWidgetItem(""))
+            self.home_table_fourn.setItem(self.to_update_row, 1, QTableWidgetItem(""))
+
             self.dialog = Threading_loading()
             self.dialog.ttl.setText("إنتظر من فضلك")
             self.dialog.progress.setValue(0)
@@ -632,6 +636,8 @@ class AppUi(QtWidgets.QMainWindow):
             self.alert_(message)
         else:
             id = self.home_table_ben.item(self.to_update_row, 0).text()
+            self.home_table_ben.setItem(self.to_update_row, 0, QTableWidgetItem(""))
+            self.home_table_ben.setItem(self.to_update_row, 1, QTableWidgetItem(""))
             self.dialog = Threading_loading()
             self.dialog.ttl.setText("إنتظر من فضلك")
             self.dialog.progress.setValue(0)
@@ -667,10 +673,25 @@ class AppUi(QtWidgets.QMainWindow):
             if progress[0] == "four":
                 self.home_table_fourn.setItem(progress[1], 0, QTableWidgetItem(str(progress[2])))
                 self.home_table_fourn.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
+                self.last_index[0] = progress[1]
             else:
                 self.home_table_ben.setItem(progress[1], 0, QTableWidgetItem(str(progress[2])))
                 self.home_table_ben.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
+                self.last_index[1] = progress[1]
         else:
+            self.last_index[0] = self.last_index[0] + 1
+            self.last_index[1] = self.last_index[1] + 1
+
+            self.home_table_fourn.setItem(self.last_index[1], 0, QTableWidgetItem(""))
+            self.home_table_fourn.setItem(self.last_index[1], 1, QTableWidgetItem(""))
+            self.home_table_fourn.setItem(self.last_index[1], 2, QTableWidgetItem(""))
+
+            self.home_table_ben.setItem(self.last_index[1], 0, QTableWidgetItem(""))
+            self.home_table_ben.setItem(self.last_index[1], 1, QTableWidgetItem(""))
+            self.home_table_ben.setItem(self.last_index[1], 2, QTableWidgetItem(""))
+
+            self.last_index[0] = 0
+            self.last_index[1] = 0
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
