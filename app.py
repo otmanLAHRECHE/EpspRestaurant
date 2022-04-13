@@ -110,6 +110,19 @@ class AppUi(QtWidgets.QMainWindow):
 
 
 
+        ##################### commandes page initialisation :
+
+        self.commandes_table = self.findChild(QtWidgets.QTableWidget, "tableWidget_5")
+        self.add_commande_button = self.findChild(QtWidgets.QPushButton, "pushButton_18")
+        self.edit_commmande_button = self.findChild(QtWidgets.QPushButton, "pushButton_22")
+        self.delete_commande_button = self.findChild(QtWidgets.QPushButton, "pushButton_23")
+        self.filter_commande_button = self.findChild(QtWidgets.QPushButton, "pushButton_19")
+        self.reset_commande_buton = self.findChild(QtWidgets.QTableWidget, "pushButton_21")
+
+
+        ##################### End commandes page initialisation
+
+
 
         ##################### Stock page initialisation :
 

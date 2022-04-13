@@ -633,7 +633,7 @@ background-position: center left;</string>
              </size>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="home">
              <widget class="QLabel" name="label">
@@ -1208,9 +1208,9 @@ background-position: center left;</string>
              <widget class="QLabel" name="label_4">
               <property name="geometry">
                <rect>
-                <x>860</x>
+                <x>670</x>
                 <y>0</y>
-                <width>161</width>
+                <width>351</width>
                 <height>31</height>
                </rect>
               </property>
@@ -1223,7 +1223,7 @@ background-position: center left;</string>
                <enum>Qt::RightToLeft</enum>
               </property>
               <property name="text">
-               <string>المشتريات:</string>
+               <string>المشتريات:(bons de commande)</string>
               </property>
              </widget>
              <widget class="QWidget" name="widget_3" native="true">
@@ -1255,6 +1255,408 @@ background-position: center left;</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color: rgb(5, 122, 185);</string>
+              </property>
+             </widget>
+             <widget class="QTableWidget" name="tableWidget_5">
+              <property name="geometry">
+               <rect>
+                <x>210</x>
+                <y>60</y>
+                <width>801</width>
+                <height>511</height>
+               </rect>
+              </property>
+              <property name="cursor" stdset="0">
+               <cursorShape>ForbiddenCursor</cursorShape>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <row>
+               <property name="text">
+                <string>1</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>2</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>3</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>5</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>4</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>5</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>6</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>7</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>9</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>8</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>9</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>10</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>11</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>12</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>13</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>14</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>15</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>16</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>17</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>18</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>19</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>20</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>21</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>22</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>23</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>24</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>25</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>26</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>27</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>28</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>29</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>30</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>31</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>32</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>33</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>34</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>35</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>36</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>37</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>38</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>39</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>40</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>41</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>42</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>43</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>44</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>45</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>46</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>47</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>48</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>49</string>
+               </property>
+              </row>
+              <column>
+               <property name="text">
+                <string>(N. bon de commande)رقم الطلب </string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>التاريخ</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>الممون</string>
+               </property>
+              </column>
+             </widget>
+             <widget class="QPushButton" name="pushButton_18">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>70</y>
+                <width>111</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <property name="text">
+               <string>إضافة</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_19">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>110</y>
+                <width>111</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <property name="text">
+               <string>بحث</string>
+              </property>
+             </widget>
+             <widget class="QWidget" name="widget_11" native="true">
+              <property name="geometry">
+               <rect>
+                <x>190</x>
+                <y>50</y>
+                <width>2</width>
+                <height>520</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>2</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>2</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(5, 122, 185);</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_20">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>530</y>
+                <width>111</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <property name="text">
+               <string>طباعة التقرير</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_21">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>150</y>
+                <width>111</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <property name="text">
+               <string>إعادة</string>
               </property>
              </widget>
             </widget>
