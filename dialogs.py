@@ -38,7 +38,7 @@ class Threading_loading(QtWidgets.QMainWindow):
 class Add_new_fb(QtWidgets.QDialog):
     def __init__(self):
         super(Add_new_fb, self).__init__()
-        uic.loadUi('./user_interfaces/add_new_fb', self)
+        uic.loadUi('./user_interfaces/add_new_fb.ui', self)
 
         self.ttl = self.findChild(QtWidgets.QLabel, "label_4")
         self.label = self.findChild(QtWidgets.QLabel, "label")

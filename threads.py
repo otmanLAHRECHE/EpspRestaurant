@@ -309,9 +309,8 @@ class ThreadDeleteFourBen(QThread):
     _signal = pyqtSignal(int)
     _signal_result = pyqtSignal(bool)
 
-    def __init__(self, id, name):
+    def __init__(self, id):
         super(ThreadDeleteFourBen, self).__init__()
-        self.name = name
         self.id = id
 
     def __del__(self):
@@ -323,7 +322,7 @@ class ThreadDeleteFourBen(QThread):
         for i in range(50):
             self._signal.emit(i)
 
-        delete_four_ben(self.id, self.name)
+        delete_four_ben(self.id)
 
         for i in range(50, 100):
             self._signal.emit(i)

@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidget
 
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
-    ThreadUpdateFourBen, ThreadLoadFourBen
+    ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen
 
 WINDOW_SIZE = 0
 
@@ -97,12 +97,12 @@ class AppUi(QtWidgets.QMainWindow):
         self.home_table_ben.setColumnWidth(1, 300)
 
         self.home_four_add_button.clicked.connect(self.home_four_add)
-        self.home_four_edit_button.clicked.conncect(self.home_four_edit)
-        self.home_four_delete_button.clicked.conncect(self.home_four_delete)
+        self.home_four_edit_button.clicked.connect(self.home_four_edit)
+        self.home_four_delete_button.clicked.connect(self.home_four_delete)
 
         self.home_ben_add_button.clicked.connect(self.home_ben_add)
-        self.home_ben_edit_button.clicked.conncect(self.home_ben_edit)
-        self.home_ben_delete_button.clicked.conncect(self.home_ben_delete)
+        self.home_ben_edit_button.clicked.connect(self.home_ben_edit)
+        self.home_ben_delete_button.clicked.connect(self.home_ben_delete)
 
 
         ##################### End home page initialisation
@@ -159,6 +159,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.main_header.mouseMoveEvent = moveWindow
 
         self.left_menu_toggle_btn.clicked.connect(lambda: self.slideLeftMenu())
+
+        self.load_fb()
 
 
     def alert_(self, message):
@@ -484,7 +486,7 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.ttl.setText("اضيف بنجاح")
                 self.dialog.progress.setValue(100)
                 self.dialog.close()
-                self.load_stock()
+                self.load_fb()
             else:
                 self.dialog.ttl.setText("خطأ")
                 self.dialog.progress.setValue(100)
@@ -532,7 +534,7 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
-            self.load_stock()
+            self.load_fb()
 
 
     def home_four_delete(self):
@@ -547,15 +549,15 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
             self.dialog.show()
 
-            self.thr = ThreadUpdateFourBen(int(id))
+            self.thr = ThreadDeleteFourBen(int(id))
             self.thr._signal.connect(self.signal_fb_update_accepted)
             self.thr._signal_result.connect(self.signal_fb_update_accepted)
             self.thr.start()
 
     def home_ben_add(self):
         dial = Add_new_fb()
-        dial.setWindowTitle("إضافة مستفيد جديد جديد")
-        dial.ttl.setText("إضافة مستفيد جديد جديد")
+        dial.setWindowTitle("إضافة مستفيد جديد")
+        dial.ttl.setText("إضافة مستفيد جديد")
         dial.label.setText("إسم المستفيد او المصلحة")
         if dial.exec() == QtWidgets.QDialog.Accepted:
             if dial.fb_name.text() == "":
@@ -581,7 +583,7 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.ttl.setText("اضيف بنجاح")
                 self.dialog.progress.setValue(100)
                 self.dialog.close()
-                self.load_stock()
+                self.load_fb()
             else:
                 self.dialog.ttl.setText("خطأ")
                 self.dialog.progress.setValue(100)
@@ -591,7 +593,7 @@ class AppUi(QtWidgets.QMainWindow):
 
     def home_ben_edit(self):
         if self.to_update_table != "ben":
-            message = "إختار الممون"
+            message = "إختار المستفيد"
             self.alert_(message)
         else:
             id = self.home_table_ben.item(self.to_update_row, 0).text()
@@ -605,7 +607,7 @@ class AppUi(QtWidgets.QMainWindow):
             dialog.fb_name.setText(name)
 
             if dialog.exec() == QtWidgets.QDialog.Accepted:
-                if dialog.stock_name.text() == "":
+                if dialog.fb_name.text() == "":
                     message = "خطأ في إسم المستفيد"
                     self.alert_(message)
                     dialog.close()
@@ -625,7 +627,7 @@ class AppUi(QtWidgets.QMainWindow):
 
     def home_ben_delete(self):
         if self.to_update_table != "ben":
-            message = "إختار الممون"
+            message = "إختار المستفيد"
             self.alert_(message)
         else:
             id = self.home_table_ben.item(self.to_update_row, 0).text()
@@ -635,7 +637,7 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
             self.dialog.show()
 
-            self.thr = ThreadUpdateFourBen(int(id))
+            self.thr = ThreadDeleteFourBen(int(id))
             self.thr._signal.connect(self.signal_fb_update_accepted)
             self.thr._signal_result.connect(self.signal_fb_update_accepted)
             self.thr.start()
@@ -712,6 +714,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.fragment.setCurrentIndex(0)
 
         self.to_update_table = "non"
+        self.load_fb()
 
     def sort(self):
         self.pushButton_3.setStyleSheet("""background-color: rgb(0, 92, 157);
