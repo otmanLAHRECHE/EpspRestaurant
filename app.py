@@ -169,6 +169,7 @@ class AppUi(QtWidgets.QMainWindow):
         alert.setText(message)
         alert.exec_()
 
+
     def mousePressEvent(self, event):
         self.clickPosition = event.globalPos()
 
