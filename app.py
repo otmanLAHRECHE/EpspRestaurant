@@ -114,10 +114,22 @@ class AppUi(QtWidgets.QMainWindow):
 
         self.commandes_table = self.findChild(QtWidgets.QTableWidget, "tableWidget_5")
         self.add_commande_button = self.findChild(QtWidgets.QPushButton, "pushButton_18")
+        self.add_commande_button.setIcon(QIcon("icons/plus2.png"))
         self.edit_commmande_button = self.findChild(QtWidgets.QPushButton, "pushButton_22")
+        self.edit_commmande_button.setIcon(QIcon("icons/edit2.png"))
         self.delete_commande_button = self.findChild(QtWidgets.QPushButton, "pushButton_23")
+        self.delete_commande_button.setIcon(QIcon("icons/trash.png"))
         self.filter_commande_button = self.findChild(QtWidgets.QPushButton, "pushButton_19")
-        self.reset_commande_buton = self.findChild(QtWidgets.QTableWidget, "pushButton_21")
+        self.filter_commande_button.setIcon(QIcon("icons/filter.png"))
+        self.reset_commande_buton = self.findChild(QtWidgets.QPushButton, "pushButton_21")
+        self.reset_commande_buton.setIcon(QIcon("icons/refresh.png"))
+        self.report_commande_button = self.findChild(QtWidgets.QPushButton, "pushButton_20")
+        self.report_commande_button.setIcon(QIcon("icons/file-text.png"))
+
+        self.commandes_table.setColumnWidth(0, 200)
+        self.commandes_table.setColumnWidth(1, 100)
+        self.commandes_table.setColumnWidth(2, 100)
+        self.commandes_table.setColumnWidth(3, 340)
 
 
         ##################### End commandes page initialisation

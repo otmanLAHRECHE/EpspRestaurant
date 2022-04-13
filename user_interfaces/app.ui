@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1114</width>
-    <height>670</height>
+    <height>661</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1551,6 +1551,11 @@ background-position: center left;</string>
                 <string>الممون</string>
                </property>
               </column>
+              <column>
+               <property name="text">
+                <string>المواد المطلوبة</string>
+               </property>
+              </column>
              </widget>
              <widget class="QPushButton" name="pushButton_18">
               <property name="geometry">
@@ -1575,7 +1580,7 @@ background-position: center left;</string>
               <property name="geometry">
                <rect>
                 <x>50</x>
-                <y>110</y>
+                <y>220</y>
                 <width>111</width>
                 <height>23</height>
                </rect>
@@ -1637,10 +1642,48 @@ background-position: center left;</string>
                <string notr="true">background-color: rgb(199, 238, 255);</string>
               </property>
               <property name="text">
-               <string>طباعة التقرير</string>
+               <string>تقرير</string>
               </property>
              </widget>
              <widget class="QPushButton" name="pushButton_21">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>260</y>
+                <width>111</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <property name="text">
+               <string>إعادة</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_22">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>110</y>
+                <width>111</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <property name="text">
+               <string>تعديل</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_23">
               <property name="geometry">
                <rect>
                 <x>50</x>
@@ -1656,7 +1699,38 @@ background-position: center left;</string>
                <string notr="true">background-color: rgb(199, 238, 255);</string>
               </property>
               <property name="text">
-               <string>إعادة</string>
+               <string>حذف</string>
+              </property>
+             </widget>
+             <widget class="QWidget" name="widget_12" native="true">
+              <property name="geometry">
+               <rect>
+                <x>30</x>
+                <y>200</y>
+                <width>140</width>
+                <height>2</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(5, 122, 185);</string>
               </property>
              </widget>
             </widget>
