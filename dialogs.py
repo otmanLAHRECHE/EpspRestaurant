@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, uic, QtCore
-from PyQt5.QtGui import QColor
+from PyQt5.QtGui import QColor, QIcon
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect
 
 
@@ -43,3 +43,22 @@ class Add_new_fb(QtWidgets.QDialog):
         self.ttl = self.findChild(QtWidgets.QLabel, "label_4")
         self.label = self.findChild(QtWidgets.QLabel, "label")
         self.fb_name = self.findChild(QtWidgets.QLineEdit, "lineEdit")
+
+class Add_new_commande(QtWidgets.QDialog):
+    def __init__(self):
+        super(Add_new_commande, self).__init__()
+        uic.loadUi('./user_interfaces/add_new_commande.ui', self)
+
+        self.ttl = self.findChild(QtWidgets.QLabel, "label_4")
+        self.commande_number = self.findChild(QtWidgets.QSpinBox, "spinBox")
+        self.commande_date = self.findChild(QtWidgets.QDateEdit, "dateEdit")
+        self.commande_fournesseur = self.findChild(QtWidgets.QComboBox, "comboBox")
+        self.add_product = self.findChild(QtWidgets.QPushButton, "pushButton_18")
+        self.add_product.setIcon(QIcon("./icons/plus2.png"))
+        self.delete_product = self.findChild(QtWidgets.QPushButton, "pushButton_23")
+        self.delete_product.setIcon(QIcon("./icons/trash.png"))
+        self.commande_products_table = self.findChild(QtWidgets.QTableWidget, "tableWidget")
+
+        self.commande_products_table.setColumnWidth(0, 200)
+        self.commande_products_table.setColumnWidth(1, 200)
+        self.commande_products_table.setColumnWidth(2, 100)
