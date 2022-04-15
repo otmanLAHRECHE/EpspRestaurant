@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>775</width>
+    <width>680</width>
     <height>507</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>775</width>
+    <width>680</width>
     <height>507</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>775</width>
+    <width>680</width>
     <height>507</height>
    </size>
   </property>
@@ -38,7 +38,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>470</y>
+     <y>460</y>
      <width>161</width>
      <height>32</height>
     </rect>
@@ -62,7 +62,7 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>470</x>
+     <x>370</x>
      <y>10</y>
      <width>301</width>
      <height>21</height>
@@ -85,7 +85,7 @@
     <rect>
      <x>150</x>
      <y>90</y>
-     <width>601</width>
+     <width>511</width>
      <height>361</height>
     </rect>
    </property>
@@ -123,7 +123,7 @@
   <widget class="QDateEdit" name="dateEdit">
    <property name="geometry">
     <rect>
-     <x>410</x>
+     <x>350</x>
      <y>50</y>
      <width>81</width>
      <height>22</height>
@@ -132,13 +132,19 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(199, 238, 255);</string>
    </property>
+   <property name="displayFormat">
+    <string>d/M/yyyy</string>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>490</x>
+     <x>430</x>
      <y>50</y>
-     <width>51</width>
+     <width>41</width>
      <height>20</height>
     </rect>
    </property>
@@ -159,7 +165,7 @@
     <rect>
      <x>150</x>
      <y>80</y>
-     <width>600</width>
+     <width>510</width>
      <height>2</height>
     </rect>
    </property>
@@ -220,7 +226,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>90</y>
+     <y>100</y>
      <width>121</width>
      <height>23</height>
     </rect>
@@ -239,7 +245,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>130</y>
+     <y>140</y>
      <width>121</width>
      <height>23</height>
     </rect>
@@ -257,9 +263,9 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>270</x>
      <y>50</y>
-     <width>51</width>
+     <width>41</width>
      <height>20</height>
     </rect>
    </property>
@@ -278,9 +284,9 @@
   <widget class="QComboBox" name="comboBox">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>160</x>
      <y>50</y>
-     <width>131</width>
+     <width>101</width>
      <height>22</height>
     </rect>
    </property>
@@ -291,9 +297,9 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>670</x>
+     <x>590</x>
      <y>50</y>
-     <width>71</width>
+     <width>61</width>
      <height>20</height>
     </rect>
    </property>
@@ -312,11 +318,20 @@
   <widget class="QSpinBox" name="spinBox">
    <property name="geometry">
     <rect>
-     <x>600</x>
+     <x>530</x>
      <y>50</y>
-     <width>71</width>
+     <width>61</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="prefix">
+    <string>000</string>
+   </property>
+   <property name="maximum">
+    <number>10000</number>
+   </property>
+   <property name="displayIntegerBase">
+    <number>10</number>
    </property>
   </widget>
  </widget>

@@ -3,7 +3,7 @@ from PyQt5.QtCore import QSize, QPropertyAnimation
 from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp, QCompleter
 
-from dialogs import Add_new_stock, Threading_loading, Add_new_fb
+from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen
 
@@ -130,6 +130,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.commandes_table.setColumnWidth(1, 100)
         self.commandes_table.setColumnWidth(2, 100)
         self.commandes_table.setColumnWidth(3, 340)
+
+        self.add_commande_button.clicked.connect(self.add_commande)
 
 
         ##################### End commandes page initialisation
@@ -720,6 +722,13 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
+
+
+    def add_commande(self):
+        dialog = Add_new_commande()
+
+        if dialog.exec() == QtWidgets.QDialog.Accepted:
+            print("ok")
 
 
     def h(self):

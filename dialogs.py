@@ -52,6 +52,7 @@ class Add_new_commande(QtWidgets.QDialog):
         self.ttl = self.findChild(QtWidgets.QLabel, "label_4")
         self.commande_number = self.findChild(QtWidgets.QSpinBox, "spinBox")
         self.commande_date = self.findChild(QtWidgets.QDateEdit, "dateEdit")
+        self.commande_date.setDate(QtCore.QDate.currentDate())
         self.commande_fournesseur = self.findChild(QtWidgets.QComboBox, "comboBox")
         self.add_product = self.findChild(QtWidgets.QPushButton, "pushButton_18")
         self.add_product.setIcon(QIcon("./icons/plus2.png"))
@@ -61,4 +62,14 @@ class Add_new_commande(QtWidgets.QDialog):
 
         self.commande_products_table.setColumnWidth(0, 200)
         self.commande_products_table.setColumnWidth(1, 200)
-        self.commande_products_table.setColumnWidth(2, 100)
+        self.commande_products_table.setColumnWidth(2, 80)
+
+        self.add_product.clicked.connect(self.add_p)
+        self.delete_product.clicked.connect(self.delete_p)
+
+    def add_p(self):
+        index = self.commande_products_table.rowCount()
+        self.commande_products_table.insertRow(index)
+
+    def delete_p(self):
+        print("delete")
