@@ -62,7 +62,7 @@ class Add_new_commande(QtWidgets.QDialog):
 
         self.commande_products_table.setColumnWidth(0, 200)
         self.commande_products_table.setColumnWidth(1, 200)
-        self.commande_products_table.setColumnWidth(2, 80)
+        self.commande_products_table.setColumnWidth(2, 100)
 
         self.add_product.clicked.connect(self.add_p)
         self.delete_product.clicked.connect(self.delete_p)

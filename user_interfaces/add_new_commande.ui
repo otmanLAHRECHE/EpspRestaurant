@@ -104,6 +104,15 @@
    <property name="selectionBehavior">
     <enum>QAbstractItemView::SelectRows</enum>
    </property>
+   <property name="showGrid">
+    <bool>true</bool>
+   </property>
+   <property name="sortingEnabled">
+    <bool>false</bool>
+   </property>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
    <column>
     <property name="text">
      <string>المادة المطلوبة</string>
@@ -325,7 +334,7 @@
     </rect>
    </property>
    <property name="prefix">
-    <string>000</string>
+    <string>0</string>
    </property>
    <property name="maximum">
     <number>10000</number>
