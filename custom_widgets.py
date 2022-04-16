@@ -9,7 +9,7 @@ class ChoseProduct(QWidget):
         layout = QtWidgets.QHBoxLayout()
         self.chose_product = QtWidgets.QComboBox()
 
-        layout.setStretch(1)
+        layout.addStretch(1)
         layout.addWidget(self.chose_product)
 
         self.setLayout(layout)
@@ -22,7 +22,7 @@ class ChoseProductQte(QWidget):
         layout = QtWidgets.QHBoxLayout()
         self.chose_product_qte = QtWidgets.QDoubleSpinBox
 
-        layout.setStretch(1)
+        layout.addStretch(1)
         layout.addWidget(self.chose_product_qte)
 
         self.setLayout(layout)
