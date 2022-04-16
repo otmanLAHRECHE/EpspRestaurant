@@ -727,6 +727,18 @@ class AppUi(QtWidgets.QMainWindow):
     def add_commande(self):
         dialog = Add_new_commande()
 
+        self.dialog = Threading_loading()
+        self.dialog.ttl.setText("إنتظر من فضلك")
+        self.dialog.progress.setValue(0)
+        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self.dialog.show()
+
+        self.thr = ThreadLoadFourBen()
+        self.thr._signal.connect(self.signal_fb_load_accepted)
+        self.thr._signal_list.connect(self.signal_fb_load_accepted)
+        self.thr._signal_result.connect(self.signal_fb_load_accepted)
+        self.thr.start()
+
         if dialog.exec() == QtWidgets.QDialog.Accepted:
             print("ok")
 

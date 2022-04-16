@@ -5,7 +5,7 @@ from PyQt5.QtCore import pyqtSignal, QThread
 
 from database_operation import is_product_exist, add_new_product, get_product_id_by_name, add_new_stock, \
     get_all_product, get_product_id_by_stock_id, update_product, update_stock, search_food, add_new_four_ben, \
-    is_four_ben_exist, get_all_four_ben, update_four_ben, delete_four_ben
+    is_four_ben_exist, get_all_four_ben, update_four_ben, delete_four_ben, get_all_product_names_no_type
 
 
 class ThreadLoadingApp(QThread):
@@ -325,6 +325,46 @@ class ThreadDeleteFourBen(QThread):
         delete_four_ben(self.id)
 
         for i in range(50, 100):
+            self._signal.emit(i)
+
+        self._signal_result.emit(True)
+
+class ThreadCommandDialog(QThread):
+    _signal = pyqtSignal(int)
+    _signal_result = pyqtSignal(bool)
+    _signal_list = pyqtSignal(list)
+
+    def __init__(self):
+        super(ThreadCommandDialog, self).__init__()
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+        list_four = []
+        list_four.append("four")
+        fours = get_all_four_ben("four")
+        for i in range(30):
+            self._signal.emit(i)
+
+        for four in fours:
+            print(four)
+            list_four.append(four)
+        self._signal_list.emit(list_four)
+
+        for i in range(30, 60):
+            self._signal.emit(i)
+
+        list_products = []
+        list_products.append("products")
+        products = get_all_product_names_no_type()
+        for product in products:
+            list_products.append(product)
+
+        self._signal_list.emit(list_products)
+
+        for i in range(60, 99):
             self._signal.emit(i)
 
         self._signal_result.emit(True)
