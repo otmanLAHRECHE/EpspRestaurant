@@ -168,3 +168,12 @@ def get_all_four_ben_names(type):
     result = cur.fetchall()
     connection.close()
     return result
+
+def get_last_bon_commande_number(type):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select bon.bon_number from bon where bon.type =? order by bon.bon_number DESC'
+    cur.execute(sql_q, (type,))
+    result = cur.fetchall()
+    connection.close()
+    return result

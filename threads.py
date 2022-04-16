@@ -6,7 +6,7 @@ from PyQt5.QtCore import pyqtSignal, QThread
 from database_operation import is_product_exist, add_new_product, get_product_id_by_name, add_new_stock, \
     get_all_product, get_product_id_by_stock_id, update_product, update_stock, search_food, add_new_four_ben, \
     is_four_ben_exist, get_all_four_ben, update_four_ben, delete_four_ben, get_all_product_names_no_type, \
-    get_all_four_ben_names
+    get_all_four_ben_names, get_last_bon_commande_number
 
 
 class ThreadLoadingApp(QThread):
@@ -355,6 +355,19 @@ class ThreadCommandDialog(QThread):
 
         for i in range(30, 60):
             self._signal.emit(i)
+
+        bon_commande_number = get_last_bon_commande_number("commande")
+        if bon_commande_number:
+            bon_commande_number = bon_commande_number[0]
+            bon_commande_number = bon_commande_number[0]
+        else:
+            bon_commande_number = 0
+
+        list_number = []
+        list_number.append("number")
+        list_number.append(bon_commande_number)
+
+        self._signal_list.emit(list_number)
 
         list_products = []
         list_products.append("products")

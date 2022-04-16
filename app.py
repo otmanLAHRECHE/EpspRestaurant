@@ -747,15 +747,17 @@ class AppUi(QtWidgets.QMainWindow):
             if progress[0] == "four":
                 progress.remove("four")
                 self.f = progress
-            else:
+            elif progress[0] == "products":
                 progress.remove("products")
                 self.p = progress
+            else:
+                self.com_nbr = progress[1]
         else:
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.progress.setValue(100)
             self.dialog.close()
 
-            dialog = Add_new_commande(self.p, self.f)
+            dialog = Add_new_commande(self.p, self.f, self.com_nbr)
 
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 print("ok")
