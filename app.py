@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidget
 
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
-    ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen
+    ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog
 
 WINDOW_SIZE = 0
 
@@ -725,7 +725,7 @@ class AppUi(QtWidgets.QMainWindow):
 
 
     def add_commande(self):
-        dialog = Add_new_commande()
+
 
         self.dialog = Threading_loading()
         self.dialog.ttl.setText("إنتظر من فضلك")
@@ -733,15 +733,32 @@ class AppUi(QtWidgets.QMainWindow):
         self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.dialog.show()
 
-        self.thr = ThreadLoadFourBen()
-        self.thr._signal.connect(self.signal_fb_load_accepted)
-        self.thr._signal_list.connect(self.signal_fb_load_accepted)
-        self.thr._signal_result.connect(self.signal_fb_load_accepted)
+        self.thr = ThreadCommandDialog()
+        self.thr._signal.connect(self.signal_commande_dialog_load_accepted)
+        self.thr._signal_list.connect(self.signal_commande_dialog_load_accepted)
+        self.thr._signal_result.connect(self.signal_commande_dialog_load_accepted)
         self.thr.start()
 
-        if dialog.exec() == QtWidgets.QDialog.Accepted:
-            print("ok")
 
+    def signal_commande_dialog_load_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        elif type(progress) == list:
+            if progress[0] == "four":
+                progress.remove("four")
+                self.f = progress
+            else:
+                progress.remove("products")
+                self.p = progress
+        else:
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.progress.setValue(100)
+            self.dialog.close()
+
+            dialog = Add_new_commande(self.p, self.f)
+
+            if dialog.exec() == QtWidgets.QDialog.Accepted:
+                print("ok")
 
     def h(self):
         self.pushButton_4.setStyleSheet("""

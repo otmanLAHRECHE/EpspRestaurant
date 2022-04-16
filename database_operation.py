@@ -159,3 +159,12 @@ def delete_four_ben(id):
     cur.execute(sql_q, (id,))
     connection.commit()
     connection.close()
+
+def get_all_four_ben_names(type):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select fb.name from fb where fb.type =?'
+    cur.execute(sql_q, (type,))
+    result = cur.fetchall()
+    connection.close()
+    return result

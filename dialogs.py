@@ -71,14 +71,21 @@ class Add_new_commande(QtWidgets.QDialog):
         self.add_product.clicked.connect(self.add_p)
         self.delete_product.clicked.connect(self.delete_p)
 
+        for f in self.fr:
+            self.commande_fournesseur.addItem(f[0])
+
     def add_p(self):
         index = self.commande_products_table.rowCount()
         self.commande_products_table.insertRow(index)
         chose_product = ChoseProduct()
+        for p in self.pd:
+            chose_product.chose_product.addItem(p[0])
         self.commande_products_table.setCellWidget(index, 0, chose_product)
         chose_product_qte = ChoseProductQte()
         self.commande_products_table.setCellWidget(index, 1, chose_product_qte)
         self.commande_products_table.setRowHeight(index, 50)
+
+
 
     def delete_p(self):
         print("delete")
