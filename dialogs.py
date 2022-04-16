@@ -2,6 +2,8 @@ from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QColor, QIcon
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect
 
+from custom_widgets import ChoseProduct
+
 
 class Add_new_stock(QtWidgets.QDialog):
     def __init__(self):
@@ -70,6 +72,8 @@ class Add_new_commande(QtWidgets.QDialog):
     def add_p(self):
         index = self.commande_products_table.rowCount()
         self.commande_products_table.insertRow(index)
+        chose_product = ChoseProduct()
+        self.commande_products_table.setCellWidget(index, 0, chose_product)
 
     def delete_p(self):
         print("delete")
