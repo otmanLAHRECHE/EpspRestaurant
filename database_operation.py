@@ -20,6 +20,24 @@ def get_all_product_names(type):
     connection.close()
     return result
 
+def get_all_product_names_no_type():
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select product.name from product'
+    cur.execute(sql_q)
+    result = cur.fetchall()
+    connection.close()
+    return result
+
+def get_unit_by_product_name(name):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select product.unit from product.name =?'
+    cur.execute(sql_q, (name,))
+    result = cur.fetchall()
+    connection.close()
+    return result
+
 
 def get_product_id_by_name(name):
     connection = sqlite3.connect("database/database.db")

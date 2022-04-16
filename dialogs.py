@@ -47,10 +47,12 @@ class Add_new_fb(QtWidgets.QDialog):
         self.fb_name = self.findChild(QtWidgets.QLineEdit, "lineEdit")
 
 class Add_new_commande(QtWidgets.QDialog):
-    def __init__(self):
+    def __init__(self, products, fourn):
         super(Add_new_commande, self).__init__()
         uic.loadUi('./user_interfaces/add_new_commande.ui', self)
 
+        self.pd = products
+        self.fr = fourn
         self.ttl = self.findChild(QtWidgets.QLabel, "label_4")
         self.commande_number = self.findChild(QtWidgets.QSpinBox, "spinBox")
         self.commande_date = self.findChild(QtWidgets.QDateEdit, "dateEdit")
