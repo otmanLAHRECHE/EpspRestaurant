@@ -51,6 +51,7 @@ class Add_new_commande(QtWidgets.QDialog):
         super(Add_new_commande, self).__init__()
         uic.loadUi('./user_interfaces/add_new_commande.ui', self)
 
+        self.to_update_row = "no selection"
         self.pd = products
         self.fr = fourn
         self.ttl = self.findChild(QtWidgets.QLabel, "label_4")
@@ -85,8 +86,16 @@ class Add_new_commande(QtWidgets.QDialog):
         chose_product_qte = ChoseProductQte()
         self.commande_products_table.setCellWidget(index, 1, chose_product_qte)
         self.commande_products_table.setRowHeight(index, 50)
-
-
+        self.commande_products_table.selectionModel().selectionChanged.connect(self.commande_product_selected)
 
     def delete_p(self):
-        print("delete")
+        print(self.to_update_row)
+        if not self.to_update_row == "no selection":
+            self.commande_products_table.removeRow(self.to_update_row)
+            self.to_update_row = "no selection"
+        if self.commande_products_table.rowCount() == 1:
+            self.commande_products_table.removeRow(0)
+
+    def commande_product_selected(self, selected, deselected):
+        self.to_update_row = selected.indexes()[0].row()
+        print(self.to_update_row)

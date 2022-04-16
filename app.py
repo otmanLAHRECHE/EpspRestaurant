@@ -539,7 +539,7 @@ class AppUi(QtWidgets.QMainWindow):
             dialog.fb_name.setText(name)
 
             if dialog.exec() == QtWidgets.QDialog.Accepted:
-                if dialog.stock_name.text() == "":
+                if dialog.fb_name.text() == "":
                     message = "خطأ في إسم الممون"
                     self.alert_(message)
                     dialog.close()
@@ -709,9 +709,9 @@ class AppUi(QtWidgets.QMainWindow):
             self.last_index[0] = self.last_index[0] + 1
             self.last_index[1] = self.last_index[1] + 1
 
-            self.home_table_fourn.setItem(self.last_index[1], 0, QTableWidgetItem(""))
-            self.home_table_fourn.setItem(self.last_index[1], 1, QTableWidgetItem(""))
-            self.home_table_fourn.setItem(self.last_index[1], 2, QTableWidgetItem(""))
+            self.home_table_fourn.setItem(self.last_index[0], 0, QTableWidgetItem(""))
+            self.home_table_fourn.setItem(self.last_index[0], 1, QTableWidgetItem(""))
+            self.home_table_fourn.setItem(self.last_index[0], 2, QTableWidgetItem(""))
 
             self.home_table_ben.setItem(self.last_index[1], 0, QTableWidgetItem(""))
             self.home_table_ben.setItem(self.last_index[1], 1, QTableWidgetItem(""))
@@ -760,7 +760,10 @@ class AppUi(QtWidgets.QMainWindow):
             dialog = Add_new_commande(self.p, self.f, self.com_nbr)
 
             if dialog.exec() == QtWidgets.QDialog.Accepted:
-                print("ok")
+                if dialog.commande_products_table.rowCount() == 0:
+                    self.alert_("لا يوجد طلبات")
+                if dialog.commande_number.text() == "00":
+                    self.alert_("خطأ في رقم الطلب")
 
     def h(self):
         self.pushButton_4.setStyleSheet("""
