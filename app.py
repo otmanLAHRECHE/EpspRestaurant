@@ -741,6 +741,8 @@ class AppUi(QtWidgets.QMainWindow):
 
 
     def signal_commande_dialog_load_accepted(self, progress):
+
+        global list
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
@@ -752,7 +754,7 @@ class AppUi(QtWidgets.QMainWindow):
                 self.p = progress
             else:
                 self.com_nbr = progress[1]
-        else:
+        elif type(progress) == bool:
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.progress.setValue(100)
             self.dialog.close()
@@ -767,19 +769,29 @@ class AppUi(QtWidgets.QMainWindow):
                 else:
                     product_list = []
                     for i in range(dialog.commande_products_table.rowCount()):
-                        product_list
+                        list = [dialog.commande_products_table.cellWidget(i, 0).chose_product.currentText(), dialog.commande_products_table.cellWidget(i, 1).chose_product_qte.value()]
+                        product_list.append(list)
 
+                    print("commande number", dialog.commande_number.text())
+                    print("commande date", dialog.commande_date.text())
+                    print("commande fourn", dialog.commande_fournesseur.currentText())
+                    print("commande product list", product_list)
+
+                    """
                     self.dialog = Threading_loading()
                     self.dialog.ttl.setText("إنتظر من فضلك")
                     self.dialog.progress.setValue(0)
                     self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
                     self.dialog.show()
 
-                    self.thr = ThreadAddBonCommande(dialog.commande_number.text(), dialog.commande_date.text(), dialog.commande_fournesseur.currentText())
+                    self.thr = ThreadAddBonCommande(dialog.commande_number.text(), dialog.commande_date.text(), dialog.commande_fournesseur.currentText(), product_list)
                     self.thr._signal.connect(self.signal_commande_dialog_load_accepted)
                     self.thr._signal_list.connect(self.signal_commande_dialog_load_accepted)
                     self.thr._signal_result.connect(self.signal_commande_dialog_load_accepted)
                     self.thr.start()
+                    """
+
+
 
 
     def h(self):
