@@ -381,3 +381,25 @@ class ThreadCommandDialog(QThread):
             self._signal.emit(i)
 
         self._signal_result.emit(True)
+
+
+class ThreadAddBonCommande(QThread):
+    _signal = pyqtSignal(int)
+    _signal_result = pyqtSignal(bool)
+
+    def __init__(self, commande_number, date, fourn, product_list):
+        super(ThreadAddBonCommande, self).__init__()
+        self.commande_number = commande_number
+        self.date = date
+        self.fourn = fourn
+        self.product_list = product_list
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+
+        for i in range(25):
+            self._signal.emit(i)
+
