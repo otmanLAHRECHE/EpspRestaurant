@@ -9,6 +9,7 @@ from database_operation import is_product_exist, add_new_product, get_product_id
     get_all_four_ben_names, get_last_bon_commande_number, is_commande_number_exist, add_bon, get_fourn_ben_id_from_name
 
 
+
 class ThreadLoadingApp(QThread):
     _signal = pyqtSignal(int)
     _signal_result = pyqtSignal(bool)
@@ -357,6 +358,7 @@ class ThreadCommandDialog(QThread):
             self._signal.emit(i)
 
         bon_commande_number = get_last_bon_commande_number("commande")
+
         if bon_commande_number:
             bon_commande_number = bon_commande_number[0]
             bon_commande_number = bon_commande_number[0]
@@ -408,9 +410,10 @@ class ThreadAddBonCommande(QThread):
                 self._signal.emit(i)
             self._signal_result.emit(False)
         else:
-            id = get_fourn_ben_id_from_name(self.fourn)
-            print(id)
-            #add_bon(self.date, "commande", )
+            four_id = get_fourn_ben_id_from_name(self.fourn)[0]
+
+            bon_id = add_bon(self.date, "commande", four_id[0], self.commande_number)
+            print(bon_id)
 
             self._signal_result.emit(True)
 

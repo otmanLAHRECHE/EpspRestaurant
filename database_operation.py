@@ -205,7 +205,9 @@ def add_bon(date, type, fb_fk_id, bon_number):
     sql_q = 'insert into bon (dt, type, fb_fk_id, bon_number) values (?, ?, ?, ?)'
     cur.execute(sql_q, (date, type, fb_fk_id, bon_number))
     connection.commit()
+    id = cur.lastrowid
     connection.close()
+    return id
 
 def add_operation(product_op_id, bon_op_id, qnt):
     connection = sqlite3.connect("database/database.db")
@@ -215,13 +217,6 @@ def add_operation(product_op_id, bon_op_id, qnt):
     connection.commit()
     connection.close()
 
-def get_last_insert_id():
-    connection = sqlite3.connect("database/database.db")
-    cur = connection.cursor()
-    sql_q = 'Select last_insert_id()'
-    cur.execute(sql_q,)
-    result = cur.fetchall()
-    connection.close()
-    return result
+
 
 

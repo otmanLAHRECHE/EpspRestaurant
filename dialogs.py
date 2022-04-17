@@ -56,7 +56,7 @@ class Add_new_commande(QtWidgets.QDialog):
         self.fr = fourn
         self.ttl = self.findChild(QtWidgets.QLabel, "label_4")
         self.commande_number = self.findChild(QtWidgets.QSpinBox, "spinBox")
-        self.commande_number.setValue(commande_number+1)
+        self.commande_number.setValue(commande_number)
         self.commande_date = self.findChild(QtWidgets.QDateEdit, "dateEdit")
         self.commande_date.setDate(QtCore.QDate.currentDate())
         self.commande_fournesseur = self.findChild(QtWidgets.QComboBox, "comboBox")
