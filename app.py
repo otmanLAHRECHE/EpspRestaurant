@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidget
 
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
-    ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog
+    ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande
 
 WINDOW_SIZE = 0
 
@@ -765,7 +765,21 @@ class AppUi(QtWidgets.QMainWindow):
                 elif dialog.commande_number.text() == "00":
                     self.alert_("خطأ في رقم الطلب")
                 else:
+                    product_list = []
+                    for i in range(dialog.commande_products_table.rowCount()):
+                        product_list
 
+                    self.dialog = Threading_loading()
+                    self.dialog.ttl.setText("إنتظر من فضلك")
+                    self.dialog.progress.setValue(0)
+                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                    self.dialog.show()
+
+                    self.thr = ThreadAddBonCommande(dialog.commande_number.text(), dialog.commande_date.text(), dialog.commande_fournesseur.currentText())
+                    self.thr._signal.connect(self.signal_commande_dialog_load_accepted)
+                    self.thr._signal_list.connect(self.signal_commande_dialog_load_accepted)
+                    self.thr._signal_result.connect(self.signal_commande_dialog_load_accepted)
+                    self.thr.start()
 
 
     def h(self):
