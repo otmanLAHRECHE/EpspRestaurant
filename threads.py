@@ -408,6 +408,6 @@ class ThreadAddBonCommande(QThread):
                 self._signal.emit(i)
             self._signal_result.emit(False)
         else:
-
+            add_bon(self.date, "commande", )
 
 

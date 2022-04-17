@@ -144,6 +144,15 @@ def get_all_four_ben(type):
     connection.close()
     return result
 
+def get_fourn_ben_id_from_name(name):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select fb.fb_id from fb where fb.name =?'
+    cur.execute(sql_q, (name,))
+    result = cur.fetchall()
+    connection.close()
+    return result
+
 def update_four_ben(id, name):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
@@ -205,3 +214,14 @@ def add_operation(product_op_id, bon_op_id, qnt):
     cur.execute(sql_q, (product_op_id, bon_op_id, qnt))
     connection.commit()
     connection.close()
+
+def get_last_insert_id():
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select last_insert_id()'
+    cur.execute(sql_q,)
+    result = cur.fetchall()
+    connection.close()
+    return result
+
+
