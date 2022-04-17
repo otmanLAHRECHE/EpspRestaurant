@@ -177,3 +177,15 @@ def get_last_bon_commande_number(type):
     result = cur.fetchall()
     connection.close()
     return result
+
+def check_is_commande_number_exist(commande_number):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select * from bon where bon.bon_number =?'
+    cur.execute(sql_q, (commande_number,))
+    result = cur.fetchall()
+    connection.close()
+    if result:
+        return True
+    else:
+        return False

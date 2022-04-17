@@ -762,8 +762,11 @@ class AppUi(QtWidgets.QMainWindow):
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 if dialog.commande_products_table.rowCount() == 0:
                     self.alert_("لا يوجد طلبات")
-                if dialog.commande_number.text() == "00":
+                elif dialog.commande_number.text() == "00":
                     self.alert_("خطأ في رقم الطلب")
+                else:
+
+
 
     def h(self):
         self.pushButton_4.setStyleSheet("""
