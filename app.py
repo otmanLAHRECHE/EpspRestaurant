@@ -794,6 +794,9 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.ttl.setText("إنتها بنجاح")
                 self.dialog.close()
             else:
+                self.dialog.progress.setValue(100)
+                self.dialog.ttl.setText("إنتها بنجاح")
+                self.dialog.close()
                 self.alert_("خطأ في الرقم")
 
 
