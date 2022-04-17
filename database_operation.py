@@ -178,7 +178,7 @@ def get_last_bon_commande_number(type):
     connection.close()
     return result
 
-def check_is_commande_number_exist(commande_number):
+def is_commande_number_exist(commande_number):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
     sql_q = 'Select * from bon where bon.bon_number =?'
@@ -189,3 +189,19 @@ def check_is_commande_number_exist(commande_number):
         return True
     else:
         return False
+
+def add_bon(date, type, fb_fk_id, bon_number):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'insert into bon (dt, type, fb_fk_id, bon_number) values (?, ?, ?, ?)'
+    cur.execute(sql_q, (date, type, fb_fk_id, bon_number))
+    connection.commit()
+    connection.close()
+
+def add_operation(product_op_id, bon_op_id, qnt):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'insert into operation (product_op_id, bon_op_id, qnt) values (?, ?, ?)'
+    cur.execute(sql_q, (product_op_id, bon_op_id, qnt))
+    connection.commit()
+    connection.close()
