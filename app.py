@@ -748,10 +748,7 @@ class AppUi(QtWidgets.QMainWindow):
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
 
-            print("int................ ")
-
         elif type(progress) == type(l) :
-            print("list................ ")
             if progress[0] == "four":
                 progress.remove("four")
                 self.f = progress
@@ -761,14 +758,12 @@ class AppUi(QtWidgets.QMainWindow):
             else:
                 self.com_nbr = progress[1]
                 self.com_nbr = self.com_nbr + 1
-                print("number................in ", self.com_nbr)
         elif type(progress) == bool:
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.progress.setValue(100)
             self.dialog.close()
             dialog = Add_new_commande(self.p, self.f, self.com_nbr)
 
-            print("bool................")
 
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 if dialog.commande_products_table.rowCount() == 0:
