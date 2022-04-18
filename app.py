@@ -801,7 +801,6 @@ class AppUi(QtWidgets.QMainWindow):
 
 
 
-
     def h(self):
         self.pushButton_4.setStyleSheet("""
         background-color: rgb(0, 92, 157);

@@ -89,7 +89,6 @@ class Add_new_commande(QtWidgets.QDialog):
         self.commande_products_table.selectionModel().selectionChanged.connect(self.commande_product_selected)
 
     def delete_p(self):
-        print(self.to_update_row)
         if not self.to_update_row == "no selection":
             self.commande_products_table.removeRow(int(self.to_update_row))
             self.to_update_row = "no selection"
@@ -97,7 +96,6 @@ class Add_new_commande(QtWidgets.QDialog):
             self.commande_products_table.removeRow(0)
 
     def commande_product_selected(self, selected, deselected):
-        print(selected.indexes)
         if not self.commande_products_table.rowCount() == 2 and not self.commande_products_table.rowCount() == 1:
             self.to_update_row = selected.indexes()[0].row()
         else:
