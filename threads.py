@@ -410,6 +410,9 @@ class ThreadAddBonCommande(QThread):
                 self._signal.emit(i)
             self._signal_result.emit(False)
         else:
+            for i in range(25, 99):
+                self._signal.emit(i)
+
             four_id = get_fourn_ben_id_from_name(self.fourn)[0]
 
             bon_id = add_bon(self.date, "commande", four_id[0], self.commande_number)
