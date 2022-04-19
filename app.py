@@ -808,6 +808,19 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.close()
                 self.alert_("خطأ في الرقم")
 
+    def load_commandes(self):
+        self.dialog = Threading_loading()
+        self.dialog.ttl.setText("إنتظر من فضلك")
+        self.dialog.progress.setValue(0)
+        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self.dialog.show()
+
+        self.thr = ThreadCommandDialog()
+        self.thr._signal.connect(self.signal_commande_dialog_load_accepted)
+        self.thr._signal_list.connect(self.signal_commande_dialog_load_accepted)
+        self.thr._signal_result.connect(self.signal_commande_dialog_load_accepted)
+        self.thr.start()
+
 
 
     def h(self):
