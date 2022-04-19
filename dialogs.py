@@ -1,8 +1,9 @@
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QColor, QIcon
-from PyQt5.QtWidgets import QGraphicsDropShadowEffect
+from PyQt5.QtWidgets import QGraphicsDropShadowEffect, qApp
 
 from custom_widgets import ChoseProduct, ChoseProductQte
+from database_operation import get_product_type_by_name
 
 
 class Add_new_stock(QtWidgets.QDialog):
@@ -80,6 +81,8 @@ class Add_new_commande(QtWidgets.QDialog):
         index = self.commande_products_table.rowCount()
         self.commande_products_table.insertRow(index)
         chose_product = ChoseProduct()
+        chose_product.chose_product.currentTextChanged.connect(self.text_changed)
+        chose_product.chose_product.addItem(" ")
         for p in self.pd:
             chose_product.chose_product.addItem(p[0])
         self.commande_products_table.setCellWidget(index, 0, chose_product)
@@ -87,6 +90,20 @@ class Add_new_commande(QtWidgets.QDialog):
         self.commande_products_table.setCellWidget(index, 1, chose_product_qte)
         self.commande_products_table.setRowHeight(index, 50)
         self.commande_products_table.selectionModel().selectionChanged.connect(self.commande_product_selected)
+
+    def text_changed(self, value):
+        clickme = qApp.focusWidget()
+        index = self.commande_products_table.indexAt(clickme.parent().pos())
+        row = index.row()
+        print(row)
+        if not value == " ":
+            unit = get_product_type_by_name(value)[0]
+            if unit [0] == "kg":
+                self.commande_products_table.setItem(row, 2, QtWidgets.QTableWidgetItem("kg"))
+            elif unit [0] == "litres":
+                self.commande_products_table.setItem(row, 2, QtWidgets.QTableWidgetItem("litres"))
+            else:
+                self.commande_products_table.setItem(row, 2, QtWidgets.QTableWidgetItem(""))
 
     def delete_p(self):
         if not self.to_update_row == "no selection":
@@ -100,3 +117,4 @@ class Add_new_commande(QtWidgets.QDialog):
             self.to_update_row = selected.indexes()[0].row()
         else:
             self.to_update_row = 1
+

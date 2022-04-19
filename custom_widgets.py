@@ -10,7 +10,6 @@ class ChoseProduct(QWidget):
         self.chose_product = QtWidgets.QComboBox()
         self.chose_product.setFixedWidth(160)
         self.chose_product.setFixedHeight(30)
-
         layout.addStretch(1)
         layout.addWidget(self.chose_product)
 

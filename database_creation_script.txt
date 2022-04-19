@@ -63,3 +63,5 @@ CREATE TABLE jour (
    FOREIGN KEY(plat_lunch_id) REFERENCES plat(plat_id),
    FOREIGN KEY(plat_dinner_id) REFERENCES plat(plat_id)
 );
+
+def

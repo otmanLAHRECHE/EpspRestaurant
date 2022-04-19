@@ -218,5 +218,16 @@ def add_operation(product_op_id, bon_op_id, qnt):
     connection.close()
 
 
+def get_product_type_by_name(name):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select product.unit from product where product.name =?'
+    cur.execute(sql_q, (name,))
+    unit = cur.fetchall()
+    connection.close()
+    return unit
+
+
+
 
 
