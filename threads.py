@@ -420,6 +420,7 @@ class ThreadAddBonCommande(QThread):
             for product in self.product_list:
                 id = get_product_id_by_name(product[0])
                 add_operation(id, bon_id, product[1])
+                old_qte = get_stock_qte_by_product_id()
 
             self._signal_result.emit(True)
 
