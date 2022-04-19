@@ -771,22 +771,28 @@ class AppUi(QtWidgets.QMainWindow):
                 elif dialog.commande_number.text() == "00":
                     self.alert_("خطأ في رقم الطلب")
                 else:
+                    error = False
                     product_list = []
                     for i in range(dialog.commande_products_table.rowCount()):
-                        list = [dialog.commande_products_table.cellWidget(i, 0).chose_product.currentText(), dialog.commande_products_table.cellWidget(i, 1).chose_product_qte.value()]
-                        product_list.append(list)
+                        if dialog.commande_products_table.cellWidget(i, 0).chose_product.currentIndex() == 0 or dialog.commande_products_table.cellWidget(i, 1).chose_product_qte.value() == 0:
+                            error = True
+                        else:
+                            list = [dialog.commande_products_table.cellWidget(i, 0).chose_product.currentText(), dialog.commande_products_table.cellWidget(i, 1).chose_product_qte.value()]
+                            product_list.append(list)
 
+                    if error:
+                        self.alert_("خطأ في المطلوبات")
+                    else:
+                        self.dialog = Threading_loading()
+                        self.dialog.ttl.setText("إنتظر من فضلك")
+                        self.dialog.progress.setValue(0)
+                        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                        self.dialog.show()
 
-                    self.dialog = Threading_loading()
-                    self.dialog.ttl.setText("إنتظر من فضلك")
-                    self.dialog.progress.setValue(0)
-                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-                    self.dialog.show()
-
-                    self.thr = ThreadAddBonCommande(dialog.commande_number.text(), dialog.commande_date.text(), dialog.commande_fournesseur.currentText(), product_list)
-                    self.thr._signal.connect(self.signal_commande_add_accepted)
-                    self.thr._signal_result.connect(self.signal_commande_add_accepted)
-                    self.thr.start()
+                        self.thr = ThreadAddBonCommande(dialog.commande_number.text(), dialog.commande_date.text(), dialog.commande_fournesseur.currentText(), product_list)
+                        self.thr._signal.connect(self.signal_commande_add_accepted)
+                        self.thr._signal_result.connect(self.signal_commande_add_accepted)
+                        self.thr.start()
 
     def signal_commande_add_accepted(self, progress):
         if type(progress) == int:
