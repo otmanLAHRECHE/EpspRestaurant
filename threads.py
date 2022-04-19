@@ -418,9 +418,15 @@ class ThreadAddBonCommande(QThread):
             bon_id = add_bon(self.date, "commande", four_id[0], self.commande_number)
 
             for product in self.product_list:
-                id = get_product_id_by_name(product[0])
-                add_operation(id, bon_id, product[1])
-                old_qte = get_stock_qte_by_product_id()
+                id = get_product_id_by_name(product[0])[0]
+                add_operation(id[0], bon_id, product[1])
+                old_qte = get_stock_qte_by_product_id(id[0])[0]
+                old_qte = old_qte[0]
+                print(old_qte)
+                new_qte = old_qte + product[1]
+                print(new_qte)
+                update_stock_by_commande(id[0], new_qte)
+
 
             self._signal_result.emit(True)
 

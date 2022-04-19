@@ -84,6 +84,14 @@ def update_stock(id, qnt):
     connection.commit()
     connection.close()
 
+def update_stock_by_commande(id_product, qnt):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'update stock set qnt = ?  where stock.stocked_id = ?'
+    cur.execute(sql_q, (qnt, id_product))
+    connection.commit()
+    connection.close()
+
 def get_stock_qte_by_product_id(product_id):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
