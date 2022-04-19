@@ -229,7 +229,7 @@ def add_bon(date, type, fb_fk_id, bon_number):
 def add_operation(product_op_id, bon_op_id, qnt):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
-    sql_q = 'insert into operation (product_op_id, bon_op_id, qnt) values (?, ?, ?)'
+    sql_q = 'insert into opertation (product_op_id, bon_op_id, qnt) values (?, ?, ?)'
     cur.execute(sql_q, (product_op_id, bon_op_id, qnt))
     connection.commit()
     connection.close()
