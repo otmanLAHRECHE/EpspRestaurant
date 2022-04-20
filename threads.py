@@ -431,3 +431,26 @@ class ThreadAddBonCommande(QThread):
             self._signal_result.emit(True)
 
 
+class ThreadLoadCommande(QThread):
+    _signal = pyqtSignal(int)
+    _signal_list = pyqtSignal(list)
+    _signal_result = pyqtSignal(bool)
+
+    def __init__(self):
+        super(ThreadLoadCommande, self).__init__()
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+
+        for i in range(30):
+            self._signal.emit(i)
+
+
+
+
+        self._signal_result.emit(True)
+
+

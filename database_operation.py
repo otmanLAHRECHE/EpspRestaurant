@@ -244,6 +244,24 @@ def get_product_type_by_name(name):
     connection.close()
     return unit
 
+def get_all_commande():
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from product inner join fb on bon.fb_fk_id = fb.fb_id'
+    cur.execute(sql_q, (name,))
+    unit = cur.fetchall()
+    connection.close()
+    return unit
+
+def get_operations_by_commande_id(id_bon_commande):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select product.name, opertation.qnt from product inner join opertation on product.product_id = opertation.product_op_id where opertation.product_op_id = ?'
+    cur.execute(sql_q, (id_bon_commande,))
+    unit = cur.fetchall()
+    connection.close()
+    return unit
+
 
 
 
