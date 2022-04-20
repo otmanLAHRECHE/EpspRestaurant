@@ -8,6 +8,7 @@ from database_operation import is_product_exist, add_new_product, get_product_id
     is_four_ben_exist, get_all_four_ben, update_four_ben, delete_four_ben, get_all_product_names_no_type, \
     get_all_four_ben_names, get_last_bon_commande_number, is_commande_number_exist, add_bon, get_fourn_ben_id_from_name, add_operation, get_stock_qte_by_product_id, update_stock_by_commande
 
+from tools import forming_date
 
 
 class ThreadLoadingApp(QThread):
@@ -415,16 +416,14 @@ class ThreadAddBonCommande(QThread):
 
             four_id = get_fourn_ben_id_from_name(self.fourn)[0]
 
-            bon_id = add_bon(self.date, "commande", four_id[0], self.commande_number)
+            bon_id = add_bon(forming_date(self.date), "commande", four_id[0], self.commande_number)
 
             for product in self.product_list:
                 id = get_product_id_by_name(product[0])[0]
                 add_operation(id[0], bon_id, product[1])
                 old_qte = get_stock_qte_by_product_id(id[0])[0]
                 old_qte = old_qte[0]
-                print(old_qte)
                 new_qte = old_qte + product[1]
-                print(new_qte)
                 update_stock_by_commande(id[0], new_qte)
 
 
