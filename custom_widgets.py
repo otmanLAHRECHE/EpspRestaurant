@@ -34,19 +34,20 @@ class ChoseProductQte(QWidget):
 
 class ProductsList(QWidget):
     def __init__(self, products):
-        super(ChoseProductQte, self).__init__()
+        super(ProductsList, self).__init__()
 
         layout = QtWidgets.QHBoxLayout()
         self.list_products = QtWidgets.QListWidget()
         self.list_products.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.list_products.setFixedWidth(320)
         for product in products:
-            cont = product[1] + " :" + product[0]
+            cont = str(product[1]) + " :" + product[0]
             self.list_products.addItem(cont)
             print(cont)
 
 
         layout.addStretch(1)
-        layout.addWidget(self.chose_product_qte)
+        layout.addWidget(self.list_products)
 
         self.setLayout(layout)
 

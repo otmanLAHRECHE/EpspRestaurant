@@ -5,7 +5,10 @@ from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidget
 
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
-    ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande
+    ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande
+
+from custom_widgets import ProductsList
+
 
 WINDOW_SIZE = 0
 
@@ -840,9 +843,10 @@ class AppUi(QtWidgets.QMainWindow):
 
     def commande_load_accepted(self, progress):
         if type(progress) == int:
-            self.dialog.progress.setValue(i)
+            self.dialog.progress.setValue(progress)
         elif type(progress) == list:
-            self.commandes_table.setRowHeight(progress[0], len(progress[4])*15)
+            self.commandes_table.setRowHeight(progress[0], len(progress[4])*30)
+            print("aaaaaaaaaaaaaaaaaaaaaaaaaa",len(progress[4]))
             self.commandes_table.setItem(progress[0], 0, QTableWidgetItem(str(progress[1])))
             self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[2])))
             self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[3])))
@@ -852,6 +856,10 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
+
+    def commande_selected(self):
+        self.to_update_table = "commande"
+        self.to_update_row = selected.indexes()[0].row()
 
 
 
