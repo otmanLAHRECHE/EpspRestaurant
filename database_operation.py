@@ -247,7 +247,7 @@ def get_product_type_by_name(name):
 def get_all_commande():
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
-    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from product inner join fb on bon.fb_fk_id = fb.fb_id order by date(bon.dt) DESC'
+    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from product inner join fb on bon.fb_fk_id = fb.fb_id order by date(bon.dt) DESC LIMIT 40'
     cur.execute(sql_q)
     unit = cur.fetchall()
     connection.close()

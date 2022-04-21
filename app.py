@@ -822,6 +822,26 @@ class AppUi(QtWidgets.QMainWindow):
         self.thr.start()
 
 
+    def load_commandes(self):
+        self.commandes_table.selectionModel().selectionChanged.connect(self.commande_selected)
+
+        self.dialog = Threading_loading()
+        self.dialog.ttl.setText("إنتظر من فضلك")
+        self.dialog.progress.setValue(0)
+        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self.dialog.show()
+
+        self.thr = ThreadLoadFourBen()
+        self.thr._signal.connect(self.signal_fb_load_accepted)
+        self.thr._signal_list.connect(self.signal_fb_load_accepted)
+        self.thr._signal_result.connect(self.signal_fb_load_accepted)
+        self.thr.start()
+
+
+    def commande_selected(self):
+
+
+
 
     def h(self):
         self.pushButton_4.setStyleSheet("""

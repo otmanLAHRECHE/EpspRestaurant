@@ -6,9 +6,10 @@ from PyQt5.QtCore import pyqtSignal, QThread
 from database_operation import is_product_exist, add_new_product, get_product_id_by_name, add_new_stock, \
     get_all_product, get_product_id_by_stock_id, update_product, update_stock, search_food, add_new_four_ben, \
     is_four_ben_exist, get_all_four_ben, update_four_ben, delete_four_ben, get_all_product_names_no_type, \
-    get_all_four_ben_names, get_last_bon_commande_number, is_commande_number_exist, add_bon, get_fourn_ben_id_from_name, add_operation, get_stock_qte_by_product_id, update_stock_by_commande
+    get_all_four_ben_names, get_last_bon_commande_number, is_commande_number_exist, add_bon, get_fourn_ben_id_from_name, \
+    add_operation, get_stock_qte_by_product_id, update_stock_by_commande, get_all_commande, get_operations_by_commande_id
 
-from tools import forming_date
+from tools import forming_date, un_forming_date
 
 
 class ThreadLoadingApp(QThread):
@@ -411,7 +412,7 @@ class ThreadAddBonCommande(QThread):
                 self._signal.emit(i)
             self._signal_result.emit(False)
         else:
-            for i in range(25, 99):
+            for i in range(25, 65):
                 self._signal.emit(i)
 
             four_id = get_fourn_ben_id_from_name(self.fourn)[0]
@@ -426,6 +427,9 @@ class ThreadAddBonCommande(QThread):
                 new_qte = old_qte + product[1]
                 update_stock_by_commande(id[0], new_qte)
 
+
+            for i in range(65, 99):
+                self._signal.emit(i)
 
             self._signal_result.emit(True)
 
@@ -447,7 +451,13 @@ class ThreadLoadCommande(QThread):
         for i in range(30):
             self._signal.emit(i)
 
+        commandes = get_all_commande()
 
+        list_commandes = []
+
+        for commande in commandes:
+            operations = get_operations_by_commande_id(commande[0])
+            list_commandes.append(commande[1], un_forming_date(commande[2]), commande[3], operations)
 
 
         self._signal_result.emit(True)
