@@ -453,12 +453,17 @@ class ThreadLoadCommande(QThread):
 
         commandes = get_all_commande()
 
-        list_commandes = []
 
+        row = 0
         for commande in commandes:
+            list_commandes = []
             operations = get_operations_by_commande_id(commande[0])
-            list_commandes.append(commande[1], un_forming_date(commande[2]), commande[3], operations)
-
+            list_commandes.append(row)
+            list_commandes.append(commande[1])
+            list_commandes.append(un_forming_date(commande[2]))
+            list_commandes.append(commande[3])
+            list_commandes.append(operations)
+            print(list_commandes)
 
         self._signal_result.emit(True)
 

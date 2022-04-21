@@ -831,14 +831,22 @@ class AppUi(QtWidgets.QMainWindow):
         self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.dialog.show()
 
-        self.thr = ThreadLoadFourBen()
-        self.thr._signal.connect(self.signal_fb_load_accepted)
-        self.thr._signal_list.connect(self.signal_fb_load_accepted)
-        self.thr._signal_result.connect(self.signal_fb_load_accepted)
+        self.thr = ThreadLoadCommande()
+        self.thr._signal.connect(self.commande_load_accepted)
+        self.thr._signal_list.connect(self.commande_load_accepted)
+        self.thr._signal_result.connect(self.commande_load_accepted)
         self.thr.start()
 
 
-    def commande_selected(self):
+    def commande_load_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(i)
+        elif type(progress) == list:
+            self.commandes_table.setItem(progress[0], 0, QTableWidgetItem(str(progress[1])))
+            self.commandes_table.setItem(progress[0], 0, QTableWidgetItem(str(progress[2])))
+            self.commandes_table.setItem(progress[0], 0, QTableWidgetItem(str(progress[3])))
+            self.commandes_table.setItem(progress[0], 0, QTableWidgetItem(str(progress[1])))
+
 
 
 
