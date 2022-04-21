@@ -962,6 +962,9 @@ class AppUi(QtWidgets.QMainWindow):
         self.fragment.setCurrentIndex(2)
         self.to_update_table = "non"
 
+
+        self.load_commandes()
+
     def sto(self):
         self.pushButton_7.setStyleSheet("""background-color: rgb(0, 92, 157);
         background-repeat: none;
