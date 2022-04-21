@@ -41,7 +41,11 @@ class ProductsList(QWidget):
         self.list_products.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.list_products.setFixedWidth(320)
         for product in products:
-            cont = str(product[1]) + " :" + product[0]
+            cont = str(product[1]) + " : " + product[0]
+            if not product[2] == "no_unit":
+                cont = product[0] + " : " + str(product[1]) + product[2]
+            else:
+                cont = product[0] + " : " + str(product[1])
             self.list_products.addItem(cont)
             print(cont)
 

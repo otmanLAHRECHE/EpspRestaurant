@@ -1281,6 +1281,9 @@ background-position: center left;</string>
               <property name="selectionMode">
                <enum>QAbstractItemView::SingleSelection</enum>
               </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
               <row>
                <property name="text">
                 <string>1</string>
