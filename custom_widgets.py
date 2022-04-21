@@ -42,6 +42,8 @@ class ProductsList(QWidget):
         for product in products:
             cont = product[1] + " :" + product[0]
             self.list_products.addItem(cont)
+            print(cont)
+
 
         layout.addStretch(1)
         layout.addWidget(self.chose_product_qte)

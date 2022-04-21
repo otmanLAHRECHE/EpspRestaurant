@@ -842,10 +842,16 @@ class AppUi(QtWidgets.QMainWindow):
         if type(progress) == int:
             self.dialog.progress.setValue(i)
         elif type(progress) == list:
+            self.commandes_table.setRowHeight(progress[0], len(progress[4])*15)
             self.commandes_table.setItem(progress[0], 0, QTableWidgetItem(str(progress[1])))
-            self.commandes_table.setItem(progress[0], 0, QTableWidgetItem(str(progress[2])))
-            self.commandes_table.setItem(progress[0], 0, QTableWidgetItem(str(progress[3])))
-            self.commandes_table.setItem(progress[0], 0, QTableWidgetItem(str(progress[1])))
+            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[2])))
+            self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[3])))
+            p_list = ProductsList(progress[4])
+            self.commandes_table.setCellWidget(progress[0], 3, p_list)
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
 
 
 
