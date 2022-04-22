@@ -805,6 +805,7 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.progress.setValue(100)
                 self.dialog.ttl.setText("إنتها بنجاح")
                 self.dialog.close()
+                self.load_commandes()
             else:
                 self.dialog.progress.setValue(100)
                 self.dialog.ttl.setText("إنتها بنجاح")
@@ -845,7 +846,10 @@ class AppUi(QtWidgets.QMainWindow):
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
-            self.commandes_table.setRowHeight(progress[0], len(progress[4])*30)
+            if len(progress[4]) == 1 or len(progress[4]) == 2 or len(progress[4]) == 3:
+                self.commandes_table.setRowHeight(progress[0], len(progress[4]) * 30)
+            else:
+                self.commandes_table.setRowHeight(progress[0], len(progress[4])*24)
             self.commandes_table.setItem(progress[0], 0, QTableWidgetItem(str(progress[1])))
             self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[2])))
             self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[3])))

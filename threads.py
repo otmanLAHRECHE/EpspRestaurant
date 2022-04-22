@@ -464,7 +464,6 @@ class ThreadLoadCommande(QThread):
             list_commandes.append(un_forming_date(commande[2]))
             list_commandes.append(commande[3])
             list_commandes.append(operations)
-            print(list_commandes)
             self._signal_list.emit(list_commandes)
             row = row + 1
 
