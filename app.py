@@ -863,7 +863,6 @@ class AppUi(QtWidgets.QMainWindow):
     def commande_selected(self,selected, deselected):
         self.to_update_table = "commande"
         self.to_update_row = selected.indexes()[0].row()
-        print(self.to_update_row)
 
 
 

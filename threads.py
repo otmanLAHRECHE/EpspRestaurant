@@ -457,7 +457,6 @@ class ThreadLoadCommande(QThread):
         row = 0
         for commande in commandes:
             list_commandes = []
-            print("bon_id", commande[0])
             operations = get_operations_by_commande_id(commande[0])
             list_commandes.append(row)
             list_commandes.append(commande[1])
