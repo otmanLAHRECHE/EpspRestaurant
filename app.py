@@ -135,6 +135,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.commandes_table.setColumnWidth(3, 340)
 
         self.add_commande_button.clicked.connect(self.add_commande)
+        self.edit_commmande_button.clicked.connect(self.edit_commande)
+        self.delete_commande_button.clicked.connect(self.delete_commande)
 
 
         ##################### End commandes page initialisation
@@ -861,9 +863,31 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.close()
 
     def commande_selected(self,selected, deselected):
-        self.to_update_table = "commande"
-        self.to_update_row = selected.indexes()[0].row()
+        try:
+            self.to_update_table = "commande"
+            self.to_update_row = selected.indexes()[0].row()
+        except :
+            print("index error")
+            self.to_update_table = "non"
 
+
+    def edit_commande(self):
+        print("ok")
+
+        if self.to_update_table == "commande":
+
+        else:
+            self.alert_("إختار طلب")
+
+
+    def delete_commande(self):
+        print("ok")
+        """
+        if self.to_update_table == "commande":
+
+        else:
+            self.alert_("إختار طلب")
+        """
 
 
     def h(self):
