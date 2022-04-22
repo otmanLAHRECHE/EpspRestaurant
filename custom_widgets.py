@@ -47,7 +47,6 @@ class ProductsList(QWidget):
             else:
                 cont = product[0] + " : " + str(product[1])
             self.list_products.addItem(cont)
-            print(cont)
 
 
         layout.addStretch(1)
