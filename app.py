@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
-from PyQt5.QtCore import QSize, QPropertyAnimation
+from PyQt5.QtCore import QSize, QPropertyAnimation, QDate
 from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp, QCompleter
 
@@ -872,12 +872,81 @@ class AppUi(QtWidgets.QMainWindow):
 
 
     def edit_commande(self):
-        print("ok")
-
         if self.to_update_table == "commande":
+            self.dialog = Threading_loading()
+            self.dialog.ttl.setText("إنتظر من فضلك")
+            self.dialog.progress.setValue(0)
+            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+            self.dialog.show()
+
+            self.thr = ThreadCommandDialogToUpdate()
+            self.thr._signal.connect(self.signal_commande_dialog_load_to_update_accepted)
+            self.thr._signal_list.connect(self.signal_commande_dialog_load_to_update_accepted)
+            self.thr._signal_result.connect(self.signal_commande_dialog_load_to_update_accepted)
+            self.thr.start()
 
         else:
             self.alert_("إختار طلب")
+
+    def signal_commande_dialog_load_to_update_accepted(self):
+        l = []
+        if not type(progress) == int:
+            print("progress", progress)
+
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+
+        elif type(progress) == type(l):
+            if progress[0] == "four":
+                progress.remove("four")
+                self.f = progress
+            elif progress[0] == "products":
+                progress.remove("products")
+                self.p = progress
+        elif type(progress) == bool:
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.progress.setValue(100)
+            self.dialog.close()
+            dialog = Add_new_commande(self.p, self.f, self.commandes_table.item(self.to_update_row, 0))
+            dialog.commande_fournesseur.setCurrentText(self.commandes_table.item(self.to_update_row, 2))
+            dt = self.commandes_table.item(self.to_update_row, 1)
+            dt = dt.split("/")
+            d = QDate(dt[2], dt[1], dt[0])
+            dialog.commande_date.setDate(d)
+
+
+            if dialog.exec() == QtWidgets.QDialog.Accepted:
+                if dialog.commande_products_table.rowCount() == 0:
+                    self.alert_("لا يوجد طلبات")
+                elif dialog.commande_number.text() == "00":
+                    self.alert_("خطأ في رقم الطلب")
+                else:
+                    error = False
+                    product_list = []
+                    for i in range(dialog.commande_products_table.rowCount()):
+                        if dialog.commande_products_table.cellWidget(i,
+                                                                     0).chose_product.currentIndex() == 0 or dialog.commande_products_table.cellWidget(
+                                i, 1).chose_product_qte.value() == 0:
+                            error = True
+                        else:
+                            list = [dialog.commande_products_table.cellWidget(i, 0).chose_product.currentText(),
+                                    dialog.commande_products_table.cellWidget(i, 1).chose_product_qte.value()]
+                            product_list.append(list)
+
+                    if error:
+                        self.alert_("خطأ في المطلوبات")
+                    else:
+                        self.dialog = Threading_loading()
+                        self.dialog.ttl.setText("إنتظر من فضلك")
+                        self.dialog.progress.setValue(0)
+                        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                        self.dialog.show()
+
+                        self.thr = ThreadAddBonCommande(dialog.commande_number.text(), dialog.commande_date.text(),
+                                                        dialog.commande_fournesseur.currentText(), product_list)
+                        self.thr._signal.connect(self.signal_commande_add_accepted)
+                        self.thr._signal_result.connect(self.signal_commande_add_accepted)
+                        self.thr.start()
 
 
     def delete_commande(self):
