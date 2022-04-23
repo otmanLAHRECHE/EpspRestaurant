@@ -57,7 +57,7 @@ class Add_new_commande(QtWidgets.QDialog):
         self.fr = fourn
         self.ttl = self.findChild(QtWidgets.QLabel, "label_4")
         self.commande_number = self.findChild(QtWidgets.QSpinBox, "spinBox")
-        self.commande_number.setValue(commande_number)
+        self.commande_number.setValue(int(commande_number))
         self.commande_date = self.findChild(QtWidgets.QDateEdit, "dateEdit")
         self.commande_date.setDate(QtCore.QDate.currentDate())
         self.commande_fournesseur = self.findChild(QtWidgets.QComboBox, "comboBox")
@@ -90,6 +90,26 @@ class Add_new_commande(QtWidgets.QDialog):
         self.commande_products_table.setCellWidget(index, 1, chose_product_qte)
         self.commande_products_table.setRowHeight(index, 50)
         self.commande_products_table.selectionModel().selectionChanged.connect(self.commande_product_selected)
+
+    def add_p_to_update(self, operations):
+        index = self.commande_products_table.rowCount()
+        self.commande_products_table.insertRow(index)
+        chose_product = ChoseProduct()
+        chose_product.chose_product.addItem(" ")
+        for p in self.pd:
+            chose_product.chose_product.addItem(p[0])
+        chose_product.chose_product.setCurrentText(operations[0])
+        chose_product.chose_product.currentTextChanged.connect(self.text_changed)
+        self.commande_products_table.setCellWidget(index, 0, chose_product)
+        chose_product_qte = ChoseProductQte()
+        chose_product_qte.chose_product_qte.setValue(operations[1])
+        self.commande_products_table.setCellWidget(index, 1, chose_product_qte)
+        self.commande_products_table.setRowHeight(index, 50)
+        self.commande_products_table.selectionModel().selectionChanged.connect(self.commande_product_selected)
+        if operations[2] == "no_unit":
+            self.commande_products_table.setItem(index, 2, QtWidgets.QTableWidgetItem(""))
+        else:
+            self.commande_products_table.setItem(index, 2, QtWidgets.QTableWidgetItem(str(operations[2])))
 
     def text_changed(self, value):
         clickme = qApp.focusWidget()

@@ -7,7 +7,8 @@ from database_operation import is_product_exist, add_new_product, get_product_id
     get_all_product, get_product_id_by_stock_id, update_product, update_stock, search_food, add_new_four_ben, \
     is_four_ben_exist, get_all_four_ben, update_four_ben, delete_four_ben, get_all_product_names_no_type, \
     get_all_four_ben_names, get_last_bon_commande_number, is_commande_number_exist, add_bon, get_fourn_ben_id_from_name, \
-    add_operation, get_stock_qte_by_product_id, update_stock_by_commande, get_all_commande, get_operations_by_commande_id
+    add_operation, get_stock_qte_by_product_id, update_stock_by_commande, get_all_commande, get_operations_by_commande_id, \
+    get_commande_id_by_bon_com_number
 
 from tools import forming_date, un_forming_date
 
@@ -477,8 +478,9 @@ class ThreadCommandDialogToUpdate(QThread):
     _signal_result = pyqtSignal(bool)
     _signal_list = pyqtSignal(list)
 
-    def __init__(self):
+    def __init__(self, bon_number):
         super(ThreadCommandDialogToUpdate, self).__init__()
+        self.number = int(bon_number)
 
     def __del__(self):
         self.terminate()
@@ -497,6 +499,11 @@ class ThreadCommandDialogToUpdate(QThread):
 
         for i in range(30, 60):
             self._signal.emit(i)
+
+        bon_commande_id = get_commande_id_by_bon_com_number(self.number)[0]
+        operations = get_operations_by_commande_id(bon_commande_id[0])
+        self._signal_list.emit(operations)
+
 
 
         list_products = []

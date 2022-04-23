@@ -633,7 +633,7 @@ background-position: center left;</string>
              </size>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="home">
              <widget class="QLabel" name="label">

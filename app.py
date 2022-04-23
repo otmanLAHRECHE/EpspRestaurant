@@ -5,8 +5,8 @@ from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidget
 
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
-    ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande
-
+    ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
+    ThreadCommandDialogToUpdate
 from custom_widgets import ProductsList
 
 
@@ -879,7 +879,7 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
             self.dialog.show()
 
-            self.thr = ThreadCommandDialogToUpdate()
+            self.thr = ThreadCommandDialogToUpdate(self.commandes_table.item(self.to_update_row, 0).text())
             self.thr._signal.connect(self.signal_commande_dialog_load_to_update_accepted)
             self.thr._signal_list.connect(self.signal_commande_dialog_load_to_update_accepted)
             self.thr._signal_result.connect(self.signal_commande_dialog_load_to_update_accepted)
@@ -888,7 +888,7 @@ class AppUi(QtWidgets.QMainWindow):
         else:
             self.alert_("إختار طلب")
 
-    def signal_commande_dialog_load_to_update_accepted(self):
+    def signal_commande_dialog_load_to_update_accepted(self, progress):
         l = []
         if not type(progress) == int:
             print("progress", progress)
@@ -903,17 +903,22 @@ class AppUi(QtWidgets.QMainWindow):
             elif progress[0] == "products":
                 progress.remove("products")
                 self.p = progress
+            else:
+                self.oper = progress
+
         elif type(progress) == bool:
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.progress.setValue(100)
             self.dialog.close()
-            dialog = Add_new_commande(self.p, self.f, self.commandes_table.item(self.to_update_row, 0))
-            dialog.commande_fournesseur.setCurrentText(self.commandes_table.item(self.to_update_row, 2))
-            dt = self.commandes_table.item(self.to_update_row, 1)
+            dialog = Add_new_commande(self.p, self.f, self.commandes_table.item(self.to_update_row, 0).text())
+            dialog.setWindowTitle("تعديل على طلب")
+            dialog.commande_fournesseur.setCurrentText(self.commandes_table.item(self.to_update_row, 2).text())
+            dt = self.commandes_table.item(self.to_update_row, 1).text()
             dt = dt.split("/")
-            d = QDate(dt[2], dt[1], dt[0])
+            d = QDate(int(dt[2]), int(dt[1]), int(dt[0]))
             dialog.commande_date.setDate(d)
-
+            for operation in self.oper:
+                dialog.add_p_to_update(operation)
 
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 if dialog.commande_products_table.rowCount() == 0:

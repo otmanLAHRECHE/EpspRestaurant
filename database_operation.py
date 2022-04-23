@@ -262,6 +262,15 @@ def get_operations_by_commande_id(id_bon_commande):
     connection.close()
     return unit
 
+def get_commande_id_by_bon_com_number(com_number):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select bon.bon_id from bon  where bon.bon_number = ?'
+    cur.execute(sql_q, (com_number,))
+    unit = cur.fetchall()
+    connection.close()
+    return unit
+
 
 
 
