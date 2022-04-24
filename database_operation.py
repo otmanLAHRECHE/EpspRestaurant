@@ -271,6 +271,22 @@ def get_commande_id_by_bon_com_number(com_number):
     connection.close()
     return unit
 
+def update_bon(bon_id, date, type, fb_fk_id, bon_number):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'update bon set dt=?, type=?, fb_fk_id=?, bon_number=? where bon.bon_id =?'
+    cur.execute(sql_q, (date, type, fb_fk_id, bon_number, bon_id))
+    connection.commit()
+    connection.close()
+
+def delete_all_bon_operation(bon_id):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'delete from opertation where opertation.bon_op_id = ?'
+    cur.execute(sql_q, (bon_id,))
+    connection.commit()
+    connection.close()
+
 
 
 

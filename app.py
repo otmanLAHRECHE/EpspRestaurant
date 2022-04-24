@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidget
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
-    ThreadCommandDialogToUpdate
+    ThreadCommandDialogToUpdate, ThreadUpdateBonCommande
 from custom_widgets import ProductsList
 
 
@@ -852,11 +852,19 @@ class AppUi(QtWidgets.QMainWindow):
                 self.commandes_table.setRowHeight(progress[0], len(progress[4]) * 30)
             else:
                 self.commandes_table.setRowHeight(progress[0], len(progress[4])*24)
+            if progress[0] == 0:
+                self.commandes_table.setItem(progress[0] + 1, 0, QTableWidgetItem(""))
+                self.commandes_table.setItem(progress[0] + 1, 1, QTableWidgetItem(""))
+                self.commandes_table.setItem(progress[0] + 1, 2, QTableWidgetItem(""))
             self.commandes_table.setItem(progress[0], 0, QTableWidgetItem(str(progress[1])))
             self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[2])))
             self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[3])))
             p_list = ProductsList(progress[4])
             self.commandes_table.setCellWidget(progress[0], 3, p_list)
+
+            self.commandes_table.setItem(progress[0] + 1, 0, QTableWidgetItem(""))
+            self.commandes_table.setItem(progress[0] + 1, 1, QTableWidgetItem(""))
+            self.commandes_table.setItem(progress[0] + 1, 2, QTableWidgetItem(""))
         else:
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
@@ -947,11 +955,21 @@ class AppUi(QtWidgets.QMainWindow):
                         self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
                         self.dialog.show()
 
-                        self.thr = ThreadAddBonCommande(dialog.commande_number.text(), dialog.commande_date.text(),
+                        self.thr = ThreadUpdateBonCommande(dialog.commande_number.text(), dialog.commande_date.text(),
                                                         dialog.commande_fournesseur.currentText(), product_list)
-                        self.thr._signal.connect(self.signal_commande_add_accepted)
-                        self.thr._signal_result.connect(self.signal_commande_add_accepted)
+                        self.thr._signal.connect(self.signal_commande_update_accepted)
+                        self.thr._signal_result.connect(self.signal_commande_update_accepted)
                         self.thr.start()
+
+    def signal_commande_update_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
+            self.load_commandes()
+
 
 
     def delete_commande(self):
