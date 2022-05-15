@@ -524,8 +524,9 @@ class ThreadUpdateBonCommande(QThread):
     _signal = pyqtSignal(int)
     _signal_result = pyqtSignal(bool)
 
-    def __init__(self, commande_number, date, fourn, product_list):
+    def __init__(self, old_commande_number,commande_number, date, fourn, product_list):
         super(ThreadUpdateBonCommande, self).__init__()
+        self.old_commande_nbr = old_commande_number
         self.commande_number = commande_number
         self.date = date
         self.fourn = fourn
@@ -540,12 +541,17 @@ class ThreadUpdateBonCommande(QThread):
         for i in range(25):
             self._signal.emit(i)
 
-        if is_commande_number_exist(self.commande_number):
-            for i in range(25,99):
-                self._signal.emit(i)
-            self._signal_result.emit(False)
-
+        if self.old_commande_nbr == self.commande_number:
+            go = True
         else:
+            if is_commande_number_exist(self.commande_number):
+                for i in range(25,99):
+                    self._signal.emit(i)
+                self._signal_result.emit(False)
+
+                go = False
+
+        if go:
             for i in range(25, 65):
                 self._signal.emit(i)
 

@@ -940,6 +940,7 @@ class AppUi(QtWidgets.QMainWindow):
             dt = self.commandes_table.item(self.to_update_row, 2).text()
             dt = dt.split("/")
             d = QDate(int(dt[2]), int(dt[1]), int(dt[0]))
+            old_commande_nbr = dialog.commande_number.text()
             dialog.commande_date.setDate(d)
             for operation in self.oper:
                 dialog.add_p_to_update(operation)
@@ -969,7 +970,7 @@ class AppUi(QtWidgets.QMainWindow):
                         self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
                         self.dialog.show()
 
-                        self.thr = ThreadUpdateBonCommande(dialog.commande_number.text(), dialog.commande_date.text(),
+                        self.thr = ThreadUpdateBonCommande(old_commande_nbr,dialog.commande_number.text(), dialog.commande_date.text(),
                                                         dialog.commande_fournesseur.currentText(), product_list)
                         self.thr._signal.connect(self.signal_commande_update_accepted)
                         self.thr._signal_result.connect(self.signal_commande_update_accepted)
