@@ -66,6 +66,7 @@ class Check(QWidget):
 
         layout.addStretch(1)
         layout.addWidget(self.check)
+        layout.setContentsMargins(0,0,10,10)
 
         self.setLayout(layout)
 
