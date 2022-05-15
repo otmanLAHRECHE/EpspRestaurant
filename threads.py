@@ -544,6 +544,7 @@ class ThreadUpdateBonCommande(QThread):
             for i in range(25,99):
                 self._signal.emit(i)
             self._signal_result.emit(False)
+
         else:
             for i in range(25, 65):
                 self._signal.emit(i)

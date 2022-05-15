@@ -573,6 +573,10 @@ class AppUi(QtWidgets.QMainWindow):
                     self.thr._signal_result.connect(self.signal_fb_update_accepted)
                     self.thr.start()
                     dialog.close()
+            else:
+                for row in range(self.home_table_fourn.rowCount()):
+                    self.home_table_fourn.cellWidget(row, 1).check.setChecked(False)
+
 
     def signal_fb_update_accepted(self, progress):
         if type(progress) == int:
@@ -802,10 +806,10 @@ class AppUi(QtWidgets.QMainWindow):
                     error = False
                     product_list = []
                     for i in range(dialog.commande_products_table.rowCount()):
-                        if dialog.commande_products_table.cellWidget(i, 0).chose_product.currentIndex() == 0 or dialog.commande_products_table.cellWidget(i, 1).chose_product_qte.value() == 0:
+                        if dialog.commande_products_table.cellWidget(i, 1).chose_product.currentIndex() == 0 or dialog.commande_products_table.cellWidget(i, 2).chose_product_qte.value() == 0:
                             error = True
                         else:
-                            list = [dialog.commande_products_table.cellWidget(i, 0).chose_product.currentText(), dialog.commande_products_table.cellWidget(i, 1).chose_product_qte.value()]
+                            list = [dialog.commande_products_table.cellWidget(i, 1).chose_product.currentText(), dialog.commande_products_table.cellWidget(i, 2).chose_product_qte.value()]
                             product_list.append(list)
 
                     if error:
@@ -977,11 +981,17 @@ class AppUi(QtWidgets.QMainWindow):
     def signal_commande_update_accepted(self, progress):
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
-        else:
-            self.dialog.progress.setValue(100)
-            self.dialog.ttl.setText("إنتها بنجاح")
-            self.dialog.close()
-            self.load_commandes()
+        elif type(progress) == bool:
+            if progress:
+                self.dialog.progress.setValue(100)
+                self.dialog.ttl.setText("إنتها بنجاح")
+                self.dialog.close()
+                self.load_commandes()
+            else:
+                self.dialog.progress.setValue(100)
+                self.dialog.ttl.setText("إنتها بنجاح")
+                self.dialog.close()
+                self.alert_("خطأ في رقم الطلب (الرقم موجود سابقا)")
 
 
 
