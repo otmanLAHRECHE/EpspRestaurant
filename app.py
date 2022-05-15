@@ -494,22 +494,6 @@ class AppUi(QtWidgets.QMainWindow):
 
 
 
-    def food_selected(self, selected, deselected):
-        self.to_update_table = "food"
-        self.to_update_row = selected.indexes()[0].row()
-
-    def meat_selected(self, selected, deselected):
-        self.to_update_table = "meat"
-        self.to_update_row = selected.indexes()[0].row()
-
-    def four_selected(self, selected, deselected):
-        self.to_update_table = "four"
-        self.to_update_row = selected.indexes()[0].row()
-
-    def ben_selected(self, selected, deselected):
-        self.to_update_table = "ben"
-        self.to_update_row = selected.indexes()[0].row()
-
     def home_four_add(self):
         dial = Add_new_fb()
         dial.setWindowTitle("إضافة ممون جديد")
@@ -548,12 +532,18 @@ class AppUi(QtWidgets.QMainWindow):
                 self.alert_(message)
 
     def home_four_edit(self):
-        if self.to_update_table != "four":
-            message = "إختار الممون"
-            self.alert_(message)
+        ch = 0
+        for row in range(self.home_table_fourn.rowCount()):
+            if self.home_table_fourn.cellWidget(row, 1).check.isChecked():
+                row_selected = row
+                ch = ch + 1
+        if ch > 1 or ch == 0:
+            self.alert_("إختر خانة من الخانات")
+            for row in range(self.home_table_fourn.rowCount()):
+                self.home_table_fourn.cellWidget(row, 1).check.setChecked(False)
         else:
-            id = self.home_table_fourn.item(self.to_update_row, 0).text()
-            name = self.home_table_fourn.item(self.to_update_row, 1).text()
+            id = self.home_table_fourn.item(row_selected, 0).text()
+            name = self.home_table_fourn.item(row_selected, 1).text()
 
 
             dialog = Add_new_fb()
@@ -591,13 +581,18 @@ class AppUi(QtWidgets.QMainWindow):
 
 
     def home_four_delete(self):
-        if self.to_update_table != "four":
-            message = "إختار الممون"
-            self.alert_(message)
+        ch = 0
+        for row in range(self.home_table_fourn.rowCount()):
+            if self.home_table_fourn.cellWidget(row, 1).check.isChecked():
+                row_selected = row
+                ch = ch + 1
+        if ch > 1 or ch == 0:
+            self.alert_("إختر خانة من الخانات")
+            for row in range(self.home_table_fourn.rowCount()):
+                self.home_table_fourn.cellWidget(row, 1).check.setChecked(False)
         else:
-            id = self.home_table_fourn.item(self.to_update_row, 0).text()
-            self.home_table_fourn.setItem(self.to_update_row, 0, QTableWidgetItem(""))
-            self.home_table_fourn.setItem(self.to_update_row, 1, QTableWidgetItem(""))
+            id = self.home_table_fourn.item(row_selected, 0).text()
+            self.stock_table_food.removeRow(row_selected)
 
             self.dialog = Threading_loading()
             self.dialog.ttl.setText("إنتظر من فضلك")
