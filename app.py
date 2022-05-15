@@ -95,10 +95,12 @@ class AppUi(QtWidgets.QMainWindow):
         self.home_ben_delete_button.setIcon(QIcon("./icons/user-x.png"))
 
         self.home_table_fourn.hideColumn(0)
-        self.home_table_fourn.setColumnWidth(1, 300)
+        self.home_table_fourn.setColumnWidth(1, 40)
+        self.home_table_fourn.setColumnWidth(2, 300)
 
         self.home_table_ben.hideColumn(0)
-        self.home_table_ben.setColumnWidth(1, 300)
+        self.home_table_ben.setColumnWidth(1, 40)
+        self.home_table_ben.setColumnWidth(2, 300)
 
         self.home_four_add_button.clicked.connect(self.home_four_add)
         self.home_four_edit_button.clicked.connect(self.home_four_edit)
@@ -129,10 +131,11 @@ class AppUi(QtWidgets.QMainWindow):
         self.report_commande_button = self.findChild(QtWidgets.QPushButton, "pushButton_20")
         self.report_commande_button.setIcon(QIcon("icons/file-text.png"))
 
-        self.commandes_table.setColumnWidth(0, 200)
-        self.commandes_table.setColumnWidth(1, 100)
+        self.commandes_table.setColumnWidth(0, 40)
+        self.commandes_table.setColumnWidth(1, 200)
         self.commandes_table.setColumnWidth(2, 100)
-        self.commandes_table.setColumnWidth(3, 340)
+        self.commandes_table.setColumnWidth(3, 100)
+        self.commandes_table.setColumnWidth(4, 340)
 
         self.add_commande_button.clicked.connect(self.add_commande)
         self.edit_commmande_button.clicked.connect(self.edit_commande)
@@ -158,14 +161,16 @@ class AppUi(QtWidgets.QMainWindow):
         self.stock_edit_button.setIcon(QIcon("./icons/edit.png"))
 
         self.stock_table_food.hideColumn(0)
-        self.stock_table_food.setColumnWidth(1, 200)
-        self.stock_table_food.setColumnWidth(2, 150)
+        self.stock_table_food.setColumnWidth(1, 40)
+        self.stock_table_food.setColumnWidth(2, 200)
         self.stock_table_food.setColumnWidth(3, 150)
+        self.stock_table_food.setColumnWidth(4, 150)
 
         self.stock_table_meat.hideColumn(0)
-        self.stock_table_meat.setColumnWidth(1, 160)
-        self.stock_table_meat.setColumnWidth(2, 100)
+        self.stock_table_meat.setColumnWidth(1, 40)
+        self.stock_table_meat.setColumnWidth(2, 160)
         self.stock_table_meat.setColumnWidth(3, 100)
+        self.stock_table_meat.setColumnWidth(4, 100)
 
         self.stock_add_button.clicked.connect(self.add_stock)
         self.stock_edit_button.clicked.connect(self.edit_stock)
@@ -285,9 +290,7 @@ class AppUi(QtWidgets.QMainWindow):
 
 
 
-    def edit_stock(self):
-        self.dialog = Add_new_stock()
-        self.dialog.show()
+
 
 
     def signal_stock_accepted(self, progress):
@@ -319,6 +322,9 @@ class AppUi(QtWidgets.QMainWindow):
         self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.dialog.show()
 
+        self.stock_table_food.setRowCount(0)
+        self.stock_table_meat.setRowCount(0)
+
         self.thr = ThreadLoadStock()
         self.thr._signal.connect(self.signal_stock_load_accepted)
         self.thr._signal_list.connect(self.signal_stock_load_accepted)
@@ -331,83 +337,105 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
             if progress[0] == "meat":
+                self.stock_table_meat.insertRow(progress[1])
                 self.stock_table_meat.setItem(progress[1], 0, QTableWidgetItem(str(progress[2])))
-                self.stock_table_meat.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
-                self.stock_table_meat.setItem(progress[1], 2, QTableWidgetItem(str(progress[4])))
-                self.stock_table_meat.setItem(progress[1], 3, QTableWidgetItem(str(progress[5])))
+                check = Check()
+                self.stock_table_meat.setCellWidget(progress[1], 1, check)
+                self.stock_table_meat.setItem(progress[1], 2, QTableWidgetItem(str(progress[3])))
+                self.stock_table_meat.setItem(progress[1], 3, QTableWidgetItem(str(progress[4])))
+                self.stock_table_meat.setItem(progress[1], 4, QTableWidgetItem(str(progress[5])))
             else:
+                self.stock_table_food.insertRow(progress[1])
+
                 self.stock_table_food.setItem(progress[1], 0, QTableWidgetItem(str(progress[2])))
-                self.stock_table_food.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
-                self.stock_table_food.setItem(progress[1], 2, QTableWidgetItem(str(progress[4])))
-                self.stock_table_food.setItem(progress[1], 3, QTableWidgetItem(str(progress[5])))
+                check = Check()
+                self.stock_table_food.setCellWidget(progress[1], 1, check)
+                self.stock_table_food.setItem(progress[1], 2, QTableWidgetItem(str(progress[3])))
+                self.stock_table_food.setItem(progress[1], 3, QTableWidgetItem(str(progress[4])))
+                self.stock_table_food.setItem(progress[1], 4, QTableWidgetItem(str(progress[5])))
         else:
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
 
     def edit_stock(self):
-        if self.to_update_table == "non":
-            message = "إختار مخزون"
-            self.alert_(message)
+        ch = 0
+        for row in range(self.stock_table_food.rowCount()):
+            if self.stock_table_food.cellWidget(row, 1).check.isChecked():
+                row_selected = row
+                ch1 = ch1 + 1
+        for row in range(self.stock_table_meat.rowCount()):
+            if self.stock_table_meat.cellWidget(row, 1).check.isChecked():
+                row_selected = row
+                ch2 = ch2 + 1
+        if (ch1 > 1 or ch1 == 0) and (ch2 > 1 or ch2 == 0):
+            self.alert_("خطأ في الإختيار")
+            for row in range(self.stock_table_food.rowCount()):
+                self.stock_table_food.cellWidget(row, 1).check.setChecked(False)
+            for row in range(self.stock_table_meat.rowCount()):
+                self.stock_table_meat.cellWidget(row, 1).check.setChecked(False)
+        elif ch1 ==1 and ch2 == 1:
+            self.alert_("خطأ في الإختيار")
+            for row in range(self.stock_table_food.rowCount()):
+                self.stock_table_food.cellWidget(row, 1).check.setChecked(False)
+            for row in range(self.stock_table_meat.rowCount()):
+                self.stock_table_meat.cellWidget(row, 1).check.setChecked(False)
+
+        if ch1 ==1 and ch2 == 0:
+            id = self.stock_table_food.item(row_selected, 0).text()
+            product_name = self.stock_table_food.item(row_selected, 1).text()
+            qne = self.stock_table_food.item(row_selected, 2).text()
+            unit = self.stock_table_food.item(row_selected, 3).text()
+            i = 0
+        elif ch1 ==0 and ch2 == 1:
+            id = self.stock_table_meat.item(row_selected, 0).text()
+            product_name = self.stock_table_meat.item(row_selected, 1).text()
+            qne = self.stock_table_meat.item(row_selected, 2).text()
+            unit = self.stock_table_meat.item(row_selected, 3).text()
+            i = 1
+        dialog = Add_new_stock()
+        dialog.setWindowTitle("تغيير مخزون")
+        dialog.ttl.setText("تغيير مخزون")
+        dialog.stock_name.setText(product_name)
+        dialog.stock_type.setCurrentIndex(i)
+        if unit == "kg":
+            dialog.stock_unite.setCurrentIndex(1)
+        elif unit == "litre":
+            dialog.stock_unite.setCurrentIndex(2)
         else:
-            if self.to_update_table == "food":
-                id = self.stock_table_food.item(self.to_update_row, 0).text()
-                product_name = self.stock_table_food.item(self.to_update_row, 1).text()
-                qne = self.stock_table_food.item(self.to_update_row, 2).text()
-                unit = self.stock_table_food.item(self.to_update_row, 3).text()
-                i = 0
+            dialog.stock_unite.setCurrentIndex(0)
+
+
+        dialog.stock_qnt.setValue(float(str(qne)))
+        if dialog.exec() == QtWidgets.QDialog.Accepted:
+            if dialog.stock_name.text() == "":
+                message = "خطأ في إسم المخزون"
+                self.alert_(message)
+                dialog.close()
             else:
-                id = self.stock_table_meat.item(self.to_update_row, 0).text()
-                product_name = self.stock_table_meat.item(self.to_update_row, 1).text()
-                qne = self.stock_table_meat.item(self.to_update_row, 2).text()
-                unit = self.stock_table_meat.item(self.to_update_row, 3).text()
-                i = 1
+                self.dialog = Threading_loading()
+                self.dialog.ttl.setText("إنتظر من فضلك")
+                self.dialog.progress.setValue(0)
+                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                self.dialog.show()
 
-
-            dialog = Add_new_stock()
-            dialog.setWindowTitle("تغيير مخزون")
-            dialog.ttl.setText("تغيير مخزون")
-            dialog.stock_name.setText(product_name)
-            dialog.stock_type.setCurrentIndex(i)
-            if unit == "kg":
-                dialog.stock_unite.setCurrentIndex(1)
-            elif unit == "litre":
-                dialog.stock_unite.setCurrentIndex(2)
-            else:
-                dialog.stock_unite.setCurrentIndex(0)
-
-            dialog.stock_qnt.setValue(float(str(qne)))
-
-
-
-
-            if dialog.exec() == QtWidgets.QDialog.Accepted:
-                if dialog.stock_name.text() == "":
-                    message = "خطأ في إسم المخزون"
-                    self.alert_(message)
-                    dialog.close()
+                if dialog.stock_unite.currentIndex() == 0:
+                    u = "no_unit"
                 else:
-                    self.dialog = Threading_loading()
-                    self.dialog.ttl.setText("إنتظر من فضلك")
-                    self.dialog.progress.setValue(0)
-                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-                    self.dialog.show()
+                    u = dialog.stock_unite.currentText()
 
-                    if dialog.stock_unite.currentIndex() == 0:
-                        u = "no_unit"
-                    else:
-                        u = dialog.stock_unite.currentText()
+                if dialog.stock_type.currentIndex() == 0:
+                    t = "food"
+                else:
+                    t = "meat"
 
-                    if dialog.stock_type.currentIndex() == 0:
-                        t = "food"
-                    else:
-                        t = "meat"
+                self.thr = ThreadUpdateStock(int(id), dialog.stock_name.text(), t, dialog.stock_qnt.value(), u)
+                self.thr._signal.connect(self.signal_stock_update_accepted)
+                self.thr._signal_result.connect(self.signal_stock_update_accepted)
+                self.thr.start()
+                dialog.close()
 
-                    self.thr = ThreadUpdateStock(int(id), dialog.stock_name.text(), t, dialog.stock_qnt.value(), u)
-                    self.thr._signal.connect(self.signal_stock_update_accepted)
-                    self.thr._signal_result.connect(self.signal_stock_update_accepted)
-                    self.thr.start()
-                    dialog.close()
+
 
     def signal_stock_update_accepted(self, progress):
         if type(progress) == int:
@@ -434,6 +462,8 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
             self.dialog.show()
 
+            self.stock_table_food.setRowCount(0)
+
             self.thr = ThreadSearchStock(self.stock_search_field.text())
             self.thr._signal.connect(self.signal_stock_search_accepted)
             self.thr._signal_list.connect(self.signal_stock_search_accepted)
@@ -444,35 +474,24 @@ class AppUi(QtWidgets.QMainWindow):
         self.load_stock()
 
     def signal_stock_search_accepted(self, progress):
-        last_index = 0
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
+
+            self.stock_table_food.insertRow(progress[1])
+
             self.stock_table_food.setItem(progress[1], 0, QTableWidgetItem(str(progress[2])))
-            self.stock_table_food.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
-            self.stock_table_food.setItem(progress[1], 2, QTableWidgetItem(str(progress[4])))
-            self.stock_table_food.setItem(progress[1], 3, QTableWidgetItem(str(progress[5])))
+            check = Check()
+            self.stock_table_food.setCellWidget(progress[1], 1, check)
+            self.stock_table_food.setItem(progress[1], 2, QTableWidgetItem(str(progress[3])))
+            self.stock_table_food.setItem(progress[1], 3, QTableWidgetItem(str(progress[4])))
+            self.stock_table_food.setItem(progress[1], 4, QTableWidgetItem(str(progress[5])))
+
         else:
-            if progress == True:
-                last_index = last_index + 1
-                for i in range(last_index, 28):
-                    self.stock_table_food.setItem(i, 0, QTableWidgetItem(str("")))
-                    self.stock_table_food.setItem(i, 1, QTableWidgetItem(str("")))
-                    self.stock_table_food.setItem(i, 2, QTableWidgetItem(str("")))
-                    self.stock_table_food.setItem(i, 3, QTableWidgetItem(str("")))
-                self.dialog.progress.setValue(100)
-                self.dialog.ttl.setText("إنتها بنجاح")
-                self.dialog.close()
-            else:
-                last_index = 0
-                for i in range(last_index, 28):
-                    self.stock_table_food.setItem(i, 0, QTableWidgetItem(str("")))
-                    self.stock_table_food.setItem(i, 1, QTableWidgetItem(str("")))
-                    self.stock_table_food.setItem(i, 2, QTableWidgetItem(str("")))
-                    self.stock_table_food.setItem(i, 3, QTableWidgetItem(str("")))
-                self.dialog.progress.setValue(100)
-                self.dialog.ttl.setText("إنتها بنجاح")
-                self.dialog.close()
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
+
 
 
     def food_selected(self, selected, deselected):
@@ -837,6 +856,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.dialog.show()
 
+        self.commandes_table.setRowCount(0)
+
         self.thr = ThreadLoadCommande()
         self.thr._signal.connect(self.commande_load_accepted)
         self.thr._signal_list.connect(self.commande_load_accepted)
@@ -852,49 +873,46 @@ class AppUi(QtWidgets.QMainWindow):
                 self.commandes_table.setRowHeight(progress[0], len(progress[4]) * 30)
             else:
                 self.commandes_table.setRowHeight(progress[0], len(progress[4])*24)
-            if progress[0] == 0:
-                self.commandes_table.setItem(progress[0] + 1, 0, QTableWidgetItem(""))
-                self.commandes_table.setItem(progress[0] + 1, 1, QTableWidgetItem(""))
-                self.commandes_table.setItem(progress[0] + 1, 2, QTableWidgetItem(""))
-            self.commandes_table.setItem(progress[0], 0, QTableWidgetItem(str(progress[1])))
-            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[2])))
-            self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[3])))
-            p_list = ProductsList(progress[4])
-            self.commandes_table.setCellWidget(progress[0], 3, p_list)
 
-            self.commandes_table.setItem(progress[0] + 1, 0, QTableWidgetItem(""))
-            self.commandes_table.setItem(progress[0] + 1, 1, QTableWidgetItem(""))
-            self.commandes_table.setItem(progress[0] + 1, 2, QTableWidgetItem(""))
+            check = Check()
+
+            self.commandes_table.setCellWidget(progress[0], 0, check)
+            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[1])))
+            self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[2])))
+            self.commandes_table.setItem(progress[0], 3, QTableWidgetItem(str(progress[3])))
+            p_list = ProductsList(progress[4])
+            self.commandes_table.setCellWidget(progress[0], 4, p_list)
+
         else:
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
 
-    def commande_selected(self,selected, deselected):
-        try:
-            self.to_update_table = "commande"
-            self.to_update_row = selected.indexes()[0].row()
-        except :
-            print("index error")
-            self.to_update_table = "non"
 
 
     def edit_commande(self):
-        if self.to_update_table == "commande":
+        ch = 0
+        for row in range(self.table_workers.rowCount()):
+            if self.table_workers.cellWidget(row, 1).check.isChecked():
+                row_selected = row
+                ch = ch + 1
+        if ch > 1 or ch == 0:
+            self.alert_("إختار طلب")
+            for row in range(self.table_workers.rowCount()):
+                self.table_workers.cellWidget(row, 1).check.setChecked(False)
+        else:
             self.dialog = Threading_loading()
             self.dialog.ttl.setText("إنتظر من فضلك")
             self.dialog.progress.setValue(0)
             self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
             self.dialog.show()
 
-            self.thr = ThreadCommandDialogToUpdate(self.commandes_table.item(self.to_update_row, 0).text())
+            self.thr = ThreadCommandDialogToUpdate(self.commandes_table.item(row_selected, 0).text())
             self.thr._signal.connect(self.signal_commande_dialog_load_to_update_accepted)
             self.thr._signal_list.connect(self.signal_commande_dialog_load_to_update_accepted)
             self.thr._signal_result.connect(self.signal_commande_dialog_load_to_update_accepted)
             self.thr.start()
 
-        else:
-            self.alert_("إختار طلب")
 
     def signal_commande_dialog_load_to_update_accepted(self, progress):
         l = []
