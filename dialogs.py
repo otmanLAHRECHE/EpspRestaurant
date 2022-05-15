@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QColor, QIcon
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect, qApp
 
-from custom_widgets import ChoseProduct, ChoseProductQte
+from custom_widgets import ChoseProduct, ChoseProductQte, Check
 from database_operation import get_product_type_by_name
 
 
@@ -52,7 +52,7 @@ class Add_new_commande(QtWidgets.QDialog):
         super(Add_new_commande, self).__init__()
         uic.loadUi('./user_interfaces/add_new_commande.ui', self)
 
-        self.to_update_row = "no selection"
+
         self.pd = products
         self.fr = fourn
         self.ttl = self.findChild(QtWidgets.QLabel, "label_4")
@@ -67,9 +67,10 @@ class Add_new_commande(QtWidgets.QDialog):
         self.delete_product.setIcon(QIcon("./icons/trash.png"))
         self.commande_products_table = self.findChild(QtWidgets.QTableWidget, "tableWidget")
 
-        self.commande_products_table.setColumnWidth(0, 200)
+        self.commande_products_table.setColumnWidth(0, 40)
         self.commande_products_table.setColumnWidth(1, 200)
-        self.commande_products_table.setColumnWidth(2, 100)
+        self.commande_products_table.setColumnWidth(2, 200)
+        self.commande_products_table.setColumnWidth(3, 100)
 
         self.add_product.clicked.connect(self.add_p)
         self.delete_product.clicked.connect(self.delete_p)
@@ -80,36 +81,42 @@ class Add_new_commande(QtWidgets.QDialog):
     def add_p(self):
         index = self.commande_products_table.rowCount()
         self.commande_products_table.insertRow(index)
+
+        check = Check()
+        self.commande_products_table.setCellWidget(index, 0, check)
+
         chose_product = ChoseProduct()
         chose_product.chose_product.currentTextChanged.connect(self.text_changed)
         chose_product.chose_product.addItem(" ")
         for p in self.pd:
             chose_product.chose_product.addItem(p[0])
-        self.commande_products_table.setCellWidget(index, 0, chose_product)
+        self.commande_products_table.setCellWidget(index, 1, chose_product)
         chose_product_qte = ChoseProductQte()
-        self.commande_products_table.setCellWidget(index, 1, chose_product_qte)
+        self.commande_products_table.setCellWidget(index, 2, chose_product_qte)
         self.commande_products_table.setRowHeight(index, 50)
-        self.commande_products_table.selectionModel().selectionChanged.connect(self.commande_product_selected)
 
     def add_p_to_update(self, operations):
         index = self.commande_products_table.rowCount()
         self.commande_products_table.insertRow(index)
+
+        check = Check()
+        self.commande_products_table.setCellWidget(index, 0, check)
+
         chose_product = ChoseProduct()
         chose_product.chose_product.addItem(" ")
         for p in self.pd:
             chose_product.chose_product.addItem(p[0])
         chose_product.chose_product.setCurrentText(operations[0])
         chose_product.chose_product.currentTextChanged.connect(self.text_changed)
-        self.commande_products_table.setCellWidget(index, 0, chose_product)
+        self.commande_products_table.setCellWidget(index, 1, chose_product)
         chose_product_qte = ChoseProductQte()
         chose_product_qte.chose_product_qte.setValue(operations[1])
-        self.commande_products_table.setCellWidget(index, 1, chose_product_qte)
+        self.commande_products_table.setCellWidget(index, 2, chose_product_qte)
         self.commande_products_table.setRowHeight(index, 50)
-        self.commande_products_table.selectionModel().selectionChanged.connect(self.commande_product_selected)
         if operations[2] == "no_unit":
-            self.commande_products_table.setItem(index, 2, QtWidgets.QTableWidgetItem(""))
+            self.commande_products_table.setItem(index, 3, QtWidgets.QTableWidgetItem(""))
         else:
-            self.commande_products_table.setItem(index, 2, QtWidgets.QTableWidgetItem(str(operations[2])))
+            self.commande_products_table.setItem(index, 3, QtWidgets.QTableWidgetItem(str(operations[2])))
 
     def text_changed(self, value):
         clickme = qApp.focusWidget()
@@ -126,15 +133,16 @@ class Add_new_commande(QtWidgets.QDialog):
                 self.commande_products_table.setItem(row, 2, QtWidgets.QTableWidgetItem(""))
 
     def delete_p(self):
-        if not self.to_update_row == "no selection":
-            self.commande_products_table.removeRow(int(self.to_update_row))
-            self.to_update_row = "no selection"
-        if self.commande_products_table.rowCount() == 1:
-            self.commande_products_table.removeRow(0)
-
-    def commande_product_selected(self, selected, deselected):
-        if not self.commande_products_table.rowCount() == 2 and not self.commande_products_table.rowCount() == 1:
-            self.to_update_row = selected.indexes()[0].row()
+        ch = 0
+        for row in range(self.commande_products_table.rowCount()):
+            if self.commande_products_table.cellWidget(row, 0).check.isChecked():
+                row_selected = row
+                ch = ch + 1
+        if ch > 1 or ch == 0:
+            for row in range(self.commande_products_table.rowCount()):
+                self.commande_products_table.cellWidget(row, 0).check.setChecked(False)
         else:
-            self.to_update_row = 1
+            self.commande_products_table.removeRow(row_selected)
+
+
 
