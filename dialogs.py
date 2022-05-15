@@ -126,11 +126,11 @@ class Add_new_commande(QtWidgets.QDialog):
         if not value == " ":
             unit = get_product_type_by_name(value)[0]
             if unit [0] == "kg":
-                self.commande_products_table.setItem(row, 2, QtWidgets.QTableWidgetItem("kg"))
+                self.commande_products_table.setItem(row, 3, QtWidgets.QTableWidgetItem("kg"))
             elif unit [0] == "litres":
-                self.commande_products_table.setItem(row, 2, QtWidgets.QTableWidgetItem("litres"))
+                self.commande_products_table.setItem(row, 3, QtWidgets.QTableWidgetItem("litres"))
             else:
-                self.commande_products_table.setItem(row, 2, QtWidgets.QTableWidgetItem(""))
+                self.commande_products_table.setItem(row, 3, QtWidgets.QTableWidgetItem(""))
 
     def delete_p(self):
         ch = 0

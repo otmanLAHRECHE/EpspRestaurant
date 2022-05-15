@@ -379,59 +379,65 @@ class AppUi(QtWidgets.QMainWindow):
             for row in range(self.stock_table_meat.rowCount()):
                 self.stock_table_meat.cellWidget(row, 1).check.setChecked(False)
 
-        if ch1 ==1 and ch2 == 0:
-            id = self.stock_table_food.item(row_selected, 0).text()
-            product_name = self.stock_table_food.item(row_selected, 2).text()
-            qne = self.stock_table_food.item(row_selected, 3).text()
-            unit = self.stock_table_food.item(row_selected, 4).text()
-            i = 0
-        elif ch1 ==0 and ch2 == 1:
-            id = self.stock_table_meat.item(row_selected, 0).text()
-            product_name = self.stock_table_meat.item(row_selected, 2).text()
-            qne = self.stock_table_meat.item(row_selected, 3).text()
-            unit = self.stock_table_meat.item(row_selected, 4).text()
-            i = 1
-        dialog = Add_new_stock()
-        dialog.setWindowTitle("تغيير مخزون")
-        dialog.ttl.setText("تغيير مخزون")
-        dialog.stock_name.setText(product_name)
-        dialog.stock_type.setCurrentIndex(i)
-        if unit == "kg":
-            dialog.stock_unite.setCurrentIndex(1)
-        elif unit == "litre":
-            dialog.stock_unite.setCurrentIndex(2)
         else:
-            dialog.stock_unite.setCurrentIndex(0)
-
-
-        dialog.stock_qnt.setValue(float(str(qne)))
-        if dialog.exec() == QtWidgets.QDialog.Accepted:
-            if dialog.stock_name.text() == "":
-                message = "خطأ في إسم المخزون"
-                self.alert_(message)
-                dialog.close()
+            if ch1 ==1 and ch2 == 0:
+                id = self.stock_table_food.item(row_selected, 0).text()
+                product_name = self.stock_table_food.item(row_selected, 2).text()
+                qne = self.stock_table_food.item(row_selected, 3).text()
+                unit = self.stock_table_food.item(row_selected, 4).text()
+                i = 0
+            elif ch1 ==0 and ch2 == 1:
+                id = self.stock_table_meat.item(row_selected, 0).text()
+                product_name = self.stock_table_meat.item(row_selected, 2).text()
+                qne = self.stock_table_meat.item(row_selected, 3).text()
+                unit = self.stock_table_meat.item(row_selected, 4).text()
+                i = 1
+            dialog = Add_new_stock()
+            dialog.setWindowTitle("تغيير مخزون")
+            dialog.ttl.setText("تغيير مخزون")
+            dialog.stock_name.setText(product_name)
+            dialog.stock_type.setCurrentIndex(i)
+            if unit == "kg":
+                dialog.stock_unite.setCurrentIndex(1)
+            elif unit == "litre":
+                dialog.stock_unite.setCurrentIndex(2)
             else:
-                self.dialog = Threading_loading()
-                self.dialog.ttl.setText("إنتظر من فضلك")
-                self.dialog.progress.setValue(0)
-                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-                self.dialog.show()
+                dialog.stock_unite.setCurrentIndex(0)
 
-                if dialog.stock_unite.currentIndex() == 0:
-                    u = "no_unit"
+
+            dialog.stock_qnt.setValue(float(str(qne)))
+            if dialog.exec() == QtWidgets.QDialog.Accepted:
+                if dialog.stock_name.text() == "":
+                    message = "خطأ في إسم المخزون"
+                    self.alert_(message)
+                    dialog.close()
                 else:
-                    u = dialog.stock_unite.currentText()
+                    self.dialog = Threading_loading()
+                    self.dialog.ttl.setText("إنتظر من فضلك")
+                    self.dialog.progress.setValue(0)
+                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                    self.dialog.show()
 
-                if dialog.stock_type.currentIndex() == 0:
-                    t = "food"
-                else:
-                    t = "meat"
+                    if dialog.stock_unite.currentIndex() == 0:
+                        u = "no_unit"
+                    else:
+                        u = dialog.stock_unite.currentText()
 
-                self.thr = ThreadUpdateStock(int(id), dialog.stock_name.text(), t, dialog.stock_qnt.value(), u)
-                self.thr._signal.connect(self.signal_stock_update_accepted)
-                self.thr._signal_result.connect(self.signal_stock_update_accepted)
-                self.thr.start()
-                dialog.close()
+                    if dialog.stock_type.currentIndex() == 0:
+                        t = "food"
+                    else:
+                        t = "meat"
+
+                    self.thr = ThreadUpdateStock(int(id), dialog.stock_name.text(), t, dialog.stock_qnt.value(), u)
+                    self.thr._signal.connect(self.signal_stock_update_accepted)
+                    self.thr._signal_result.connect(self.signal_stock_update_accepted)
+                    self.thr.start()
+                    dialog.close()
+            else:
+                for row in range(self.stock_table_food.rowCount()):
+                    self.stock_table_food.cellWidget(row, 1).check.setChecked(False)
+                for row in range(self.stock_table_meat.rowCount()):
+                    self.stock_table_meat.cellWidget(row, 1).check.setChecked(False)
 
 
 
@@ -678,6 +684,9 @@ class AppUi(QtWidgets.QMainWindow):
                     self.thr._signal_result.connect(self.signal_fb_update_accepted)
                     self.thr.start()
                     dialog.close()
+            else:
+                for row in range(self.home_table_ben.rowCount()):
+                    self.home_table_ben.cellWidget(row, 1).check.setChecked(False)
 
 
     def home_ben_delete(self):
@@ -704,6 +713,7 @@ class AppUi(QtWidgets.QMainWindow):
             self.thr._signal.connect(self.signal_fb_update_accepted)
             self.thr._signal_result.connect(self.signal_fb_update_accepted)
             self.thr.start()
+
 
     def load_fb(self):
         self.dialog = Threading_loading()
@@ -890,7 +900,8 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
             self.dialog.show()
 
-            self.thr = ThreadCommandDialogToUpdate(self.commandes_table.item(row_selected, 0).text())
+            self.thr = ThreadCommandDialogToUpdate(self.commandes_table.item(row_selected, 1).text())
+            self.to_update_row = row_selected
             self.thr._signal.connect(self.signal_commande_dialog_load_to_update_accepted)
             self.thr._signal_list.connect(self.signal_commande_dialog_load_to_update_accepted)
             self.thr._signal_result.connect(self.signal_commande_dialog_load_to_update_accepted)
@@ -919,10 +930,10 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.progress.setValue(100)
             self.dialog.close()
-            dialog = Add_new_commande(self.p, self.f, self.commandes_table.item(self.to_update_row, 0).text())
+            dialog = Add_new_commande(self.p, self.f, self.commandes_table.item(self.to_update_row, 1).text())
             dialog.setWindowTitle("تعديل على طلب")
-            dialog.commande_fournesseur.setCurrentText(self.commandes_table.item(self.to_update_row, 2).text())
-            dt = self.commandes_table.item(self.to_update_row, 1).text()
+            dialog.commande_fournesseur.setCurrentText(self.commandes_table.item(self.to_update_row, 3).text())
+            dt = self.commandes_table.item(self.to_update_row, 2).text()
             dt = dt.split("/")
             d = QDate(int(dt[2]), int(dt[1]), int(dt[0]))
             dialog.commande_date.setDate(d)
@@ -938,13 +949,11 @@ class AppUi(QtWidgets.QMainWindow):
                     error = False
                     product_list = []
                     for i in range(dialog.commande_products_table.rowCount()):
-                        if dialog.commande_products_table.cellWidget(i,
-                                                                     0).chose_product.currentIndex() == 0 or dialog.commande_products_table.cellWidget(
-                                i, 1).chose_product_qte.value() == 0:
+                        if dialog.commande_products_table.cellWidget(i,1).chose_product.currentIndex() == 0 or dialog.commande_products_table.cellWidget(i, 2).chose_product_qte.value() == 0:
                             error = True
                         else:
-                            list = [dialog.commande_products_table.cellWidget(i, 0).chose_product.currentText(),
-                                    dialog.commande_products_table.cellWidget(i, 1).chose_product_qte.value()]
+                            list = [dialog.commande_products_table.cellWidget(i, 1).chose_product.currentText(),
+                                    dialog.commande_products_table.cellWidget(i, 2).chose_product_qte.value()]
                             product_list.append(list)
 
                     if error:
@@ -961,6 +970,9 @@ class AppUi(QtWidgets.QMainWindow):
                         self.thr._signal.connect(self.signal_commande_update_accepted)
                         self.thr._signal_result.connect(self.signal_commande_update_accepted)
                         self.thr.start()
+            else:
+                for row in range(self.commandes_table.rowCount()):
+                    self.commandes_table.cellWidget(row, 0).check.setChecked(False)
 
     def signal_commande_update_accepted(self, progress):
         if type(progress) == int:
