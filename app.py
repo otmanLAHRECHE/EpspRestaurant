@@ -7,7 +7,7 @@ from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_comman
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
     ThreadCommandDialogToUpdate, ThreadUpdateBonCommande
-from custom_widgets import ProductsList
+from custom_widgets import ProductsList, Check
 
 
 WINDOW_SIZE = 0
@@ -25,9 +25,6 @@ class AppUi(QtWidgets.QMainWindow):
         self.shadow.setXOffset(0)
         self.shadow.setYOffset(0)
         self.shadow.setColor(QColor(0, 92, 157, 150))
-        self.to_update_table = "non"
-        self.to_update_row = "non"
-        self.last_index = [0,0]
 
         # Appy shadow to central widget
         self.centralwidget.setGraphicsEffect(self.shadow)
@@ -311,8 +308,6 @@ class AppUi(QtWidgets.QMainWindow):
 
     def load_stock(self):
 
-        self.stock_table_food.selectionModel().selectionChanged.connect(self.food_selected)
-        self.stock_table_meat.selectionModel().selectionChanged.connect(self.meat_selected)
 
         self.stock_search_field.setText("")
 
@@ -324,6 +319,8 @@ class AppUi(QtWidgets.QMainWindow):
 
         self.stock_table_food.setRowCount(0)
         self.stock_table_meat.setRowCount(0)
+
+
 
         self.thr = ThreadLoadStock()
         self.thr._signal.connect(self.signal_stock_load_accepted)
@@ -359,7 +356,8 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.close()
 
     def edit_stock(self):
-        ch = 0
+        ch1 = 0
+        ch2 = 0
         for row in range(self.stock_table_food.rowCount()):
             if self.stock_table_food.cellWidget(row, 1).check.isChecked():
                 row_selected = row
@@ -383,15 +381,15 @@ class AppUi(QtWidgets.QMainWindow):
 
         if ch1 ==1 and ch2 == 0:
             id = self.stock_table_food.item(row_selected, 0).text()
-            product_name = self.stock_table_food.item(row_selected, 1).text()
-            qne = self.stock_table_food.item(row_selected, 2).text()
-            unit = self.stock_table_food.item(row_selected, 3).text()
+            product_name = self.stock_table_food.item(row_selected, 2).text()
+            qne = self.stock_table_food.item(row_selected, 3).text()
+            unit = self.stock_table_food.item(row_selected, 4).text()
             i = 0
         elif ch1 ==0 and ch2 == 1:
             id = self.stock_table_meat.item(row_selected, 0).text()
-            product_name = self.stock_table_meat.item(row_selected, 1).text()
-            qne = self.stock_table_meat.item(row_selected, 2).text()
-            unit = self.stock_table_meat.item(row_selected, 3).text()
+            product_name = self.stock_table_meat.item(row_selected, 2).text()
+            qne = self.stock_table_meat.item(row_selected, 3).text()
+            unit = self.stock_table_meat.item(row_selected, 4).text()
             i = 1
         dialog = Add_new_stock()
         dialog.setWindowTitle("تغيير مخزون")
@@ -543,7 +541,7 @@ class AppUi(QtWidgets.QMainWindow):
                 self.home_table_fourn.cellWidget(row, 1).check.setChecked(False)
         else:
             id = self.home_table_fourn.item(row_selected, 0).text()
-            name = self.home_table_fourn.item(row_selected, 1).text()
+            name = self.home_table_fourn.item(row_selected, 2).text()
 
 
             dialog = Add_new_fb()
@@ -643,12 +641,18 @@ class AppUi(QtWidgets.QMainWindow):
                 self.alert_(message)
 
     def home_ben_edit(self):
-        if self.to_update_table != "ben":
-            message = "إختار المستفيد"
-            self.alert_(message)
+        ch = 0
+        for row in range(self.home_table_ben.rowCount()):
+            if self.home_table_ben.cellWidget(row, 1).check.isChecked():
+                row_selected = row
+                ch = ch + 1
+        if ch > 1 or ch == 0:
+            self.alert_("selectioner just une travailleur")
+            for row in range(self.home_table_ben.rowCount()):
+                self.home_table_ben.cellWidget(row, 1).check.setChecked(False)
         else:
-            id = self.home_table_ben.item(self.to_update_row, 0).text()
-            name = self.home_table_ben.item(self.to_update_row, 1).text()
+            id = self.home_table_ben.item(row_selected, 0).text()
+            name = self.home_table_ben.item(row_selected, 2).text()
 
 
             dialog = Add_new_fb()
@@ -677,13 +681,19 @@ class AppUi(QtWidgets.QMainWindow):
 
 
     def home_ben_delete(self):
-        if self.to_update_table != "ben":
-            message = "إختار المستفيد"
-            self.alert_(message)
+        ch = 0
+        for row in range(self.home_table_ben.rowCount()):
+            if self.home_table_ben.cellWidget(row, 1).check.isChecked():
+                row_selected = row
+                ch = ch + 1
+        if ch > 1 or ch == 0:
+            self.alert_("selectioner just une travailleur")
+            for row in range(self.home_table_ben.rowCount()):
+                self.home_table_ben.cellWidget(row, 1).check.setChecked(False)
         else:
-            id = self.home_table_ben.item(self.to_update_row, 0).text()
-            self.home_table_ben.setItem(self.to_update_row, 0, QTableWidgetItem(""))
-            self.home_table_ben.setItem(self.to_update_row, 1, QTableWidgetItem(""))
+            id = self.home_table_ben.item(row_selected, 0).text()
+            self.home_table_ben.removeRow(row_selected)
+
             self.dialog = Threading_loading()
             self.dialog.ttl.setText("إنتظر من فضلك")
             self.dialog.progress.setValue(0)
@@ -696,15 +706,14 @@ class AppUi(QtWidgets.QMainWindow):
             self.thr.start()
 
     def load_fb(self):
-
-        self.home_table_fourn.selectionModel().selectionChanged.connect(self.four_selected)
-        self.home_table_ben.selectionModel().selectionChanged.connect(self.ben_selected)
-
         self.dialog = Threading_loading()
         self.dialog.ttl.setText("إنتظر من فضلك")
         self.dialog.progress.setValue(0)
         self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.dialog.show()
+
+        self.home_table_fourn.setRowCount(0)
+        self.home_table_ben.setRowCount(0)
 
         self.thr = ThreadLoadFourBen()
         self.thr._signal.connect(self.signal_fb_load_accepted)
@@ -717,27 +726,19 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
             if progress[0] == "four":
+                self.home_table_fourn.insertRow(progress[1])
                 self.home_table_fourn.setItem(progress[1], 0, QTableWidgetItem(str(progress[2])))
-                self.home_table_fourn.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
-                self.last_index[0] = progress[1]
+                chose = Check()
+                self.home_table_fourn.setCellWidget(progress[1], 1, chose)
+                self.home_table_fourn.setItem(progress[1], 2, QTableWidgetItem(str(progress[3])))
             else:
+                self.home_table_ben.insertRow(progress[1])
                 self.home_table_ben.setItem(progress[1], 0, QTableWidgetItem(str(progress[2])))
-                self.home_table_ben.setItem(progress[1], 1, QTableWidgetItem(str(progress[3])))
-                self.last_index[1] = progress[1]
+                chose = Check()
+                self.home_table_ben.setCellWidget(progress[1], 1, chose)
+                self.home_table_ben.setItem(progress[1], 2, QTableWidgetItem(str(progress[3])))
+
         else:
-            self.last_index[0] = self.last_index[0] + 1
-            self.last_index[1] = self.last_index[1] + 1
-
-            self.home_table_fourn.setItem(self.last_index[0], 0, QTableWidgetItem(""))
-            self.home_table_fourn.setItem(self.last_index[0], 1, QTableWidgetItem(""))
-            self.home_table_fourn.setItem(self.last_index[0], 2, QTableWidgetItem(""))
-
-            self.home_table_ben.setItem(self.last_index[1], 0, QTableWidgetItem(""))
-            self.home_table_ben.setItem(self.last_index[1], 1, QTableWidgetItem(""))
-            self.home_table_ben.setItem(self.last_index[1], 2, QTableWidgetItem(""))
-
-            self.last_index[0] = 0
-            self.last_index[1] = 0
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
@@ -745,12 +746,12 @@ class AppUi(QtWidgets.QMainWindow):
 
     def add_commande(self):
 
-
         self.dialog = Threading_loading()
         self.dialog.ttl.setText("إنتظر من فضلك")
         self.dialog.progress.setValue(0)
         self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.dialog.show()
+
 
         self.thr = ThreadCommandDialog()
         self.thr._signal.connect(self.signal_commande_dialog_load_accepted)
@@ -761,8 +762,6 @@ class AppUi(QtWidgets.QMainWindow):
 
     def signal_commande_dialog_load_accepted(self, progress):
         l = []
-        if not type(progress) == int:
-            print("progress",progress)
 
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
@@ -828,22 +827,10 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.close()
                 self.alert_("خطأ في الرقم")
 
-    def load_commandes(self):
-        self.dialog = Threading_loading()
-        self.dialog.ttl.setText("إنتظر من فضلك")
-        self.dialog.progress.setValue(0)
-        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-        self.dialog.show()
 
-        self.thr = ThreadCommandDialog()
-        self.thr._signal.connect(self.signal_commande_dialog_load_accepted)
-        self.thr._signal_list.connect(self.signal_commande_dialog_load_accepted)
-        self.thr._signal_result.connect(self.signal_commande_dialog_load_accepted)
-        self.thr.start()
 
 
     def load_commandes(self):
-        self.commandes_table.selectionModel().selectionChanged.connect(self.commande_selected)
 
         self.dialog = Threading_loading()
         self.dialog.ttl.setText("إنتظر من فضلك")
@@ -864,6 +851,7 @@ class AppUi(QtWidgets.QMainWindow):
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
+            self.commandes_table.insertRow(progress[0])
             if len(progress[4]) == 1 or len(progress[4]) == 2 or len(progress[4]) == 3:
                 self.commandes_table.setRowHeight(progress[0], len(progress[4]) * 30)
             else:
@@ -887,14 +875,14 @@ class AppUi(QtWidgets.QMainWindow):
 
     def edit_commande(self):
         ch = 0
-        for row in range(self.table_workers.rowCount()):
-            if self.table_workers.cellWidget(row, 1).check.isChecked():
+        for row in range(self.commandes_table.rowCount()):
+            if self.commandes_table.cellWidget(row, 0).check.isChecked():
                 row_selected = row
                 ch = ch + 1
         if ch > 1 or ch == 0:
             self.alert_("إختار طلب")
-            for row in range(self.table_workers.rowCount()):
-                self.table_workers.cellWidget(row, 1).check.setChecked(False)
+            for row in range(self.commandes_table.rowCount()):
+                self.commandes_table.cellWidget(row, 0).check.setChecked(False)
         else:
             self.dialog = Threading_loading()
             self.dialog.ttl.setText("إنتظر من فضلك")
