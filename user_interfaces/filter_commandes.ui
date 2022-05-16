@@ -30,7 +30,7 @@
   </property>
   <property name="font">
    <font>
-    <pointsize>12</pointsize>
+    <pointsize>8</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -190,6 +190,9 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(199, 238, 255);</string>
    </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QComboBox" name="comboBox">
    <property name="geometry">
@@ -267,6 +270,9 @@
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(199, 238, 255);</string>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QWidget" name="widget_13" native="true">

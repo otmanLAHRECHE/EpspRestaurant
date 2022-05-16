@@ -174,7 +174,7 @@ class Filter_commande(QtWidgets.QDialog):
         self.products_list = self.findChild(QtWidgets.QListWidget, "listWidget")
 
         self.date_type.currentIndexChanged.connect(self.date_type_changed)
-        self.filter_type.currentTextChanged.connect(self.filter_type_changed)
+        self.filter_type.currentIndexChanged.connect(self.filter_type_changed)
 
         self.add.clicked.connect(self.add_event)
         self.empty.clicked.connect(self.empty_event)
@@ -221,7 +221,7 @@ class Filter_commande(QtWidgets.QDialog):
             self.products_list.setEnabled(True)
             self.add.setEnabled(True)
             self.empty.setEnabled(True)
-        else:
+        elif value == 1:
             self.commande_number.setEnabled(True)
             self.commande_number_label.setEnabled(True)
 

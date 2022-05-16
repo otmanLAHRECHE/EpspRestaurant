@@ -3,7 +3,7 @@ from PyQt5.QtCore import QSize, QPropertyAnimation, QDate
 from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp, QCompleter
 
-from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande
+from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande, Filter_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
     ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande
@@ -1051,6 +1051,12 @@ class AppUi(QtWidgets.QMainWindow):
 
     def reset_commande(self):
         self.load_commandes()
+
+    def filter_commande_event(self):
+        dialog = Filter_commande([("fdsfsdf",)],[("fdsfsdf",)],[])
+
+        if dialog.exec() == QtWidgets.QDialog.Accepted :
+            print("ok")
 
 
 
