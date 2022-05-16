@@ -146,10 +146,9 @@ class Add_new_commande(QtWidgets.QDialog):
 
 
 class Filter_commande(QtWidgets.QDialog):
-    def __init__(self, products, fourn, commande_number):
+    def __init__(self, products, fourn, filter):
         super(Filter_commande, self).__init__()
         uic.loadUi('./user_interfaces/filter_commandes.ui', self)
-
 
         self.pd = products
         self.fr = fourn
@@ -158,11 +157,14 @@ class Filter_commande(QtWidgets.QDialog):
         self.to = self.findChild(QtWidgets.QLabel, "label_2")
         self.fourn_label = self.findChild(QtWidgets.QLabel, "label_8")
         self.products_label = self.findChild(QtWidgets.QLabel, "label_9")
+        self.commande_number_label = self.findChild(QtWidgets.QLabel, "label_3")
         self.date_before = self.findChild(QtWidgets.QDateEdit, "dateEdit")
+        self.date_before.setDate(QtCore.QDate.currentDate())
         self.date_after = self.findChild(QtWidgets.QDateEdit, "dateEdit_2")
+        self.date_after.setDate(QtCore.QDate.currentDate())
         self.order = self.findChild(QtWidgets.QComboBox, "comboBox_2")
         self.filter_type = self.findChild(QtWidgets.QComboBox, "comboBox_3")
-        self.order_number = self.findChild(QtWidgets.QSpinBox, "spinBox")
+        self.commande_number = self.findChild(QtWidgets.QSpinBox, "spinBox")
         self.fourn = self.findChild(QtWidgets.QComboBox, "comboBox_4")
         self.products = self.findChild(QtWidgets.QComboBox, "comboBox_5")
         self.add = self.findChild(QtWidgets.QPushButton, "pushButton")
@@ -174,10 +176,29 @@ class Filter_commande(QtWidgets.QDialog):
         self.add.clicked.connect(self.add_event)
         self.empty.clicked.connect(self.empty_event)
 
+        self.frm.setText("قبل التاريخ:")
+        self.to.setEnabled(False)
+        self.date_after.setEnabled(False)
+
+        self.commande_number.setEnabled(False)
+        self.commande_number_label.setEnabled(False)
+
+
+        self.fourn.addItem("كل الممونين")
+        for f in self.fr:
+            self.fourn.addItem(f[0])
+
+        for p in self.pd:
+            self.products.addItem(p[0])
+
+
+
+
+
 
 
     def add_event(self):
-        print("ok")
+        self.products_list.addItem()
 
     def empty_event(self):
         print("ok")
