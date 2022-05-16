@@ -17,6 +17,10 @@ class AppUi(QtWidgets.QMainWindow):
         super(AppUi, self).__init__()
         uic.loadUi("./user_interfaces/app.ui", self)
 
+
+        self.fc = []
+        self.fs = []
+
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.move(115, 20)
@@ -138,6 +142,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.edit_commmande_button.clicked.connect(self.edit_commande)
         self.delete_commande_button.clicked.connect(self.delete_commande)
         self.reset_commande_buton.clicked.connect(self.reset_commande)
+        self.filter_commande_button.clicked.connect(self.filter_commande_event)
 
 
         ##################### End commandes page initialisation

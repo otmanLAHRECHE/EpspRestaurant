@@ -309,6 +309,9 @@
      <height>22</height>
     </rect>
    </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(199, 238, 255);</string>
    </property>
@@ -405,9 +408,9 @@
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>320</x>
      <y>160</y>
-     <width>121</width>
+     <width>61</width>
      <height>20</height>
     </rect>
    </property>
@@ -465,9 +468,9 @@
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>330</x>
      <y>190</y>
-     <width>91</width>
+     <width>51</width>
      <height>20</height>
     </rect>
    </property>
