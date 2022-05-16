@@ -247,7 +247,7 @@ def get_product_type_by_name(name):
 def get_all_commande():
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
-    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id order by date(bon.dt) DESC LIMIT 40'
+    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id order by date(bon.dt) DESC LIMIT 50'
     cur.execute(sql_q)
     unit = cur.fetchall()
     connection.close()
@@ -283,6 +283,14 @@ def delete_all_bon_operation(bon_id):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
     sql_q = 'delete from opertation where opertation.bon_op_id = ?'
+    cur.execute(sql_q, (bon_id,))
+    connection.commit()
+    connection.close()
+
+def delete_bon_commande(bon_id):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'delete from bon where bon.bon_id = ?'
     cur.execute(sql_q, (bon_id,))
     connection.commit()
     connection.close()

@@ -8,7 +8,7 @@ from database_operation import is_product_exist, add_new_product, get_product_id
     is_four_ben_exist, get_all_four_ben, update_four_ben, delete_four_ben, get_all_product_names_no_type, \
     get_all_four_ben_names, get_last_bon_commande_number, is_commande_number_exist, add_bon, get_fourn_ben_id_from_name, \
     add_operation, get_stock_qte_by_product_id, update_stock_by_commande, get_all_commande, get_operations_by_commande_id, \
-    get_commande_id_by_bon_com_number, update_bon, delete_all_bon_operation
+    get_commande_id_by_bon_com_number, update_bon, delete_all_bon_operation, delete_bon_commande
 
 from tools import forming_date, un_forming_date
 
@@ -549,32 +549,58 @@ class ThreadUpdateBonCommande(QThread):
                 for i in range(25,99):
                     self._signal.emit(i)
                 self._signal_result.emit(False)
-
                 go = False
-
+            else:
+                go = True
         if go:
             for i in range(25, 65):
                 self._signal.emit(i)
 
             four_id = get_fourn_ben_id_from_name(self.fourn)[0]
 
-            bon_commande_id = get_commande_id_by_bon_com_number(self.number)[0]
+            bon_commande_id = get_commande_id_by_bon_com_number(self.commande_number)[0]
 
-            update_bon(bon_commande_id, forming_date(self.date), "commande", four_id[0], self.commande_number)
 
-            delete_all_bon_operation(bon_commande_id)
+
+
+            update_bon(bon_commande_id[0], forming_date(self.date), "commande", four_id[0], int(self.commande_number))
+
+            delete_all_bon_operation(bon_commande_id[0])
 
             for product in self.product_list:
                 id = get_product_id_by_name(product[0])[0]
-                add_operation(id[0], bon_commande_id, product[1])
-                old_qte = get_stock_qte_by_product_id(id[0])[0]
-                old_qte = old_qte[0]
-                new_qte = old_qte + product[1]
-                update_stock_by_commande(id[0], new_qte)
+                add_operation(id[0], bon_commande_id[0], product[1])
 
             for i in range(65, 99):
                 self._signal.emit(i)
 
             self._signal_result.emit(True)
+
+
+class ThreadDeleteBonCommande(QThread):
+    _signal = pyqtSignal(int)
+    _signal_result = pyqtSignal(bool)
+
+    def __init__(self, bon_commande_nbr):
+        super(ThreadDeleteBonCommande, self).__init__()
+        self.bon_commande_nbr = bon_commande_nbr
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+
+        for i in range(65):
+            self._signal.emit(i)
+
+        id = get_commande_id_by_bon_com_number(self.bon_commande_nbr)[0]
+
+        delete_bon_commande(id[0])
+
+        for i in range(65, 99):
+            self._signal.emit(i)
+
+        self._signal_result.emit(True)
 
 

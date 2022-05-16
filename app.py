@@ -657,7 +657,7 @@ class AppUi(QtWidgets.QMainWindow):
                 row_selected = row
                 ch = ch + 1
         if ch > 1 or ch == 0:
-            self.alert_("selectioner just une travailleur")
+            self.alert_("إختر خانة من الخانات")
             for row in range(self.home_table_ben.rowCount()):
                 self.home_table_ben.cellWidget(row, 1).check.setChecked(False)
         else:
@@ -997,13 +997,27 @@ class AppUi(QtWidgets.QMainWindow):
 
 
     def delete_commande(self):
-        print("ok")
-        """
-        if self.to_update_table == "commande":
-
-        else:
+        ch = 0
+        for row in range(self.commandes_table.rowCount()):
+            if self.commandes_table.cellWidget(row, 0).check.isChecked():
+                row_selected = row
+                ch = ch + 1
+        if ch > 1 or ch == 0:
             self.alert_("إختار طلب")
-        """
+            for row in range(self.commandes_table.rowCount()):
+                self.commandes_table.cellWidget(row, 0).check.setChecked(False)
+        else:
+            self.dialog = Threading_loading()
+            self.dialog.ttl.setText("إنتظر من فضلك")
+            self.dialog.progress.setValue(0)
+            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+            self.dialog.show()
+
+            self.thr = ThreadCommandDialogToUpdate(self.commandes_table.item(row_selected, 1).text())
+            self.to_update_row = row_selected
+            self.thr._signal.connect(self.signal_delete_bon_commande_accepted)
+            self.thr._signal_result.connect(self.signal_delete_bon_commande_accepted)
+            self.thr.start()
 
 
     def h(self):
