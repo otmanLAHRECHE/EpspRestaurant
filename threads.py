@@ -334,6 +334,7 @@ class ThreadDeleteFourBen(QThread):
 
         self._signal_result.emit(True)
 
+
 class ThreadCommandDialog(QThread):
     _signal = pyqtSignal(int)
     _signal_result = pyqtSignal(bool)
