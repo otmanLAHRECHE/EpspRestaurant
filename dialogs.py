@@ -173,6 +173,9 @@ class Filter_commande(QtWidgets.QDialog):
         self.empty.setIcon(QIcon("./icons/trash.png"))
         self.products_list = self.findChild(QtWidgets.QListWidget, "listWidget")
 
+        self.date_type.currentIndexChanged.connect(self.date_type_changed)
+        self.filter_type.currentTextChanged.connect(self.filter_type_changed)
+
         self.add.clicked.connect(self.add_event)
         self.empty.clicked.connect(self.empty_event)
 
@@ -191,8 +194,33 @@ class Filter_commande(QtWidgets.QDialog):
         for p in self.pd:
             self.products.addItem(p[0])
 
+    def date_type_changed(self, value):
+        if value == 0:
+            self.frm.setText("قبل التاريخ:")
+            self.to.setEnabled(False)
+            self.date_after.setEnabled(False)
+        elif value == 1:
+            self.frm.setText("بعد التاريخ:")
+            self.to.setEnabled(False)
+            self.date_after.setEnabled(False)
+        elif value == 2:
+            self.frm.setText("بين التاريخ:")
+            self.to.setEnabled(True)
+            self.to.setText("و التاريخ")
+            self.date_after.setEnabled(True)
 
+    def filter_type_changed(self, value):
+        if value == 0:
+            self.commande_number.setEnabled(False)
+            self.commande_number_label.setEnabled(False)
 
+            self.fourn_label.setEnabled(True)
+            self.products_label.setEnabled(True)
+            self.fourn.setEnabled(True)
+            self.products.setEnabled(True)
+            self.products_list.setEnabled(True)
+            self.add.setEnabled(True)
+            self.empty.setEnabled(True)
 
 
 
