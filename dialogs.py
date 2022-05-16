@@ -221,15 +221,24 @@ class Filter_commande(QtWidgets.QDialog):
             self.products_list.setEnabled(True)
             self.add.setEnabled(True)
             self.empty.setEnabled(True)
+        else:
+            self.commande_number.setEnabled(True)
+            self.commande_number_label.setEnabled(True)
 
-
+            self.fourn_label.setEnabled(False)
+            self.products_label.setEnabled(False)
+            self.fourn.setEnabled(False)
+            self.products.setEnabled(False)
+            self.products_list.setEnabled(False)
+            self.add.setEnabled(False)
+            self.empty.setEnabled(False)
 
 
     def add_event(self):
-        self.products_list.addItem()
+        self.products_list.addItem(self.products.currentText())
 
     def empty_event(self):
-        print("ok")
+        self.products_list.clear()
 
 
 
