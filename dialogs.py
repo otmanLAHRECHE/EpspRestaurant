@@ -145,4 +145,30 @@ class Add_new_commande(QtWidgets.QDialog):
             self.commande_products_table.removeRow(row_selected)
 
 
+class Filter_commande(QtWidgets.QDialog):
+    def __init__(self, products, fourn, commande_number):
+        super(Filter_commande, self).__init__()
+        uic.loadUi('./user_interfaces/filter_commandes.ui', self)
+
+
+        self.pd = products
+        self.fr = fourn
+        self.date_type = self.findChild(QtWidgets.QComboBox, "comboBox")
+        self.frm = self.findChild(QtWidgets.QLabel, "label")
+        self.to = self.findChild(QtWidgets.QLabel, "label_2")
+        self.fourn_label = self.findChild(QtWidgets.QLabel, "label_8")
+        self.products_label = self.findChild(QtWidgets.QLabel, "label_9")
+        self.date_before = self.findChild(QtWidgets.QDateEdit, "dateEdit")
+        self.date_after = self.findChild(QtWidgets.QDateEdit, "dateEdit_2")
+        self.order = self.findChild(QtWidgets.QComboBox, "comboBox_2")
+        self.filter_type = self.findChild(QtWidgets.QComboBox, "comboBox_3")
+        self.order_number = self.findChild(QtWidgets.QSpinBox, "spinBox")
+        self.fourn = self.findChild(QtWidgets.QComboBox, "comboBox_4")
+        self.products = self.findChild(QtWidgets.QComboBox, "comboBox_5")
+        self.add = self.findChild(QtWidgets.QPushButton, "pushButton")
+        self.empty = self.findChild(QtWidgets.QPushButton, "pushButton_2")
+        self.products_list = self.findChild(QtWidgets.QListWidget, "listWidget")
+
+
+
 

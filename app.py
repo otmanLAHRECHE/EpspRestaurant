@@ -137,6 +137,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.add_commande_button.clicked.connect(self.add_commande)
         self.edit_commmande_button.clicked.connect(self.edit_commande)
         self.delete_commande_button.clicked.connect(self.delete_commande)
+        self.reset_commande_buton.clicked.connect(self.reset_commande)
 
 
         ##################### End commandes page initialisation
@@ -1033,7 +1034,6 @@ class AppUi(QtWidgets.QMainWindow):
                     self.commandes_table.cellWidget(row, 0).check.setChecked(False)
 
 
-
     def signal_delete_bon_commande_accepted(self, progress):
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
@@ -1042,6 +1042,10 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
             self.commandes_table.removeRow(self.to_update_row)
+
+
+    def reset_commande(self):
+        self.load_commandes()
 
 
 
