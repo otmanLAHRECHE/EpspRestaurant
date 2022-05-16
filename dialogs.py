@@ -166,8 +166,21 @@ class Filter_commande(QtWidgets.QDialog):
         self.fourn = self.findChild(QtWidgets.QComboBox, "comboBox_4")
         self.products = self.findChild(QtWidgets.QComboBox, "comboBox_5")
         self.add = self.findChild(QtWidgets.QPushButton, "pushButton")
+        self.add.setIcon(QIcon("./icons/plus2.png"))
         self.empty = self.findChild(QtWidgets.QPushButton, "pushButton_2")
+        self.empty.setIcon(QIcon("./icons/trash.png"))
         self.products_list = self.findChild(QtWidgets.QListWidget, "listWidget")
+
+        self.add.clicked.connect(self.add_event)
+        self.empty.clicked.connect(self.empty_event)
+
+
+
+    def add_event(self):
+        print("ok")
+
+    def empty_event(self):
+        print("ok")
 
 
 
