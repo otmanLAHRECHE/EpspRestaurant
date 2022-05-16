@@ -874,7 +874,7 @@ class AppUi(QtWidgets.QMainWindow):
             check = Check()
 
             self.commandes_table.setCellWidget(progress[0], 0, check)
-            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[1])))
+            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem("00"+str(progress[1])))
             self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[2])))
             self.commandes_table.setItem(progress[0], 3, QTableWidgetItem(str(progress[3])))
             p_list = ProductsList(progress[4])
@@ -964,17 +964,24 @@ class AppUi(QtWidgets.QMainWindow):
                     if error:
                         self.alert_("خطأ في المطلوبات")
                     else:
-                        self.dialog = Threading_loading()
-                        self.dialog.ttl.setText("إنتظر من فضلك")
-                        self.dialog.progress.setValue(0)
-                        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-                        self.dialog.show()
+                        reply = QMessageBox.question(self, 'تعديل',
+                                                     'ملاحظة :قيمة المنتوجات المعدلة لن تتغير في المخزون,متأكد من المتابعة؟',
+                                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                        if reply == QMessageBox.Yes:
+                            self.dialog = Threading_loading()
+                            self.dialog.ttl.setText("إنتظر من فضلك")
+                            self.dialog.progress.setValue(0)
+                            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                            self.dialog.show()
 
-                        self.thr = ThreadUpdateBonCommande(old_commande_nbr,dialog.commande_number.text(), dialog.commande_date.text(),
-                                                        dialog.commande_fournesseur.currentText(), product_list)
-                        self.thr._signal.connect(self.signal_commande_update_accepted)
-                        self.thr._signal_result.connect(self.signal_commande_update_accepted)
-                        self.thr.start()
+                            self.thr = ThreadUpdateBonCommande(old_commande_nbr,dialog.commande_number.text(), dialog.commande_date.text(),
+                                                            dialog.commande_fournesseur.currentText(), product_list)
+                            self.thr._signal.connect(self.signal_commande_update_accepted)
+                            self.thr._signal_result.connect(self.signal_commande_update_accepted)
+                            self.thr.start()
+                        else:
+                            for row in range(self.commandes_table.rowCount()):
+                                self.commandes_table.cellWidget(row, 0).check.setChecked(False)
             else:
                 for row in range(self.commandes_table.rowCount()):
                     self.commandes_table.cellWidget(row, 0).check.setChecked(False)
@@ -1007,17 +1014,25 @@ class AppUi(QtWidgets.QMainWindow):
             for row in range(self.commandes_table.rowCount()):
                 self.commandes_table.cellWidget(row, 0).check.setChecked(False)
         else:
-            self.dialog = Threading_loading()
-            self.dialog.ttl.setText("إنتظر من فضلك")
-            self.dialog.progress.setValue(0)
-            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-            self.dialog.show()
+            reply = QMessageBox.question(self, 'حذف', 'هل أنت متأكد من حذف الطلب؟ (ملاحظة : قيمة المنتوجات لن تتغير في المخزون)',
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                self.dialog = Threading_loading()
+                self.dialog.ttl.setText("إنتظر من فضلك")
+                self.dialog.progress.setValue(0)
+                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                self.dialog.show()
 
-            self.thr = ThreadDeleteBonCommande(self.commandes_table.item(row_selected, 1).text())
-            self.to_update_row = row_selected
-            self.thr._signal.connect(self.signal_delete_bon_commande_accepted)
-            self.thr._signal_result.connect(self.signal_delete_bon_commande_accepted)
-            self.thr.start()
+                self.thr = ThreadDeleteBonCommande(self.commandes_table.item(row_selected, 1).text())
+                self.to_update_row = row_selected
+                self.thr._signal.connect(self.signal_delete_bon_commande_accepted)
+                self.thr._signal_result.connect(self.signal_delete_bon_commande_accepted)
+                self.thr.start()
+            else:
+                for row in range(self.commandes_table.rowCount()):
+                    self.commandes_table.cellWidget(row, 0).check.setChecked(False)
+
+
 
     def signal_delete_bon_commande_accepted(self, progress):
         if type(progress) == int:
@@ -1267,3 +1282,11 @@ class AppUi(QtWidgets.QMainWindow):
         background-position: center left;""")
         self.fragment.setCurrentIndex(6)
         self.to_update_table = "non"
+
+    def closeEvent(self, event):
+        reply = QMessageBox.question(self, 'خروج', 'هل أنت متأكد من الخروج',
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
