@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidget
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
-    ThreadCommandDialogToUpdate, ThreadUpdateBonCommande
+    ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande
 from custom_widgets import ProductsList, Check
 
 
@@ -1013,11 +1013,21 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
             self.dialog.show()
 
-            self.thr = ThreadCommandDialogToUpdate(self.commandes_table.item(row_selected, 1).text())
+            self.thr = ThreadDeleteBonCommande(self.commandes_table.item(row_selected, 1).text())
             self.to_update_row = row_selected
             self.thr._signal.connect(self.signal_delete_bon_commande_accepted)
             self.thr._signal_result.connect(self.signal_delete_bon_commande_accepted)
             self.thr.start()
+
+    def signal_delete_bon_commande_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
+            self.commandes_table.removeRow(self.to_update_row)
+
 
 
     def h(self):

@@ -596,6 +596,10 @@ class ThreadDeleteBonCommande(QThread):
 
         id = get_commande_id_by_bon_com_number(self.bon_commande_nbr)[0]
 
+        print(id)
+
+        delete_all_bon_operation(id[0])
+
         delete_bon_commande(id[0])
 
         for i in range(65, 99):
