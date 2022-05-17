@@ -301,10 +301,7 @@ def filter_commande(filter):
     cur = connection.cursor()
     date = filter[0]
 
-    if filter[1] == 0:
-        q_order = "order by date(bon.dt) DESC"
-    else:
-        q_order = "order by date(bon.dt) ASC"
+
 
     filter_type = filter[2]
 
@@ -312,75 +309,115 @@ def filter_commande(filter):
     arg1_2 = ""
     arg2 = ""
 
-    if filter_type[0] == 0:
-        q_filter = 'bon.bon_number = ?'
-        arg2 = filter_type[1]
-    else:
-        if filter_type[1] != "all":
-            q_filter = 'fb.name = ?'
-            arg2 = filter_type[1]
-        else:
-            q_filter = ''
+
 
 
     if date[0] == 1:
-        q_date = 'date(bon.dt) < ?'
         arg1 = date[1]
-    elif date[0] == 2:
-        q_date = 'date(bon.dt) > ?'
-        arg1 = date[1]
-    elif date[0] == 3:
-        q_date = 'BETWEEN date(?) AND date(?)'
-        arg1 = date[1]
-        arg1_2 = date[2]
-    else:
-        q_date = ''
-
-
-    if arg1 == "":
-        if arg2 == "":
+        if filter_type[0] == 0:
+            arg2 = filter_type[1]
             if filter[1] == 0:
-                sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where order by date(bon.dt) DESC LIMIT 50'
-                cur.execute(sql_q)
+                sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) < ? and bon.bon_number = ? order by date(bon.dt) DESC LIMIT 50'
+                cur.execute(sql_q, (arg1,arg2))
             else:
-                sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where order by date(bon.dt) ASC LIMIT 50'
-                cur.execute(sql_q)
-
-        else:
-            if filter[1] == 0:
-                q_order = "order by date(bon.dt) DESC"
-            else:
-                q_order = "order by date(bon.dt) ASC"
-            cur.execute(sql_q,(arg2,))
-    else:
-        if arg1_2 == "":
-            if arg2 == "":
-                if filter[1] == 0:
-                    q_order = "order by date(bon.dt) DESC"
-                else:
-                    q_order = "order by date(bon.dt) ASC"
-                cur.execute(sql_q,(arg1,))
-            else:
-                if filter[1] == 0:
-                    q_order = "order by date(bon.dt) DESC"
-                else:
-                    q_order = "order by date(bon.dt) ASC"
+                sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) < ? and bon.bon_number = ? order by date(bon.dt) ASC LIMIT 50'
                 cur.execute(sql_q, (arg1, arg2))
         else:
-            if arg2 == "":
+            if filter_type[1] != "all":
+                arg2 = filter_type[1]
                 if filter[1] == 0:
-                    q_order = "order by date(bon.dt) DESC"
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) < ? and fb.name = ? order by date(bon.dt) DESC LIMIT 50'
+                    cur.execute(sql_q, (arg1, arg2))
                 else:
-                    q_order = "order by date(bon.dt) ASC"
-                cur.execute(sql_q,(arg1, arg1_2))
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) < ? and fb.name = ? order by date(bon.dt) ASC LIMIT 50'
+                    cur.execute(sql_q, (arg1, arg2))
             else:
                 if filter[1] == 0:
-                    q_order = "order by date(bon.dt) DESC"
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) < ? order by date(bon.dt) DESC LIMIT 50'
+                    cur.execute(sql_q, (arg1))
                 else:
-                    q_order = "order by date(bon.dt) ASC"
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) < ? order by date(bon.dt) ASC LIMIT 50'
+                    cur.execute(sql_q, (arg1,))
+    elif date[0] == 2:
+        arg1 = date[1]
+        if filter_type[0] == 0:
+            arg2 = filter_type[1]
+            if filter[1] == 0:
+                sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) > ? and bon.bon_number = ? order by date(bon.dt) DESC LIMIT 50'
+                cur.execute(sql_q, (arg1,arg2))
+            else:
+                sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) > ? and bon.bon_number = ? order by date(bon.dt) ASC LIMIT 50'
+                cur.execute(sql_q, (arg1, arg2))
+        else:
+            if filter_type[1] != "all":
+                arg2 = filter_type[1]
+                if filter[1] == 0:
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) > ? and fb.name = ? order by date(bon.dt) DESC LIMIT 50'
+                    cur.execute(sql_q, (arg1, arg2))
+                else:
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) > ? and fb.name = ? order by date(bon.dt) ASC LIMIT 50'
+                    cur.execute(sql_q, (arg1, arg2))
+            else:
+                if filter[1] == 0:
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) > ? order by date(bon.dt) DESC LIMIT 50'
+                    cur.execute(sql_q, (arg1))
+                else:
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) > ? order by date(bon.dt) ASC LIMIT 50'
+                    cur.execute(sql_q, (arg1,))
+    elif date[0] == 3:
+        arg1 = date[1]
+        arg1_2 = date[2]
+        if filter_type[0] == 0:
+            arg2 = filter_type[1]
+            if filter[1] == 0:
+                sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where BETWEEN date(?) AND date(?) and bon.bon_number = ? order by date(bon.dt) DESC LIMIT 50'
                 cur.execute(sql_q, (arg1, arg1_2, arg2))
+            else:
+                sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where BETWEEN date(?) AND date(?) and bon.bon_number = ? order by date(bon.dt) ASC LIMIT 50'
+                cur.execute(sql_q, (arg1, arg1_2, arg2))
+        else:
+            if filter_type[1] != "all":
+                arg2 = filter_type[1]
+                if filter[1] == 0:
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where BETWEEN date(?) AND date(?) and fb.name = ? order by date(bon.dt) DESC LIMIT 50'
+                    cur.execute(sql_q, (arg1, arg1_2, arg2))
+                else:
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where BETWEEN date(?) AND date(?) and fb.name = ? order by date(bon.dt) ASC LIMIT 50'
+                    cur.execute(sql_q, (arg1, arg1_2, arg2))
+            else:
+                if filter[1] == 0:
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where BETWEEN date(?) AND date(?) order by date(bon.dt) DESC LIMIT 50'
+                    cur.execute(sql_q, (arg1, arg1_2,))
+                else:
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where BETWEEN date(?) AND date(?) order by date(bon.dt) ASC LIMIT 50'
+                    cur.execute(sql_q, (arg1, arg1_2))
+    else:
+        q_date = ''
+        if filter_type[0] == 0:
+            arg2 = filter_type[1]
+            if filter[1] == 0:
+                sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where bon.bon_number = ? order by date(bon.dt) DESC LIMIT 50'
+                cur.execute(sql_q, (arg2,))
+            else:
+                sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where  bon.bon_number = ? order by date(bon.dt) ASC LIMIT 50'
+                cur.execute(sql_q, (arg2,))
+        else:
+            if filter_type[1] != "all":
+                arg2 = filter_type[1]
+                if filter[1] == 0:
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where  fb.name = ? order by date(bon.dt) DESC LIMIT 50'
+                    cur.execute(sql_q, (arg2,))
+                else:
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where  fb.name = ? order by date(bon.dt) ASC LIMIT 50'
+                    cur.execute(sql_q, (arg2,))
+            else:
+                if filter[1] == 0:
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id order by date(bon.dt) DESC LIMIT 50'
+                    cur.execute(sql_q)
+                else:
+                    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id order by date(bon.dt) ASC LIMIT 50'
+                    cur.execute(sql_q)
 
-    cur.execute(sql_q)
     unit = cur.fetchall()
     connection.close()
     return unit
