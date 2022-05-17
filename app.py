@@ -1094,6 +1094,7 @@ class AppUi(QtWidgets.QMainWindow):
             date = []
             filter_type = []
             if dialog.exec() == QtWidgets.QDialog.Accepted:
+                self.fc = []
                 if dialog.date_type.currentIndex() == 2:
                     if dialog.date_before.date().__eq__(dialog.date_after.date()) or dialog.date_before.date().__gt__(dialog.date_after.date()):
                         self.alert_("خطأ في التاريخ")
@@ -1119,7 +1120,7 @@ class AppUi(QtWidgets.QMainWindow):
                     list_pr = []
                     fourn = ""
                     for row in range(dialog.products_list.count()):
-                        list_pr.append(row)
+                        list_pr.append(dialog.products_list.item(row).text())
 
                     if dialog.fourn.currentIndex() == 0:
                         fourn = "all"
