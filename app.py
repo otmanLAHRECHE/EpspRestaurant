@@ -859,6 +859,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.dialog.show()
 
         self.commandes_table.setRowCount(0)
+        self.fc = []
 
         self.thr = ThreadLoadCommande()
         self.thr._signal.connect(self.commande_load_accepted)
@@ -942,6 +943,7 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.close()
             dialog = Add_new_commande(self.p, self.f, self.commandes_table.item(self.to_update_row, 1).text())
             dialog.setWindowTitle("تعديل على طلب")
+            dialog.ttl.setText("تعديل على طلب :")
             dialog.commande_fournesseur.setCurrentText(self.commandes_table.item(self.to_update_row, 3).text())
             dt = self.commandes_table.item(self.to_update_row, 2).text()
             dt = dt.split("/")
@@ -1137,6 +1139,8 @@ class AppUi(QtWidgets.QMainWindow):
                 self.fc.append(dialog.order.currentIndex())
                 self.fc.append(filter_type)
                 print(self.fc)
+
+                dialog.close
 
 
 

@@ -423,6 +423,29 @@ def filter_commande(filter):
     return unit
 
 
+def get_filtred_operations_by_commande_id(id_bon_commande, filter):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    filter_type = filter[2]
+
+
+    args = filter_type[2]
+    if args:
+        args.insert(0,id_bon_commande)
+        l = len(args) - 1
+        sql_q = 'Select product.name, opertation.qnt, product.unit from product inner join opertation on product.product_id = opertation.product_op_id where opertation.bon_op_id = ? and product.name in ({seq})'.format(
+    seq=','.join(['?']*l))
+        cur.execute(sql_q, args)
+    else:
+        sql_q = 'Select product.name, opertation.qnt, product.unit from product inner join opertation on product.product_id = opertation.product_op_id where opertation.bon_op_id = ?'
+        cur.execute(sql_q, id_bon_commande)
+
+
+    unit = cur.fetchall()
+    connection.close()
+    return unit
+
+
 
 
 

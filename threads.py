@@ -8,7 +8,7 @@ from database_operation import is_product_exist, add_new_product, get_product_id
     is_four_ben_exist, get_all_four_ben, update_four_ben, delete_four_ben, get_all_product_names_no_type, \
     get_all_four_ben_names, get_last_bon_commande_number, is_commande_number_exist, add_bon, get_fourn_ben_id_from_name, \
     add_operation, get_stock_qte_by_product_id, update_stock_by_commande, get_all_commande, get_operations_by_commande_id, \
-    get_commande_id_by_bon_com_number, update_bon, delete_all_bon_operation, delete_bon_commande, filter_commande
+    get_commande_id_by_bon_com_number, update_bon, delete_all_bon_operation, delete_bon_commande, filter_commande, get_filtred_operations_by_commande_id
 
 from tools import forming_date, un_forming_date
 
@@ -669,18 +669,18 @@ class ThreadFilterCommande(QThread):
 
         commandes = filter_commande(self.filter)
 
-
         row = 0
         for commande in commandes:
             list_commandes = []
-            operations = get_operations_by_commande_id(commande[0])
-            list_commandes.append(row)
-            list_commandes.append(commande[1])
-            list_commandes.append(un_forming_date(commande[2]))
-            list_commandes.append(commande[3])
-            list_commandes.append(operations)
-            self._signal_list.emit(list_commandes)
-            row = row + 1
+            operations = get_filtred_operations_by_commande_id(commande[0], self.filter)
+            if operations:
+                list_commandes.append(row)
+                list_commandes.append(commande[1])
+                list_commandes.append(un_forming_date(commande[2]))
+                list_commandes.append(commande[3])
+                list_commandes.append(operations)
+                self._signal_list.emit(list_commandes)
+                row = row + 1
 
         for i in range(30, 99):
             self._signal.emit(i)

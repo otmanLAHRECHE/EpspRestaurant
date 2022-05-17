@@ -180,6 +180,9 @@ class Filter_commande(QtWidgets.QDialog):
         self.empty.clicked.connect(self.empty_event)
 
         self.frm.setText("قبل التاريخ:")
+
+        self.frm.setEnabled(False)
+        self.date_before.setEnabled(False)
         self.to.setEnabled(False)
         self.date_after.setEnabled(False)
 
