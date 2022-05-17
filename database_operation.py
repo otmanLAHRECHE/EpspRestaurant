@@ -310,11 +310,13 @@ def filter_commande(filter):
     arg2 = ""
 
 
-
+    print(date)
+    print(filter_type)
+    print(filter[1])
 
     if date[0] == 1:
         arg1 = date[1]
-        if filter_type[0] == 0:
+        if filter_type[0] == 1:
             arg2 = filter_type[1]
             if filter[1] == 0:
                 sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) < ? and bon.bon_number = ? order by date(bon.dt) DESC LIMIT 50'
@@ -340,7 +342,7 @@ def filter_commande(filter):
                     cur.execute(sql_q, (arg1,))
     elif date[0] == 2:
         arg1 = date[1]
-        if filter_type[0] == 0:
+        if filter_type[0] == 1:
             arg2 = filter_type[1]
             if filter[1] == 0:
                 sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where date(bon.dt) > ? and bon.bon_number = ? order by date(bon.dt) DESC LIMIT 50'
@@ -367,7 +369,7 @@ def filter_commande(filter):
     elif date[0] == 3:
         arg1 = date[1]
         arg1_2 = date[2]
-        if filter_type[0] == 0:
+        if filter_type[0] == 1:
             arg2 = filter_type[1]
             if filter[1] == 0:
                 sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where BETWEEN date(?) AND date(?) and bon.bon_number = ? order by date(bon.dt) DESC LIMIT 50'
@@ -392,8 +394,7 @@ def filter_commande(filter):
                     sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where BETWEEN date(?) AND date(?) order by date(bon.dt) ASC LIMIT 50'
                     cur.execute(sql_q, (arg1, arg1_2))
     else:
-        q_date = ''
-        if filter_type[0] == 0:
+        if filter_type[0] == 1:
             arg2 = filter_type[1]
             if filter[1] == 0:
                 sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where bon.bon_number = ? order by date(bon.dt) DESC LIMIT 50'
@@ -438,7 +439,7 @@ def get_filtred_operations_by_commande_id(id_bon_commande, filter):
         cur.execute(sql_q, args)
     else:
         sql_q = 'Select product.name, opertation.qnt, product.unit from product inner join opertation on product.product_id = opertation.product_op_id where opertation.bon_op_id = ?'
-        cur.execute(sql_q, id_bon_commande)
+        cur.execute(sql_q, (id_bon_commande,))
 
 
     unit = cur.fetchall()

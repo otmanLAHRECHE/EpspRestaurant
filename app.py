@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidget
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande, Filter_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
-    ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande, ThreadFilterCommandDialog
+    ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande, ThreadFilterCommandDialog, ThreadFilterCommande
 from custom_widgets import ProductsList, Check
 
 
@@ -921,8 +921,6 @@ class AppUi(QtWidgets.QMainWindow):
 
     def signal_commande_dialog_load_to_update_accepted(self, progress):
         l = []
-        if not type(progress) == int:
-            print("progress", progress)
 
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
@@ -1071,8 +1069,6 @@ class AppUi(QtWidgets.QMainWindow):
 
     def signal_commande_filter_dialog_load_to_update_accepted(self, progress):
         l = []
-        if not type(progress) == int:
-            print("progress", progress)
 
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
@@ -1146,7 +1142,9 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
                 self.dialog.show()
 
-                self.thr = ThreadFilterCommande()
+                self.commandes_table.setRowCount(0)
+
+                self.thr = ThreadFilterCommande(self.fc)
                 self.thr._signal.connect(self.signal_commande_filter_load_to_update_accepted)
                 self.thr._signal_list.connect(self.signal_commande_filter_load_to_update_accepted)
                 self.thr._signal_result.connect(self.signal_commande_filter_load_to_update_accepted)
@@ -1165,7 +1163,7 @@ class AppUi(QtWidgets.QMainWindow):
             check = Check()
 
             self.commandes_table.setCellWidget(progress[0], 0, check)
-            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem("00"+str(progress[1])))
+            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[1])))
             self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[2])))
             self.commandes_table.setItem(progress[0], 3, QTableWidgetItem(str(progress[3])))
             p_list = ProductsList(progress[4])

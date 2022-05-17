@@ -669,10 +669,17 @@ class ThreadFilterCommande(QThread):
 
         commandes = filter_commande(self.filter)
 
+        print("commandes______________", commandes)
+
+        filter_type =
+
         row = 0
         for commande in commandes:
             list_commandes = []
+            print(commande[0])
+
             operations = get_filtred_operations_by_commande_id(commande[0], self.filter)
+            print("operation______________",operations)
             if operations:
                 list_commandes.append(row)
                 list_commandes.append(commande[1])
