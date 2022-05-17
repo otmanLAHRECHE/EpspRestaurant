@@ -881,7 +881,7 @@ class AppUi(QtWidgets.QMainWindow):
             check = Check()
 
             self.commandes_table.setCellWidget(progress[0], 0, check)
-            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem("00"+str(progress[1])))
+            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[1])))
             self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[2])))
             self.commandes_table.setItem(progress[0], 3, QTableWidgetItem(str(progress[3])))
             p_list = ProductsList(progress[4])
@@ -1140,9 +1140,41 @@ class AppUi(QtWidgets.QMainWindow):
                 self.fc.append(filter_type)
                 print(self.fc)
 
-                dialog.close
+                self.dialog = Threading_loading()
+                self.dialog.ttl.setText("إنتظر من فضلك")
+                self.dialog.progress.setValue(0)
+                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                self.dialog.show()
 
+                self.thr = ThreadFilterCommande()
+                self.thr._signal.connect(self.signal_commande_filter_load_to_update_accepted)
+                self.thr._signal_list.connect(self.signal_commande_filter_load_to_update_accepted)
+                self.thr._signal_result.connect(self.signal_commande_filter_load_to_update_accepted)
+                self.thr.start()
 
+    def signal_commande_filter_load_to_update_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        elif type(progress) == list:
+            self.commandes_table.insertRow(progress[0])
+            if len(progress[4]) == 1 or len(progress[4]) == 2 or len(progress[4]) == 3:
+                self.commandes_table.setRowHeight(progress[0], len(progress[4]) * 30)
+            else:
+                self.commandes_table.setRowHeight(progress[0], len(progress[4])*24)
+
+            check = Check()
+
+            self.commandes_table.setCellWidget(progress[0], 0, check)
+            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem("00"+str(progress[1])))
+            self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[2])))
+            self.commandes_table.setItem(progress[0], 3, QTableWidgetItem(str(progress[3])))
+            p_list = ProductsList(progress[4])
+            self.commandes_table.setCellWidget(progress[0], 4, p_list)
+
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
 
 
 
