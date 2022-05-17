@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidget
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande, Filter_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
-    ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande
+    ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande, ThreadFilterCommandDialog
 from custom_widgets import ProductsList, Check
 
 
@@ -1053,10 +1053,89 @@ class AppUi(QtWidgets.QMainWindow):
         self.load_commandes()
 
     def filter_commande_event(self):
-        dialog = Filter_commande([("fdsfsdf",)],[("fdsfsdf",)],[])
 
-        if dialog.exec() == QtWidgets.QDialog.Accepted :
-            print("ok")
+        self.dialog = Threading_loading()
+        self.dialog.ttl.setText("إنتظر من فضلك")
+        self.dialog.progress.setValue(0)
+        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self.dialog.show()
+
+        self.thr = ThreadFilterCommandDialog()
+        self.thr._signal.connect(self.signal_commande_filter_dialog_load_to_update_accepted)
+        self.thr._signal_list.connect(self.signal_commande_filter_dialog_load_to_update_accepted)
+        self.thr._signal_result.connect(self.signal_commande_filter_dialog_load_to_update_accepted)
+        self.thr.start()
+
+
+    def signal_commande_filter_dialog_load_to_update_accepted(self, progress):
+        l = []
+        if not type(progress) == int:
+            print("progress", progress)
+
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+
+        elif type(progress) == type(l):
+            if progress[0] == "four":
+                progress.remove("four")
+                self.f = progress
+            elif progress[0] == "products":
+                progress.remove("products")
+                self.p = progress
+            else:
+                self.oper = progress
+
+        elif type(progress) == bool:
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.progress.setValue(100)
+            self.dialog.close()
+
+            dialog = Filter_commande(self.p, self.f, self.fc)
+            date = []
+            filter_type = []
+            if dialog.exec() == QtWidgets.QDialog.Accepted:
+                if dialog.date_type.currentIndex() == 2:
+                    if dialog.date_before.date().__eq__(dialog.date_after.date()) or dialog.date_before.date().__gt__(dialog.date_after.date()):
+                        self.alert_("خطأ في التاريخ")
+                    else:
+                        date.append(2)
+                        date.append(dialog.date_before.text())
+                        date.append(dialog.date_after.text())
+                elif dialog.date_type.currentIndex() == 1:
+                    date.append(1)
+                    date.append(dialog.date_before.text())
+                else:
+                    date.append(0)
+                    date.append(dialog.date_before.text())
+
+                if dialog.commande_number.isEnabled():
+                    if dialog.commande_number.text() == "00":
+                        self.alert_("خطأ في رقم الطلب")
+                    else:
+                        filter_type.append(1)
+                        filter_type.append(dialog.commande_number.value())
+
+                else:
+                    list_pr = []
+                    fourn = ""
+                    for row in range(dialog.products_list.count()):
+                        list_pr.append(row)
+
+                    if dialog.fourn.currentIndex() == 0:
+                        fourn = "all"
+                    else:
+                        fourn = dialog.fourn.currentText()
+
+                    filter_type.append(0)
+                    filter_type.append(fourn)
+                    filter_type.append(list_pr)
+
+                self.fc.append(date)
+                self.fc.append(dialog.order.currentIndex())
+                self.fc.append(filter_type)
+                print(self.fc)
+
+
 
 
 
