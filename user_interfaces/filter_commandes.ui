@@ -405,7 +405,7 @@
     <string notr="true">background-color: rgb(199, 238, 255);</string>
    </property>
    <property name="prefix">
-    <string>00</string>
+    <string>0</string>
    </property>
    <property name="maximum">
     <number>1000</number>
