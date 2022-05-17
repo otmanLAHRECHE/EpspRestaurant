@@ -8,7 +8,7 @@ from database_operation import is_product_exist, add_new_product, get_product_id
     is_four_ben_exist, get_all_four_ben, update_four_ben, delete_four_ben, get_all_product_names_no_type, \
     get_all_four_ben_names, get_last_bon_commande_number, is_commande_number_exist, add_bon, get_fourn_ben_id_from_name, \
     add_operation, get_stock_qte_by_product_id, update_stock_by_commande, get_all_commande, get_operations_by_commande_id, \
-    get_commande_id_by_bon_com_number, update_bon, delete_all_bon_operation, delete_bon_commande
+    get_commande_id_by_bon_com_number, update_bon, delete_all_bon_operation, delete_bon_commande, filter_commande
 
 from tools import forming_date, un_forming_date
 
@@ -644,6 +644,45 @@ class ThreadFilterCommandDialog(QThread):
         self._signal_list.emit(list_products)
 
         for i in range(60, 99):
+            self._signal.emit(i)
+
+        self._signal_result.emit(True)
+
+
+class ThreadFilterCommande(QThread):
+    _signal = pyqtSignal(int)
+    _signal_list = pyqtSignal(list)
+    _signal_result = pyqtSignal(bool)
+
+    def __init__(self, filter):
+        super(ThreadFilterCommande, self).__init__()
+        self.filter = filter
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+
+        for i in range(30):
+            self._signal.emit(i)
+
+        commandes = filter_commande(self.filter)
+
+
+        row = 0
+        for commande in commandes:
+            list_commandes = []
+            operations = get_operations_by_commande_id(commande[0])
+            list_commandes.append(row)
+            list_commandes.append(commande[1])
+            list_commandes.append(un_forming_date(commande[2]))
+            list_commandes.append(commande[3])
+            list_commandes.append(operations)
+            self._signal_list.emit(list_commandes)
+            row = row + 1
+
+        for i in range(30, 99):
             self._signal.emit(i)
 
         self._signal_result.emit(True)

@@ -1095,19 +1095,21 @@ class AppUi(QtWidgets.QMainWindow):
             filter_type = []
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 self.fc = []
-                if dialog.date_type.currentIndex() == 2:
+                if dialog.date_type.currentIndex() == 3:
                     if dialog.date_before.date().__eq__(dialog.date_after.date()) or dialog.date_before.date().__gt__(dialog.date_after.date()):
                         self.alert_("خطأ في التاريخ")
                     else:
                         date.append(2)
                         date.append(dialog.date_before.text())
                         date.append(dialog.date_after.text())
-                elif dialog.date_type.currentIndex() == 1:
+                elif dialog.date_type.currentIndex() == 2:
                     date.append(1)
+                    date.append(dialog.date_before.text())
+                elif dialog.date_type.currentIndex() == 1:
+                    date.append(0)
                     date.append(dialog.date_before.text())
                 else:
                     date.append(0)
-                    date.append(dialog.date_before.text())
 
                 if dialog.commande_number.isEnabled():
                     if dialog.commande_number.text() == "00":

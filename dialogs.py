@@ -196,14 +196,25 @@ class Filter_commande(QtWidgets.QDialog):
 
     def date_type_changed(self, value):
         if value == 0:
-            self.frm.setText("قبل التاريخ:")
+            self.frm.setEnabled(False)
+            self.date_before.setEnabled(False)
             self.to.setEnabled(False)
             self.date_after.setEnabled(False)
         elif value == 1:
-            self.frm.setText("بعد التاريخ:")
+            self.frm.setEnabled(True)
+            self.date_before.setEnabled(True)
+            self.frm.setText("قبل التاريخ:")
             self.to.setEnabled(False)
             self.date_after.setEnabled(False)
         elif value == 2:
+            self.frm.setEnabled(True)
+            self.date_before.setEnabled(True)
+            self.frm.setText("بعد التاريخ:")
+            self.to.setEnabled(False)
+            self.date_after.setEnabled(False)
+        elif value == 3:
+            self.frm.setEnabled(True)
+            self.date_before.setEnabled(True)
             self.frm.setText("بين التاريخ:")
             self.to.setEnabled(True)
             self.to.setText("و التاريخ")
