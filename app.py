@@ -1092,19 +1092,21 @@ class AppUi(QtWidgets.QMainWindow):
             date = []
             filter_type = []
             if dialog.exec() == QtWidgets.QDialog.Accepted:
+                go = True
                 self.fc = []
                 if dialog.date_type.currentIndex() == 3:
                     if dialog.date_before.date().__eq__(dialog.date_after.date()) or dialog.date_before.date().__gt__(dialog.date_after.date()):
                         self.alert_("خطأ في التاريخ")
+                        go = False
                     else:
-                        date.append(2)
+                        date.append(3)
                         date.append(dialog.date_before.text())
                         date.append(dialog.date_after.text())
                 elif dialog.date_type.currentIndex() == 2:
-                    date.append(1)
+                    date.append(2)
                     date.append(dialog.date_before.text())
                 elif dialog.date_type.currentIndex() == 1:
-                    date.append(0)
+                    date.append(1)
                     date.append(dialog.date_before.text())
                 else:
                     date.append(0)
@@ -1112,6 +1114,7 @@ class AppUi(QtWidgets.QMainWindow):
                 if dialog.commande_number.isEnabled():
                     if dialog.commande_number.text() == "00":
                         self.alert_("خطأ في رقم الطلب")
+                        go = False
                     else:
                         filter_type.append(1)
                         filter_type.append(dialog.commande_number.value())
@@ -1131,24 +1134,25 @@ class AppUi(QtWidgets.QMainWindow):
                     filter_type.append(fourn)
                     filter_type.append(list_pr)
 
-                self.fc.append(date)
-                self.fc.append(dialog.order.currentIndex())
-                self.fc.append(filter_type)
-                print(self.fc)
+                if go:
+                    self.fc.append(date)
+                    self.fc.append(dialog.order.currentIndex())
+                    self.fc.append(filter_type)
+                    print(self.fc)
 
-                self.dialog = Threading_loading()
-                self.dialog.ttl.setText("إنتظر من فضلك")
-                self.dialog.progress.setValue(0)
-                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-                self.dialog.show()
+                    self.dialog = Threading_loading()
+                    self.dialog.ttl.setText("إنتظر من فضلك")
+                    self.dialog.progress.setValue(0)
+                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                    self.dialog.show()
 
-                self.commandes_table.setRowCount(0)
+                    self.commandes_table.setRowCount(0)
 
-                self.thr = ThreadFilterCommande(self.fc)
-                self.thr._signal.connect(self.signal_commande_filter_load_to_update_accepted)
-                self.thr._signal_list.connect(self.signal_commande_filter_load_to_update_accepted)
-                self.thr._signal_result.connect(self.signal_commande_filter_load_to_update_accepted)
-                self.thr.start()
+                    self.thr = ThreadFilterCommande(self.fc)
+                    self.thr._signal.connect(self.signal_commande_filter_load_to_update_accepted)
+                    self.thr._signal_list.connect(self.signal_commande_filter_load_to_update_accepted)
+                    self.thr._signal_result.connect(self.signal_commande_filter_load_to_update_accepted)
+                    self.thr.start()
 
     def signal_commande_filter_load_to_update_accepted(self, progress):
         if type(progress) == int:

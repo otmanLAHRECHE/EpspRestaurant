@@ -669,18 +669,27 @@ class ThreadFilterCommande(QThread):
 
         commandes = filter_commande(self.filter)
 
-        print("commandes______________", commandes)
+        filter_type = self.filter[2]
 
-        filter_type =
+
 
         row = 0
         for commande in commandes:
             list_commandes = []
             print(commande[0])
 
-            operations = get_filtred_operations_by_commande_id(commande[0], self.filter)
-            print("operation______________",operations)
-            if operations:
+            if filter_type[0] == 0:
+                operations = get_filtred_operations_by_commande_id(commande[0], self.filter)
+                if operations:
+                    list_commandes.append(row)
+                    list_commandes.append(commande[1])
+                    list_commandes.append(un_forming_date(commande[2]))
+                    list_commandes.append(commande[3])
+                    list_commandes.append(operations)
+                    self._signal_list.emit(list_commandes)
+                    row = row + 1
+            else:
+                operations = get_operations_by_commande_id(commande[0])
                 list_commandes.append(row)
                 list_commandes.append(commande[1])
                 list_commandes.append(un_forming_date(commande[2]))
@@ -688,6 +697,7 @@ class ThreadFilterCommande(QThread):
                 list_commandes.append(operations)
                 self._signal_list.emit(list_commandes)
                 row = row + 1
+
 
         for i in range(30, 99):
             self._signal.emit(i)
