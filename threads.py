@@ -419,6 +419,8 @@ class ThreadAddBonCommande(QThread):
 
             four_id = get_fourn_ben_id_from_name(self.fourn)[0]
 
+
+
             bon_id = add_bon(forming_date(self.date), "commande", four_id[0], self.commande_number)
 
             for product in self.product_list:
