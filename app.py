@@ -7,7 +7,7 @@ from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_comman
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
     ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande, ThreadFilterCommandDialog, ThreadFilterCommande, \
-    ThreadAddBonSortie, ThreadLoadSortie, ThreadUpdateBonCommande, ThreadSortieDialogToUpdate
+    ThreadAddBonSortie, ThreadLoadSortie, ThreadUpdateBonsortie, ThreadSortieDialogToUpdate, ThreadSortieDialog
 from custom_widgets import ProductsList, Check
 
 
@@ -209,7 +209,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.edit_sortie_button.clicked.connect(self.edit_sortie)
         self.delete_sortie_button.clicked.connect(self.delete_sortie)
         self.reset_sortie_buton.clicked.connect(self.reset_sortie)
-        self.filter_sortie_button.clicked.connect(self.filter_sortie_event)
+        #self.filter_sortie_button.clicked.connect(self.filter_sortie_event)
 
         ##################### End sortie page initialisation
         
@@ -1217,7 +1217,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.dialog.show()
 
 
-        self.thr = ThreadCommandDialog()
+        self.thr = ThreadSortieDialog()
         self.thr._signal.connect(self.signal_sortie_dialog_load_accepted)
         self.thr._signal_list.connect(self.signal_sortie_dialog_load_accepted)
         self.thr._signal_result.connect(self.signal_sortie_dialog_load_accepted)
@@ -1426,7 +1426,7 @@ class AppUi(QtWidgets.QMainWindow):
                             self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
                             self.dialog.show()
 
-                            self.thr = ThreadUpdateBonCommande(old_commande_nbr,dialog.commande_number.text(), dialog.commande_date.text(),
+                            self.thr = ThreadUpdateBonsortie(old_commande_nbr,dialog.commande_number.text(), dialog.commande_date.text(),
                                                             dialog.commande_fournesseur.currentText(), product_list)
                             self.thr._signal.connect(self.signal_sortie_update_accepted)
                             self.thr._signal_result.connect(self.signal_sortie_update_accepted)
@@ -1452,6 +1452,177 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.ttl.setText("إنتها بنجاح")
                 self.dialog.close()
                 self.alert_("خطأ في رقم التموين (الرقم موجود سابقا)")
+
+
+    def delete_sortie(self):
+        ch = 0
+        for row in range(self.sortie_table.rowCount()):
+            if self.sortie_table.cellWidget(row, 0).check.isChecked():
+                row_selected = row
+                ch = ch + 1
+        if ch > 1 or ch == 0:
+            self.alert_("إختار طلب")
+            for row in range(self.sortie_table.rowCount()):
+                self.sortie_table.cellWidget(row, 0).check.setChecked(False)
+        else:
+            reply = QMessageBox.question(self, 'حذف', 'هل أنت متأكد من حذف التموين؟ (ملاحظة : قيمة المنتوجات لن تتغير في المخزون)',
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                self.dialog = Threading_loading()
+                self.dialog.ttl.setText("إنتظر من فضلك")
+                self.dialog.progress.setValue(0)
+                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                self.dialog.show()
+
+                self.thr = ThreadDeleteBonCommande(self.sortie_table.item(row_selected, 1).text())
+                self.to_update_row = row_selected
+                self.thr._signal.connect(self.signal_delete_bon_sortie_accepted)
+                self.thr._signal_result.connect(self.signal_delete_bon_sortie_accepted)
+                self.thr.start()
+            else:
+                for row in range(self.sortie_table.rowCount()):
+                    self.sortie_table.cellWidget(row, 0).check.setChecked(False)
+
+
+    def signal_delete_bon_sortie_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
+            self.sortie_table.removeRow(self.to_update_row)
+
+
+    def reset_sortie(self):
+        self.load_sorties()
+
+
+    def filter_commande_event(self):
+
+        self.dialog = Threading_loading()
+        self.dialog.ttl.setText("إنتظر من فضلك")
+        self.dialog.progress.setValue(0)
+        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self.dialog.show()
+
+        self.thr = ThreadFilterCommandDialog()
+        self.thr._signal.connect(self.signal_commande_filter_dialog_load_to_update_accepted)
+        self.thr._signal_list.connect(self.signal_commande_filter_dialog_load_to_update_accepted)
+        self.thr._signal_result.connect(self.signal_commande_filter_dialog_load_to_update_accepted)
+        self.thr.start()
+
+
+    def signal_commande_filter_dialog_load_to_update_accepted(self, progress):
+        l = []
+
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+
+        elif type(progress) == type(l):
+            if progress[0] == "four":
+                progress.remove("four")
+                self.f = progress
+            elif progress[0] == "products":
+                progress.remove("products")
+                self.p = progress
+            else:
+                self.oper = progress
+
+        elif type(progress) == bool:
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.progress.setValue(100)
+            self.dialog.close()
+
+            dialog = Filter_commande(self.p, self.f, self.fc)
+            date = []
+            filter_type = []
+            if dialog.exec() == QtWidgets.QDialog.Accepted:
+                go = True
+                self.fc = []
+                if dialog.date_type.currentIndex() == 3:
+                    if dialog.date_before.date().__eq__(dialog.date_after.date()) or dialog.date_before.date().__gt__(dialog.date_after.date()):
+                        self.alert_("خطأ في التاريخ")
+                        go = False
+                    else:
+                        date.append(3)
+                        date.append(dialog.date_before.text())
+                        date.append(dialog.date_after.text())
+                elif dialog.date_type.currentIndex() == 2:
+                    date.append(2)
+                    date.append(dialog.date_before.text())
+                elif dialog.date_type.currentIndex() == 1:
+                    date.append(1)
+                    date.append(dialog.date_before.text())
+                else:
+                    date.append(0)
+
+                if dialog.commande_number.isEnabled():
+                    if dialog.commande_number.text() == "00":
+                        self.alert_("خطأ في رقم الطلب")
+                        go = False
+                    else:
+                        filter_type.append(1)
+                        filter_type.append(dialog.commande_number.value())
+
+                else:
+                    list_pr = []
+                    fourn = ""
+                    for row in range(dialog.products_list.count()):
+                        list_pr.append(dialog.products_list.item(row).text())
+
+                    if dialog.fourn.currentIndex() == 0:
+                        fourn = "all"
+                    else:
+                        fourn = dialog.fourn.currentText()
+
+                    filter_type.append(0)
+                    filter_type.append(fourn)
+                    filter_type.append(list_pr)
+
+                if go:
+                    self.fc.append(date)
+                    self.fc.append(dialog.order.currentIndex())
+                    self.fc.append(filter_type)
+                    print(self.fc)
+
+                    self.dialog = Threading_loading()
+                    self.dialog.ttl.setText("إنتظر من فضلك")
+                    self.dialog.progress.setValue(0)
+                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                    self.dialog.show()
+
+                    self.commandes_table.setRowCount(0)
+
+                    self.thr = ThreadFilterCommande(self.fc)
+                    self.thr._signal.connect(self.signal_commande_filter_load_to_update_accepted)
+                    self.thr._signal_list.connect(self.signal_commande_filter_load_to_update_accepted)
+                    self.thr._signal_result.connect(self.signal_commande_filter_load_to_update_accepted)
+                    self.thr.start()
+
+    def signal_commande_filter_load_to_update_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        elif type(progress) == list:
+            self.commandes_table.insertRow(progress[0])
+            if len(progress[4]) == 1 or len(progress[4]) == 2 or len(progress[4]) == 3:
+                self.commandes_table.setRowHeight(progress[0], len(progress[4]) * 30)
+            else:
+                self.commandes_table.setRowHeight(progress[0], len(progress[4])*24)
+
+            check = Check()
+
+            self.commandes_table.setCellWidget(progress[0], 0, check)
+            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[1])))
+            self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[2])))
+            self.commandes_table.setItem(progress[0], 3, QTableWidgetItem(str(progress[3])))
+            p_list = ProductsList(progress[4])
+            self.commandes_table.setCellWidget(progress[0], 4, p_list)
+
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
 
 
 

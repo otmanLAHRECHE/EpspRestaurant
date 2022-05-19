@@ -9,7 +9,7 @@ from database_operation import is_product_exist, add_new_product, get_product_id
     get_all_four_ben_names, get_last_bon_commande_number, is_commande_number_exist, add_bon, get_fourn_ben_id_from_name, \
     add_operation, get_stock_qte_by_product_id, update_stock_by_commande, get_all_commande, get_operations_by_commande_id, \
     get_commande_id_by_bon_com_number, update_bon, delete_all_bon_operation, delete_bon_commande, filter_commande, get_filtred_operations_by_commande_id, \
-    is_sortie_number_exist, get_all_sorties, get_sortie_id_by_bon_sort_number
+    is_sortie_number_exist, get_all_sorties, get_sortie_id_by_bon_sort_number, filter_sorties, get_filtred_operations_by_sortie_id
 
 
 from tools import forming_date, un_forming_date
@@ -897,12 +897,12 @@ class ThreadSortieDialogToUpdate(QThread):
         self._signal_result.emit(True)
 
 
-class ThreadUpdateBonCommande(QThread):
+class ThreadUpdateBonsortie(QThread):
     _signal = pyqtSignal(int)
     _signal_result = pyqtSignal(bool)
 
     def __init__(self, old_sortie_number,sortie_number, date, ben, product_list):
-        super(ThreadUpdateBonCommande, self).__init__()
+        super(ThreadUpdateBonsortie, self).__init__()
         self.old_sortie_number = old_sortie_number
         self.sortie_number = sortie_number
         self.date = date
@@ -951,5 +951,133 @@ class ThreadUpdateBonCommande(QThread):
                 self._signal.emit(i)
 
             self._signal_result.emit(True)
+
+
+class ThreadDeleteBonCommande(QThread):
+    _signal = pyqtSignal(int)
+    _signal_result = pyqtSignal(bool)
+
+    def __init__(self, bon_commande_nbr):
+        super(ThreadDeleteBonCommande, self).__init__()
+        self.bon_commande_nbr = bon_commande_nbr
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+
+        for i in range(65):
+            self._signal.emit(i)
+
+        id = get_sortie_id_by_bon_sort_number(self.bon_commande_nbr)[0]
+
+        print(id)
+
+        delete_all_bon_operation(id[0])
+
+        delete_bon_commande(id[0])
+
+        for i in range(65, 99):
+            self._signal.emit(i)
+
+        self._signal_result.emit(True)
+
+
+class ThreadFilterSortieDialog(QThread):
+    _signal = pyqtSignal(int)
+    _signal_result = pyqtSignal(bool)
+    _signal_list = pyqtSignal(list)
+
+    def __init__(self):
+        super(ThreadFilterSortieDialog, self).__init__()
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+        list_four = []
+        list_four.append("ben")
+        fours = get_all_four_ben_names("ben")
+        for i in range(30):
+            self._signal.emit(i)
+
+        for four in fours:
+            list_four.append(four)
+        self._signal_list.emit(list_four)
+
+        for i in range(30, 60):
+            self._signal.emit(i)
+
+
+        list_products = []
+        list_products.append("products")
+        products = get_all_product_names_no_type()
+        for product in products:
+            list_products.append(product)
+
+        self._signal_list.emit(list_products)
+
+        for i in range(60, 99):
+            self._signal.emit(i)
+
+        self._signal_result.emit(True)
+
+
+class ThreadFilterSortie(QThread):
+    _signal = pyqtSignal(int)
+    _signal_list = pyqtSignal(list)
+    _signal_result = pyqtSignal(bool)
+
+    def __init__(self, filter):
+        super(ThreadFilterSortie, self).__init__()
+        self.filter = filter
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+
+        for i in range(30):
+            self._signal.emit(i)
+
+        sorties = filter_sorties(self.filter)
+
+        filter_type = self.filter[2]
+
+
+
+        row = 0
+        for commande in commandes:
+            list_commandes = []
+            print(commande[0])
+
+            if filter_type[0] == 0:
+                operations = get_filtred_operations_by_sortie_id(commande[0], self.filter)
+                if operations:
+                    list_commandes.append(row)
+                    list_commandes.append(commande[1])
+                    list_commandes.append(un_forming_date(commande[2]))
+                    list_commandes.append(commande[3])
+                    list_commandes.append(operations)
+                    self._signal_list.emit(list_commandes)
+                    row = row + 1
+            else:
+                operations = get_operations_by_commande_id(commande[0])
+                list_commandes.append(row)
+                list_commandes.append(commande[1])
+                list_commandes.append(un_forming_date(commande[2]))
+                list_commandes.append(commande[3])
+                list_commandes.append(operations)
+                self._signal_list.emit(list_commandes)
+                row = row + 1
+
+
+        for i in range(30, 99):
+            self._signal.emit(i)
+
+        self._signal_result.emit(True)
 
 
