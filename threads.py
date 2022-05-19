@@ -1057,7 +1057,7 @@ class ThreadFilterSortie(QThread):
         for i in range(30):
             self._signal.emit(i)
 
-        sorties = filter_sorties(self.filter)
+        commandes = filter_sorties(self.filter)
 
         filter_type = self.filter[2]
 

@@ -1539,7 +1539,7 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(100)
             self.dialog.close()
 
-            dialog = Filter_commande(self.p, self.f, self.fc)
+            dialog = Filter_commande(self.p, self.f, self.fs)
             dialog.ttl.setText("بحث في التموين")
             dialog.ttl_2.setText("تصنيف التموين:")
             dialog.ttl_3.setText("رقم التموين:")
@@ -1548,7 +1548,7 @@ class AppUi(QtWidgets.QMainWindow):
             filter_type = []
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 go = True
-                self.fc = []
+                self.fs = []
                 if dialog.date_type.currentIndex() == 3:
                     if dialog.date_before.date().__eq__(dialog.date_after.date()) or dialog.date_before.date().__gt__(dialog.date_after.date()):
                         self.alert_("خطأ في التاريخ")
@@ -1590,10 +1590,9 @@ class AppUi(QtWidgets.QMainWindow):
                     filter_type.append(list_pr)
 
                 if go:
-                    self.fc.append(date)
-                    self.fc.append(dialog.order.currentIndex())
-                    self.fc.append(filter_type)
-                    print(self.fc)
+                    self.fs.append(date)
+                    self.fs.append(dialog.order.currentIndex())
+                    self.fs.append(filter_type)
 
                     self.dialog = Threading_loading()
                     self.dialog.ttl.setText("إنتظر من فضلك")
@@ -1601,9 +1600,9 @@ class AppUi(QtWidgets.QMainWindow):
                     self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
                     self.dialog.show()
 
-                    self.commandes_table.setRowCount(0)
+                    self.sortie_table.setRowCount(0)
 
-                    self.thr = ThreadFilterSortie(self.fc)
+                    self.thr = ThreadFilterSortie(self.fs)
                     self.thr._signal.connect(self.signal_sortie_filter_load_to_update_accepted)
                     self.thr._signal_list.connect(self.signal_sortie_filter_load_to_update_accepted)
                     self.thr._signal_result.connect(self.signal_sortie_filter_load_to_update_accepted)
