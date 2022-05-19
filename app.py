@@ -1302,8 +1302,8 @@ class AppUi(QtWidgets.QMainWindow):
         self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.dialog.show()
 
-        self.commandes_table.setRowCount(0)
-        self.fc = []
+        self.sortie_table.setRowCount(0)
+        self.fs = []
 
         self.thr = ThreadLoadSortie()
         self.thr._signal.connect(self.sortie_load_accepted)
@@ -1316,25 +1316,142 @@ class AppUi(QtWidgets.QMainWindow):
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
-            self.commandes_table.insertRow(progress[0])
+            self.sortie_table.insertRow(progress[0])
             if len(progress[4]) == 1 or len(progress[4]) == 2 or len(progress[4]) == 3:
-                self.commandes_table.setRowHeight(progress[0], len(progress[4]) * 30)
+                self.sortie_table.setRowHeight(progress[0], len(progress[4]) * 30)
             else:
-                self.commandes_table.setRowHeight(progress[0], len(progress[4])*24)
+                self.sortie_table.setRowHeight(progress[0], len(progress[4])*24)
 
             check = Check()
 
-            self.commandes_table.setCellWidget(progress[0], 0, check)
-            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[1])))
-            self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[2])))
-            self.commandes_table.setItem(progress[0], 3, QTableWidgetItem(str(progress[3])))
+            self.sortie_table.setCellWidget(progress[0], 0, check)
+            self.sortie_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[1])))
+            self.sortie_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[2])))
+            self.sortie_table.setItem(progress[0], 3, QTableWidgetItem(str(progress[3])))
             p_list = ProductsList(progress[4])
-            self.commandes_table.setCellWidget(progress[0], 4, p_list)
+            self.sortie_table.setCellWidget(progress[0], 4, p_list)
 
         else:
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
+
+
+    def edit_commande(self):
+        ch = 0
+        for row in range(self.sortie_table.rowCount()):
+            if self.sortie_table.cellWidget(row, 0).check.isChecked():
+                row_selected = row
+                ch = ch + 1
+        if ch > 1 or ch == 0:
+            self.alert_("إختار تموين")
+            for row in range(self.sortie_table.rowCount()):
+                self.sortie_table.cellWidget(row, 0).check.setChecked(False)
+        else:
+            self.dialog = Threading_loading()
+            self.dialog.ttl.setText("إنتظر من فضلك")
+            self.dialog.progress.setValue(0)
+            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+            self.dialog.show()
+
+            self.thr = ThreadCommandDialogToUpdate(self.commandes_table.item(row_selected, 1).text())
+            self.to_update_row = row_selected
+            self.thr._signal.connect(self.signal_commande_dialog_load_to_update_accepted)
+            self.thr._signal_list.connect(self.signal_commande_dialog_load_to_update_accepted)
+            self.thr._signal_result.connect(self.signal_commande_dialog_load_to_update_accepted)
+            self.thr.start()
+
+
+    def signal_commande_dialog_load_to_update_accepted(self, progress):
+        l = []
+
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+
+        elif type(progress) == type(l):
+            if progress[0] == "four":
+                progress.remove("four")
+                self.f = progress
+            elif progress[0] == "products":
+                progress.remove("products")
+                self.p = progress
+            else:
+                self.oper = progress
+
+        elif type(progress) == bool:
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.progress.setValue(100)
+            self.dialog.close()
+            dialog = Add_new_commande(self.p, self.f, self.commandes_table.item(self.to_update_row, 1).text())
+            dialog.setWindowTitle("تعديل على طلب")
+            dialog.ttl.setText("تعديل على طلب :")
+            dialog.commande_fournesseur.setCurrentText(self.commandes_table.item(self.to_update_row, 3).text())
+            dt = self.commandes_table.item(self.to_update_row, 2).text()
+            dt = dt.split("/")
+            d = QDate(int(dt[2]), int(dt[1]), int(dt[0]))
+            old_commande_nbr = dialog.commande_number.text()
+            dialog.commande_date.setDate(d)
+            for operation in self.oper:
+                dialog.add_p_to_update(operation)
+
+            if dialog.exec() == QtWidgets.QDialog.Accepted:
+                if dialog.commande_products_table.rowCount() == 0:
+                    self.alert_("لا يوجد طلبات")
+                elif dialog.commande_number.text() == "00":
+                    self.alert_("خطأ في رقم الطلب")
+                else:
+                    error = False
+                    product_list = []
+                    for i in range(dialog.commande_products_table.rowCount()):
+                        if dialog.commande_products_table.cellWidget(i,1).chose_product.currentIndex() == 0 or dialog.commande_products_table.cellWidget(i, 2).chose_product_qte.value() == 0:
+                            error = True
+                        else:
+                            list = [dialog.commande_products_table.cellWidget(i, 1).chose_product.currentText(),
+                                    dialog.commande_products_table.cellWidget(i, 2).chose_product_qte.value()]
+                            product_list.append(list)
+
+                    if error:
+                        self.alert_("خطأ في المطلوبات")
+                    else:
+                        reply = QMessageBox.question(self, 'تعديل',
+                                                     'ملاحظة :قيمة المنتوجات المعدلة لن تتغير في المخزون,متأكد من المتابعة؟',
+                                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                        if reply == QMessageBox.Yes:
+                            self.dialog = Threading_loading()
+                            self.dialog.ttl.setText("إنتظر من فضلك")
+                            self.dialog.progress.setValue(0)
+                            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                            self.dialog.show()
+
+                            self.thr = ThreadUpdateBonCommande(old_commande_nbr,dialog.commande_number.text(), dialog.commande_date.text(),
+                                                            dialog.commande_fournesseur.currentText(), product_list)
+                            self.thr._signal.connect(self.signal_commande_update_accepted)
+                            self.thr._signal_result.connect(self.signal_commande_update_accepted)
+                            self.thr.start()
+                        else:
+                            for row in range(self.commandes_table.rowCount()):
+                                self.commandes_table.cellWidget(row, 0).check.setChecked(False)
+            else:
+                for row in range(self.commandes_table.rowCount()):
+                    self.commandes_table.cellWidget(row, 0).check.setChecked(False)
+
+    def signal_commande_update_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        elif type(progress) == bool:
+            if progress:
+                self.dialog.progress.setValue(100)
+                self.dialog.ttl.setText("إنتها بنجاح")
+                self.dialog.close()
+                self.load_commandes()
+            else:
+                self.dialog.progress.setValue(100)
+                self.dialog.ttl.setText("إنتها بنجاح")
+                self.dialog.close()
+                self.alert_("خطأ في رقم الطلب (الرقم موجود سابقا)")
+
+
+
 
 
 
@@ -1414,6 +1531,8 @@ class AppUi(QtWidgets.QMainWindow):
         background-position: center left;""")
         self.fragment.setCurrentIndex(1)
         self.to_update_table = "non"
+
+        self.load_sorties()
 
     def ent(self):
         self.pushButton.setStyleSheet("""background-color: rgb(0, 92, 157);

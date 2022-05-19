@@ -266,8 +266,8 @@ def get_operations_by_commande_id(id_bon_commande):
 def get_commande_id_by_bon_com_number(com_number):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
-    sql_q = 'Select bon.bon_id from bon  where bon.bon_number = ?'
-    cur.execute(sql_q, (com_number,))
+    sql_q = 'Select bon.bon_id from bon  where bon.bon_number = ? and bon.type = ?'
+    cur.execute(sql_q, (com_number, 'commande'))
     unit = cur.fetchall()
     connection.close()
     return unit
@@ -463,6 +463,16 @@ def get_all_sorties():
     cur = connection.cursor()
     sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where bon.type = ? order by date(bon.dt) DESC LIMIT 50'
     cur.execute(sql_q, ('sortie',))
+    unit = cur.fetchall()
+    connection.close()
+    return unit
+
+
+def get_sortie_id_by_bon_sort_number(com_number):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select bon.bon_id from bon  where bon.bon_number = ? and bon.type = ?'
+    cur.execute(sql_q, (com_number, 'sortie'))
     unit = cur.fetchall()
     connection.close()
     return unit

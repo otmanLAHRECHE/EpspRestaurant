@@ -9,7 +9,7 @@ from database_operation import is_product_exist, add_new_product, get_product_id
     get_all_four_ben_names, get_last_bon_commande_number, is_commande_number_exist, add_bon, get_fourn_ben_id_from_name, \
     add_operation, get_stock_qte_by_product_id, update_stock_by_commande, get_all_commande, get_operations_by_commande_id, \
     get_commande_id_by_bon_com_number, update_bon, delete_all_bon_operation, delete_bon_commande, filter_commande, get_filtred_operations_by_commande_id, \
-    is_sortie_number_exist, get_all_sorties
+    is_sortie_number_exist, get_all_sorties, get_sortie_id_by_bon_sort_number
 
 
 from tools import forming_date, un_forming_date
@@ -848,5 +848,108 @@ class ThreadLoadSortie(QThread):
             self._signal.emit(i)
 
         self._signal_result.emit(True)
+
+
+class ThreadSortieDialogToUpdate(QThread):
+    _signal = pyqtSignal(int)
+    _signal_result = pyqtSignal(bool)
+    _signal_list = pyqtSignal(list)
+
+    def __init__(self, bon_number):
+        super(ThreadSortieDialogToUpdate, self).__init__()
+        self.number = int(bon_number)
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+        list_four = []
+        list_four.append("ben")
+        fours = get_all_four_ben_names("ben")
+        for i in range(30):
+            self._signal.emit(i)
+
+        for four in fours:
+            list_four.append(four)
+        self._signal_list.emit(list_four)
+
+        for i in range(30, 60):
+            self._signal.emit(i)
+
+        bon_commande_id = get_sortie_id_by_bon_sort_number(self.number)[0]
+        operations = get_operations_by_commande_id(bon_commande_id[0])
+        self._signal_list.emit(operations)
+
+
+
+        list_products = []
+        list_products.append("products")
+        products = get_all_product_names_no_type()
+        for product in products:
+            list_products.append(product)
+
+        self._signal_list.emit(list_products)
+
+        for i in range(60, 99):
+            self._signal.emit(i)
+
+        self._signal_result.emit(True)
+
+
+class ThreadUpdateBonCommande(QThread):
+    _signal = pyqtSignal(int)
+    _signal_result = pyqtSignal(bool)
+
+    def __init__(self, old_commande_number,commande_number, date, fourn, product_list):
+        super(ThreadUpdateBonCommande, self).__init__()
+        self.old_commande_nbr = old_commande_number
+        self.commande_number = commande_number
+        self.date = date
+        self.fourn = fourn
+        self.product_list = product_list
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+
+        for i in range(25):
+            self._signal.emit(i)
+
+        if self.old_commande_nbr == self.commande_number:
+            go = True
+        else:
+            if is_commande_number_exist(self.commande_number):
+                for i in range(25,99):
+                    self._signal.emit(i)
+                self._signal_result.emit(False)
+                go = False
+            else:
+                go = True
+        if go:
+            for i in range(25, 65):
+                self._signal.emit(i)
+
+            four_id = get_fourn_ben_id_from_name(self.fourn)[0]
+
+            bon_commande_id = get_commande_id_by_bon_com_number(self.commande_number)[0]
+
+
+
+
+            update_bon(bon_commande_id[0], forming_date(self.date), "commande", four_id[0], int(self.commande_number))
+
+            delete_all_bon_operation(bon_commande_id[0])
+
+            for product in self.product_list:
+                id = get_product_id_by_name(product[0])[0]
+                add_operation(id[0], bon_commande_id[0], product[1])
+
+            for i in range(65, 99):
+                self._signal.emit(i)
+
+            self._signal_result.emit(True)
 
 

@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>إضافة طلب جديد</string>
+   <string>إضافة</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(179, 230, 255);</string>
