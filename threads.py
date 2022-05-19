@@ -901,12 +901,12 @@ class ThreadUpdateBonCommande(QThread):
     _signal = pyqtSignal(int)
     _signal_result = pyqtSignal(bool)
 
-    def __init__(self, old_commande_number,commande_number, date, fourn, product_list):
+    def __init__(self, old_sortie_number,sortie_number, date, ben, product_list):
         super(ThreadUpdateBonCommande, self).__init__()
-        self.old_commande_nbr = old_commande_number
-        self.commande_number = commande_number
+        self.old_sortie_number = old_sortie_number
+        self.sortie_number = sortie_number
         self.date = date
-        self.fourn = fourn
+        self.ben = ben
         self.product_list = product_list
 
     def __del__(self):
@@ -918,10 +918,10 @@ class ThreadUpdateBonCommande(QThread):
         for i in range(25):
             self._signal.emit(i)
 
-        if self.old_commande_nbr == self.commande_number:
+        if self.old_sortie_number == self.sortie_number:
             go = True
         else:
-            if is_commande_number_exist(self.commande_number):
+            if is_commande_number_exist(self.sortie_number):
                 for i in range(25,99):
                     self._signal.emit(i)
                 self._signal_result.emit(False)
@@ -932,20 +932,20 @@ class ThreadUpdateBonCommande(QThread):
             for i in range(25, 65):
                 self._signal.emit(i)
 
-            four_id = get_fourn_ben_id_from_name(self.fourn)[0]
+            ben_id = get_fourn_ben_id_from_name(self.ben)[0]
 
-            bon_commande_id = get_commande_id_by_bon_com_number(self.commande_number)[0]
-
-
+            bon_sortie_id = get_sortie_id_by_bon_sort_number(self.sortie_number)[0]
 
 
-            update_bon(bon_commande_id[0], forming_date(self.date), "commande", four_id[0], int(self.commande_number))
 
-            delete_all_bon_operation(bon_commande_id[0])
+
+            update_bon(bon_sortie_id[0], forming_date(self.date), "sortie", ben_id[0], int(self.sortie_number))
+
+            delete_all_bon_operation(bon_sortie_id[0])
 
             for product in self.product_list:
                 id = get_product_id_by_name(product[0])[0]
-                add_operation(id[0], bon_commande_id[0], product[1])
+                add_operation(id[0], bon_sortie_id[0], product[1])
 
             for i in range(65, 99):
                 self._signal.emit(i)
