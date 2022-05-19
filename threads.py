@@ -707,3 +707,57 @@ class ThreadFilterCommande(QThread):
         self._signal_result.emit(True)
 
 
+class ThreadSortieDialog(QThread):
+    _signal = pyqtSignal(int)
+    _signal_result = pyqtSignal(bool)
+    _signal_list = pyqtSignal(list)
+
+    def __init__(self):
+        super(ThreadSortieDialog, self).__init__()
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+        list_ben = []
+        list_ben.append("ben")
+        bens = get_all_four_ben_names("ben")
+        for i in range(30):
+            self._signal.emit(i)
+
+        for ben in bens:
+            list_ben.append(ben)
+        self._signal_list.emit(list_ben)
+
+        for i in range(30, 60):
+            self._signal.emit(i)
+
+        bon_sortie_number = get_last_bon_commande_number("sortie")
+
+        if bon_sortie_number:
+            bon_sortie_number = bon_sortie_number[0]
+            bon_sortie_number = bon_sortie_number[0]
+        else:
+            bon_sortie_number = 0
+
+        list_number = []
+        list_number.append("number")
+        list_number.append(bon_sortie_number)
+
+        self._signal_list.emit(list_number)
+
+        list_products = []
+        list_products.append("products")
+        products = get_all_product_names_no_type()
+        for product in products:
+            list_products.append(product)
+
+        self._signal_list.emit(list_products)
+
+        for i in range(60, 99):
+            self._signal.emit(i)
+
+        self._signal_result.emit(True)
+
+

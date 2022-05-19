@@ -182,6 +182,35 @@ class AppUi(QtWidgets.QMainWindow):
 
         ##################### End stock page initialisation
 
+        ##################### sortie page initialisation :
+
+        self.sortie_table = self.findChild(QtWidgets.QTableWidget, "tableWidget_6")
+        self.add_sortie_button = self.findChild(QtWidgets.QPushButton, "pushButton_27")
+        self.add_sortie_button.setIcon(QIcon("icons/plus2.png"))
+        self.edit_sortie_button = self.findChild(QtWidgets.QPushButton, "pushButton_29")
+        self.edit_sortie_button.setIcon(QIcon("icons/edit2.png"))
+        self.delete_sortie_button = self.findChild(QtWidgets.QPushButton, "pushButton_28")
+        self.delete_sortie_button.setIcon(QIcon("icons/trash.png"))
+        self.filter_sortie_button = self.findChild(QtWidgets.QPushButton, "pushButton_26")
+        self.filter_sortie_button.setIcon(QIcon("icons/filter.png"))
+        self.reset_sortie_buton = self.findChild(QtWidgets.QPushButton, "pushButton_24")
+        self.reset_sortie_buton.setIcon(QIcon("icons/refresh.png"))
+        self.report_sortie_button = self.findChild(QtWidgets.QPushButton, "pushButton_25")
+        self.report_sortie_button.setIcon(QIcon("icons/file-text.png"))
+
+        self.sortie_table.setColumnWidth(0, 40)
+        self.sortie_table.setColumnWidth(1, 200)
+        self.sortie_table.setColumnWidth(2, 100)
+        self.sortie_table.setColumnWidth(3, 100)
+        self.sortie_table.setColumnWidth(4, 340)
+
+        self.add_sortie_button.clicked.connect(self.add_sortie)
+        self.edit_sortie_button.clicked.connect(self.edit_sortie)
+        self.delete_sortie_button.clicked.connect(self.delete_sortie)
+        self.reset_sortie_buton.clicked.connect(self.reset_sortie)
+        self.filter_sortie_button.clicked.connect(self.filter_sortie_event)
+
+        ##################### End sortie page initialisation
         
         self.pushButton_4.clicked.connect(self.h)
         self.pushButton_3.clicked.connect(self.sort)
@@ -1177,6 +1206,94 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
+
+
+    def add_sortie(self):
+
+        self.dialog = Threading_loading()
+        self.dialog.ttl.setText("إنتظر من فضلك")
+        self.dialog.progress.setValue(0)
+        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self.dialog.show()
+
+
+        self.thr = ThreadCommandDialog()
+        self.thr._signal.connect(self.signal_sortie_dialog_load_accepted)
+        self.thr._signal_list.connect(self.signal_sortie_dialog_load_accepted)
+        self.thr._signal_result.connect(self.signal_sortie_dialog_load_accepted)
+        self.thr.start()
+
+
+    def signal_sortie_dialog_load_accepted(self, progress):
+        l = []
+
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+
+        elif type(progress) == type(l) :
+            if progress[0] == "four":
+                progress.remove("four")
+                self.f = progress
+            elif progress[0] == "products":
+                progress.remove("products")
+                self.p = progress
+            else:
+                self.com_nbr = progress[1]
+                self.com_nbr = self.com_nbr + 1
+        elif type(progress) == bool:
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.progress.setValue(100)
+            self.dialog.close()
+            dialog = Add_new_commande(self.p, self.f, self.com_nbr)
+
+
+            if dialog.exec() == QtWidgets.QDialog.Accepted:
+                if dialog.commande_products_table.rowCount() == 0:
+                    self.alert_("لا يوجد طلبات")
+                elif dialog.commande_number.text() == "00":
+                    self.alert_("خطأ في رقم الطلب")
+                else:
+                    error = False
+                    product_list = []
+                    for i in range(dialog.commande_products_table.rowCount()):
+                        if dialog.commande_products_table.cellWidget(i, 1).chose_product.currentIndex() == 0 or dialog.commande_products_table.cellWidget(i, 2).chose_product_qte.value() == 0:
+                            error = True
+                        else:
+                            list = [dialog.commande_products_table.cellWidget(i, 1).chose_product.currentText(), dialog.commande_products_table.cellWidget(i, 2).chose_product_qte.value()]
+                            product_list.append(list)
+
+                    if error:
+                        self.alert_("خطأ في المطلوبات")
+                    else:
+                        self.dialog = Threading_loading()
+                        self.dialog.ttl.setText("إنتظر من فضلك")
+                        self.dialog.progress.setValue(0)
+                        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                        self.dialog.show()
+
+                        self.thr = ThreadAddBonCommande(dialog.commande_number.text(), dialog.commande_date.text(), dialog.commande_fournesseur.currentText(), product_list)
+                        self.thr._signal.connect(self.signal_sortie_add_accepted)
+                        self.thr._signal_result.connect(self.signal_sortie_add_accepted)
+                        self.thr.start()
+
+    def signal_sortie_add_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        else:
+            if progress == True:
+                self.dialog.progress.setValue(100)
+                self.dialog.ttl.setText("إنتها بنجاح")
+                self.dialog.close()
+                self.load_commandes()
+            else:
+                self.dialog.progress.setValue(100)
+                self.dialog.ttl.setText("إنتها بنجاح")
+                self.dialog.close()
+                self.alert_("خطأ في الرقم")
+
+
+
+
 
 
 
