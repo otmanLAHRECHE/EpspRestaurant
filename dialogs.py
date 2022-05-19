@@ -196,7 +196,7 @@ class Filter_commande(QtWidgets.QDialog):
         self.commande_number_label.setEnabled(False)
 
 
-        self.fourn.addItem("كل الممونين")
+        self.fourn.addItem("الكل")
         for f in self.fr:
             self.fourn.addItem(f[0])
 

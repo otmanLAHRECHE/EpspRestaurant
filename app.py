@@ -904,7 +904,9 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
             self.commandes_table.insertRow(progress[0])
-            if len(progress[4]) == 1 or len(progress[4]) == 2 or len(progress[4]) == 3:
+            if len(progress[4]) == 1 :
+                self.commandes_table.setRowHeight(progress[0], len(progress[4]) * 50)
+            elif len(progress[4]) == 2 or len(progress[4]) == 3:
                 self.commandes_table.setRowHeight(progress[0], len(progress[4]) * 30)
             else:
                 self.commandes_table.setRowHeight(progress[0], len(progress[4])*24)
@@ -1287,12 +1289,12 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.progress.setValue(100)
                 self.dialog.ttl.setText("إنتها بنجاح")
                 self.dialog.close()
-                self.load_commandes()
+                self.load_sorties()
             else:
                 self.dialog.progress.setValue(100)
                 self.dialog.ttl.setText("إنتها بنجاح")
                 self.dialog.close()
-                self.alert_("خطأ في الرقم")
+                self.alert_("خطأ في الرقم أو في قيمة المنتوج")
 
 
     def load_sorties(self):
@@ -1318,7 +1320,9 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
             self.sortie_table.insertRow(progress[0])
-            if len(progress[4]) == 1 or len(progress[4]) == 2 or len(progress[4]) == 3:
+            if len(progress[4]) == 1 :
+                self.sortie_table.setRowHeight(progress[0], len(progress[4]) * 50)
+            elif len(progress[4]) == 2 or len(progress[4]) == 3:
                 self.sortie_table.setRowHeight(progress[0], len(progress[4]) * 30)
             else:
                 self.sortie_table.setRowHeight(progress[0], len(progress[4])*24)
