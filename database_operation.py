@@ -625,7 +625,8 @@ def get_filtred_operations_by_sortie_id(id_bon_commande, filter):
     return unit
 
 
-def check_product_
+
+
 
 
 

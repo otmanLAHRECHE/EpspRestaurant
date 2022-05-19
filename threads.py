@@ -788,28 +788,42 @@ class ThreadAddBonSortie(QThread):
                 self._signal.emit(i)
             self._signal_result.emit(False)
         else:
+            go = True
+
             for i in range(25, 65):
                 self._signal.emit(i)
 
             ben_id = get_fourn_ben_id_from_name(self.ben)[0]
 
-
-
-            bon_id = add_bon(forming_date(self.date), "sortie", ben_id[0], self.sortie_number)
-
             for product in self.product_list:
                 id = get_product_id_by_name(product[0])[0]
-                add_operation(id[0], bon_id, product[1])
+                new_qte = product[1]
                 old_qte = get_stock_qte_by_product_id(id[0])[0]
                 old_qte = old_qte[0]
-                new_qte = old_qte + product[1]
-                update_stock_by_commande(id[0], new_qte)
+                if not new_qte >= old_qte:
+                    go = False
 
+            if go:
+                bon_id = add_bon(forming_date(self.date), "sortie", ben_id[0], self.sortie_number)
 
-            for i in range(65, 99):
-                self._signal.emit(i)
+                for product in self.product_list:
+                    id = get_product_id_by_name(product[0])[0]
+                    add_operation(id[0], bon_id, product[1])
+                    old_qte = get_stock_qte_by_product_id(id[0])[0]
+                    old_qte = old_qte[0]
+                    new_qte = old_qte - product[1]
+                    update_stock_by_commande(id[0], new_qte)
 
-            self._signal_result.emit(True)
+                for i in range(65, 99):
+                    self._signal.emit(i)
+
+                self._signal_result.emit(True)
+            else:
+
+                for i in range(65, 99):
+                    self._signal.emit(i)
+
+                self._signal_result.emit(False)
 
 
 class ThreadLoadSortie(QThread):
