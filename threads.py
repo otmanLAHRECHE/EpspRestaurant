@@ -800,7 +800,7 @@ class ThreadAddBonSortie(QThread):
                 new_qte = product[1]
                 old_qte = get_stock_qte_by_product_id(id[0])[0]
                 old_qte = old_qte[0]
-                if not new_qte >= old_qte:
+                if new_qte >= old_qte:
                     go = False
 
             if go:
