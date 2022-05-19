@@ -6,7 +6,8 @@ from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidget
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande, Filter_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
-    ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande, ThreadFilterCommandDialog, ThreadFilterCommande
+    ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande, ThreadFilterCommandDialog, ThreadFilterCommande, \
+    ThreadAddBonSortie, ThreadLoadSortie
 from custom_widgets import ProductsList, Check
 
 
@@ -1207,7 +1208,6 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
 
-
     def add_sortie(self):
 
         self.dialog = Threading_loading()
@@ -1223,7 +1223,6 @@ class AppUi(QtWidgets.QMainWindow):
         self.thr._signal_result.connect(self.signal_sortie_dialog_load_accepted)
         self.thr.start()
 
-
     def signal_sortie_dialog_load_accepted(self, progress):
         l = []
 
@@ -1231,8 +1230,8 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(progress)
 
         elif type(progress) == type(l) :
-            if progress[0] == "four":
-                progress.remove("four")
+            if progress[0] == "ben":
+                progress.remove("ben")
                 self.f = progress
             elif progress[0] == "products":
                 progress.remove("products")
@@ -1245,13 +1244,16 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(100)
             self.dialog.close()
             dialog = Add_new_commande(self.p, self.f, self.com_nbr)
+            dialog.ttl.setText("إضافة تموين جديد")
+            dialog.ttl_nbr.setText("رقم التموين:")
+            dialog.ttl_fb.setText("المستفيد")
 
 
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 if dialog.commande_products_table.rowCount() == 0:
                     self.alert_("لا يوجد طلبات")
                 elif dialog.commande_number.text() == "00":
-                    self.alert_("خطأ في رقم الطلب")
+                    self.alert_("خطأ في رقم التموين")
                 else:
                     error = False
                     product_list = []
@@ -1271,7 +1273,7 @@ class AppUi(QtWidgets.QMainWindow):
                         self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
                         self.dialog.show()
 
-                        self.thr = ThreadAddBonCommande(dialog.commande_number.text(), dialog.commande_date.text(), dialog.commande_fournesseur.currentText(), product_list)
+                        self.thr = ThreadAddBonSortie(dialog.commande_number.text(), dialog.commande_date.text(), dialog.commande_fournesseur.currentText(), product_list)
                         self.thr._signal.connect(self.signal_sortie_add_accepted)
                         self.thr._signal_result.connect(self.signal_sortie_add_accepted)
                         self.thr.start()
@@ -1290,6 +1292,49 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.ttl.setText("إنتها بنجاح")
                 self.dialog.close()
                 self.alert_("خطأ في الرقم")
+
+
+    def load_sorties(self):
+
+        self.dialog = Threading_loading()
+        self.dialog.ttl.setText("إنتظر من فضلك")
+        self.dialog.progress.setValue(0)
+        self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        self.dialog.show()
+
+        self.commandes_table.setRowCount(0)
+        self.fc = []
+
+        self.thr = ThreadLoadSortie()
+        self.thr._signal.connect(self.sortie_load_accepted)
+        self.thr._signal_list.connect(self.sortie_load_accepted)
+        self.thr._signal_result.connect(self.sortie_load_accepted)
+        self.thr.start()
+
+
+    def sortie_load_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        elif type(progress) == list:
+            self.commandes_table.insertRow(progress[0])
+            if len(progress[4]) == 1 or len(progress[4]) == 2 or len(progress[4]) == 3:
+                self.commandes_table.setRowHeight(progress[0], len(progress[4]) * 30)
+            else:
+                self.commandes_table.setRowHeight(progress[0], len(progress[4])*24)
+
+            check = Check()
+
+            self.commandes_table.setCellWidget(progress[0], 0, check)
+            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[1])))
+            self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[2])))
+            self.commandes_table.setItem(progress[0], 3, QTableWidgetItem(str(progress[3])))
+            p_list = ProductsList(progress[4])
+            self.commandes_table.setCellWidget(progress[0], 4, p_list)
+
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
 
 
 

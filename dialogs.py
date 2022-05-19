@@ -56,6 +56,8 @@ class Add_new_commande(QtWidgets.QDialog):
         self.pd = products
         self.fr = fourn
         self.ttl = self.findChild(QtWidgets.QLabel, "label_4")
+        self.ttl_nbr = self.findChild(QtWidgets.QLabel, "label_3")
+        self.ttl_fb = self.findChild(QtWidgets.QLabel, "label_2")
         self.commande_number = self.findChild(QtWidgets.QSpinBox, "spinBox")
         self.commande_number.setValue(int(commande_number))
         self.commande_date = self.findChild(QtWidgets.QDateEdit, "dateEdit")
