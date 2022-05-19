@@ -154,6 +154,10 @@ class Filter_commande(QtWidgets.QDialog):
 
         self.pd = products
         self.fr = fourn
+        self.ttl = self.findChild(QtWidgets.QLabel, "label_4")
+        self.ttl_2 = self.findChild(QtWidgets.QLabel, "label_7")
+        self.ttl_3 = self.findChild(QtWidgets.QLabel, "label_3")
+        self.ttl_ben = self.findChild(QtWidgets.QLabel, "label_8")
         self.date_type = self.findChild(QtWidgets.QComboBox, "comboBox")
         self.frm = self.findChild(QtWidgets.QLabel, "label")
         self.to = self.findChild(QtWidgets.QLabel, "label_2")

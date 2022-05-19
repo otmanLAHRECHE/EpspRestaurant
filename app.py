@@ -7,7 +7,8 @@ from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_comman
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
     ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande, ThreadFilterCommandDialog, ThreadFilterCommande, \
-    ThreadAddBonSortie, ThreadLoadSortie, ThreadUpdateBonsortie, ThreadSortieDialogToUpdate, ThreadSortieDialog
+    ThreadAddBonSortie, ThreadLoadSortie, ThreadUpdateBonsortie, ThreadSortieDialogToUpdate, ThreadSortieDialog, \
+    ThreadFilterSortie, ThreadFilterSortieDialog
 from custom_widgets import ProductsList, Check
 
 
@@ -209,7 +210,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.edit_sortie_button.clicked.connect(self.edit_sortie)
         self.delete_sortie_button.clicked.connect(self.delete_sortie)
         self.reset_sortie_buton.clicked.connect(self.reset_sortie)
-        #self.filter_sortie_button.clicked.connect(self.filter_sortie_event)
+        self.filter_sortie_button.clicked.connect(self.filter_sortie_event)
 
         ##################### End sortie page initialisation
         
@@ -1461,7 +1462,7 @@ class AppUi(QtWidgets.QMainWindow):
                 row_selected = row
                 ch = ch + 1
         if ch > 1 or ch == 0:
-            self.alert_("إختار طلب")
+            self.alert_("إختار التموين")
             for row in range(self.sortie_table.rowCount()):
                 self.sortie_table.cellWidget(row, 0).check.setChecked(False)
         else:
@@ -1498,7 +1499,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.load_sorties()
 
 
-    def filter_commande_event(self):
+    def filter_sortie_event(self):
 
         self.dialog = Threading_loading()
         self.dialog.ttl.setText("إنتظر من فضلك")
@@ -1506,22 +1507,22 @@ class AppUi(QtWidgets.QMainWindow):
         self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.dialog.show()
 
-        self.thr = ThreadFilterCommandDialog()
-        self.thr._signal.connect(self.signal_commande_filter_dialog_load_to_update_accepted)
-        self.thr._signal_list.connect(self.signal_commande_filter_dialog_load_to_update_accepted)
-        self.thr._signal_result.connect(self.signal_commande_filter_dialog_load_to_update_accepted)
+        self.thr = ThreadFilterSortieDialog()
+        self.thr._signal.connect(self.signal_sortie_filter_dialog_load_to_update_accepted)
+        self.thr._signal_list.connect(self.signal_sortie_filter_dialog_load_to_update_accepted)
+        self.thr._signal_result.connect(self.signal_sortie_filter_dialog_load_to_update_accepted)
         self.thr.start()
 
 
-    def signal_commande_filter_dialog_load_to_update_accepted(self, progress):
+    def signal_sortie_filter_dialog_load_to_update_accepted(self, progress):
         l = []
 
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
 
         elif type(progress) == type(l):
-            if progress[0] == "four":
-                progress.remove("four")
+            if progress[0] == "ben":
+                progress.remove("ben")
                 self.f = progress
             elif progress[0] == "products":
                 progress.remove("products")
@@ -1535,6 +1536,10 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.close()
 
             dialog = Filter_commande(self.p, self.f, self.fc)
+            dialog.ttl.setText("بحث في التموين")
+            dialog.ttl_2.setText("تصنيف التموين:")
+            dialog.ttl_3.setText("رقم التموين:")
+            dialog.ttl_ben.setText("المستفيد")
             date = []
             filter_type = []
             if dialog.exec() == QtWidgets.QDialog.Accepted:
@@ -1559,7 +1564,7 @@ class AppUi(QtWidgets.QMainWindow):
 
                 if dialog.commande_number.isEnabled():
                     if dialog.commande_number.text() == "00":
-                        self.alert_("خطأ في رقم الطلب")
+                        self.alert_("خطأ في رقم التموين")
                         go = False
                     else:
                         filter_type.append(1)
@@ -1594,30 +1599,30 @@ class AppUi(QtWidgets.QMainWindow):
 
                     self.commandes_table.setRowCount(0)
 
-                    self.thr = ThreadFilterCommande(self.fc)
-                    self.thr._signal.connect(self.signal_commande_filter_load_to_update_accepted)
-                    self.thr._signal_list.connect(self.signal_commande_filter_load_to_update_accepted)
-                    self.thr._signal_result.connect(self.signal_commande_filter_load_to_update_accepted)
+                    self.thr = ThreadFilterSortie(self.fc)
+                    self.thr._signal.connect(self.signal_sortie_filter_load_to_update_accepted)
+                    self.thr._signal_list.connect(self.signal_sortie_filter_load_to_update_accepted)
+                    self.thr._signal_result.connect(self.signal_sortie_filter_load_to_update_accepted)
                     self.thr.start()
 
-    def signal_commande_filter_load_to_update_accepted(self, progress):
+    def signal_sortie_filter_load_to_update_accepted(self, progress):
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
         elif type(progress) == list:
-            self.commandes_table.insertRow(progress[0])
+            self.sortie_table.insertRow(progress[0])
             if len(progress[4]) == 1 or len(progress[4]) == 2 or len(progress[4]) == 3:
-                self.commandes_table.setRowHeight(progress[0], len(progress[4]) * 30)
+                self.sortie_table.setRowHeight(progress[0], len(progress[4]) * 30)
             else:
-                self.commandes_table.setRowHeight(progress[0], len(progress[4])*24)
+                self.sortie_table.setRowHeight(progress[0], len(progress[4])*24)
 
             check = Check()
 
-            self.commandes_table.setCellWidget(progress[0], 0, check)
-            self.commandes_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[1])))
-            self.commandes_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[2])))
-            self.commandes_table.setItem(progress[0], 3, QTableWidgetItem(str(progress[3])))
+            self.sortie_table.setCellWidget(progress[0], 0, check)
+            self.sortie_table.setItem(progress[0], 1, QTableWidgetItem(str(progress[1])))
+            self.sortie_table.setItem(progress[0], 2, QTableWidgetItem(str(progress[2])))
+            self.sortie_table.setItem(progress[0], 3, QTableWidgetItem(str(progress[3])))
             p_list = ProductsList(progress[4])
-            self.commandes_table.setCellWidget(progress[0], 4, p_list)
+            self.sortie_table.setCellWidget(progress[0], 4, p_list)
 
         else:
             self.dialog.progress.setValue(100)
