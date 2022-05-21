@@ -633,7 +633,7 @@ background-position: center left;</string>
              </size>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>5</number>
             </property>
             <widget class="QWidget" name="home">
              <widget class="QLabel" name="label">
@@ -2053,6 +2053,430 @@ background-position: center left;</string>
               <property name="styleSheet">
                <string notr="true">background-color: rgb(5, 122, 185);</string>
               </property>
+             </widget>
+             <widget class="QTableWidget" name="tableWidget_7">
+              <property name="geometry">
+               <rect>
+                <x>120</x>
+                <y>90</y>
+                <width>891</width>
+                <height>471</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::NoSelection</enum>
+              </property>
+              <row>
+               <property name="text">
+                <string>الأحد</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>الإثنين</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>الثلاثاء</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>الأربعاء</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>الخميس</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>الجمعة</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>السبت</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </row>
+              <column>
+               <property name="text">
+                <string>الوجبة الرئيسية</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>الوجبةالثانوية</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>الديسار</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>الوجبة الرئيسية</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>الوجبةالثانوية</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>الديسار</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </column>
+             </widget>
+             <widget class="QPushButton" name="pushButton_30">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>530</y>
+                <width>111</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <property name="text">
+               <string>طباعة</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_13">
+              <property name="geometry">
+               <rect>
+                <x>290</x>
+                <y>60</y>
+                <width>51</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>العشاء</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_14">
+              <property name="geometry">
+               <rect>
+                <x>700</x>
+                <y>60</y>
+                <width>41</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+                <underline>false</underline>
+               </font>
+              </property>
+              <property name="text">
+               <string>الغداء</string>
+              </property>
+             </widget>
+             <widget class="QWidget" name="widget_15" native="true">
+              <property name="geometry">
+               <rect>
+                <x>120</x>
+                <y>80</y>
+                <width>400</width>
+                <height>2</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(5, 122, 185);</string>
+              </property>
+             </widget>
+             <widget class="QWidget" name="widget_16" native="true">
+              <property name="geometry">
+               <rect>
+                <x>530</x>
+                <y>80</y>
+                <width>400</width>
+                <height>2</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>2</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(5, 122, 185);</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="comboBox">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>460</y>
+                <width>111</width>
+                <height>22</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <item>
+               <property name="text">
+                <string>جانفي</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>فيفري</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>مارس</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>أفريل</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>ماي</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>جوان</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>جويلية</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>أوت</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>سبتمبر</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>أكتوبر</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>نوفمبر</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>ديسمبر</string>
+               </property>
+              </item>
+             </widget>
+             <widget class="QComboBox" name="comboBox_2">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>490</y>
+                <width>111</width>
+                <height>22</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(199, 238, 255);</string>
+              </property>
+              <item>
+               <property name="text">
+                <string>2022</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2023</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2024</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2025</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2026</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2027</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2028</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2029</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2030</string>
+               </property>
+              </item>
              </widget>
             </widget>
             <widget class="QWidget" name="settings">

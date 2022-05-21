@@ -9,7 +9,8 @@ from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSe
     ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande, ThreadFilterCommandDialog, ThreadFilterCommande, \
     ThreadAddBonSortie, ThreadLoadSortie, ThreadUpdateBonsortie, ThreadSortieDialogToUpdate, ThreadSortieDialog, \
     ThreadFilterSortie, ThreadFilterSortieDialog
-from custom_widgets import ProductsList, Check
+from custom_widgets import ProductsList, Check, Menu_Edit_Text
+from pdf_reports import program_report
 
 
 WINDOW_SIZE = 0
@@ -212,7 +213,59 @@ class AppUi(QtWidgets.QMainWindow):
         self.reset_sortie_buton.clicked.connect(self.reset_sortie)
         self.filter_sortie_button.clicked.connect(self.filter_sortie_event)
 
+
         ##################### End sortie page initialisation
+
+        ##################### Programe page initialisation :
+
+        self.programme = self.findChild(QtWidgets.QTableWidget, "tableWidget_7")
+        self.print_programme = self.findChild(QtWidgets.QPushButton, "pushButton_30")
+        self.print_programme.setIcon(QIcon("icons/printer.png"))
+        self.programme_month = self.findChild(QtWidgets.QComboBox, "comboBox")
+        self.programme_year = self.findChild(QtWidgets.QComboBox, "comboBox_2")
+
+        self.print_programme.clicked.connect(self.print_p)
+
+        self.programme.setColumnWidth(0, 140)
+        self.programme.setColumnWidth(1, 140)
+        self.programme.setColumnWidth(2, 140)
+        self.programme.setColumnWidth(3, 140)
+        self.programme.setColumnWidth(4, 140)
+        self.programme.setColumnWidth(5, 140)
+
+        self.programme.setRowHeight(0, 60)
+        self.programme.setRowHeight(1, 60)
+        self.programme.setRowHeight(2, 60)
+        self.programme.setRowHeight(3, 60)
+        self.programme.setRowHeight(4, 60)
+        self.programme.setRowHeight(5, 60)
+        self.programme.setRowHeight(6, 60)
+
+        for i in range(7):
+            for j in range(6):
+                menu_edit = Menu_Edit_Text()
+                if j == 1 or j == 4 :
+                    completer = QCompleter(
+                        ["مقرونة", "سلاطة", "ديسار", "طعام", "زيتون", "جلبانة", "سباقيتي", "عدس", "روز", "حمص",
+                         "شكشوكة"])
+                    menu_edit.edit.setCompleter(completer)
+                    menu_edit.edit.setText("سلاطة")
+                    self.programme.setCellWidget(i, j, menu_edit)
+                elif j == 2 or j == 5:
+                    completer = QCompleter(
+                        ["مقرونة", "سلاطة", "ديسار", "طعام", "زيتون", "جلبانة", "سباقيتي", "عدس", "روز", "حمص",
+                         "شكشوكة"])
+                    menu_edit.edit.setCompleter(completer)
+                    menu_edit.edit.setText("ديسار")
+                    self.programme.setCellWidget(i, j, menu_edit)
+                else:
+                    completer = QCompleter(["مقرونة","سلاطة","ديسار","طعام","زيتون","جلبانة","سباقيتي","عدس","روز","حمص","شكشوكة"])
+                    menu_edit.edit.setCompleter(completer)
+                    self.programme.setCellWidget(i, j, menu_edit)
+
+
+
+        ##################### End programe page initialisation
         
         self.pushButton_4.clicked.connect(self.h)
         self.pushButton_3.clicked.connect(self.sort)
@@ -320,11 +373,6 @@ class AppUi(QtWidgets.QMainWindow):
                 self.thr._signal.connect(self.signal_stock_accepted)
                 self.thr._signal_result.connect(self.signal_stock_accepted)
                 self.thr.start()
-
-
-
-
-
 
 
     def signal_stock_accepted(self, progress):
@@ -1631,6 +1679,28 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
+
+
+    def print_p(self):
+        prog_array = []
+        go = True
+        for i in range(7):
+            for j in range(6):
+                if self.programme.cellWidget(i, j).edit.text() == "":
+                    go = False
+
+        if go:
+            for i in range(7):
+                day = []
+                for j in range(6):
+                    day.append(self.programme.cellWidget(i, j).edit.text())
+                prog_array.append(day)
+
+            print(prog_array)
+
+            program_report(prog_array, self.programme_month.currentText(),self.programme_year.currentText())
+        else:
+            self.alert_("خطأ في المعلومات")
 
 
 

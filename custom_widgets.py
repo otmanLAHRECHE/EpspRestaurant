@@ -71,3 +71,15 @@ class Check(QWidget):
         self.setLayout(layout)
 
 
+class Menu_Edit_Text(QWidget):
+    def __init__(self):
+        super(Menu_Edit_Text, self).__init__()
+
+        layout = QtWidgets.QHBoxLayout()
+        self.edit = QtWidgets.QLineEdit()
+        self.edit.setFixedWidth(130)
+        self.edit.setFixedHeight(40)
+        layout.addStretch(1)
+        layout.addWidget(self.edit)
+
+        self.setLayout(layout)
