@@ -1,29 +1,45 @@
+import os
 import sys
 
 from PyQt5 import QtCore, QtWidgets, QtWebEngineWidgets
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEngineDownloadItem
 
-PDFJS = "file:///web/viewer.html"
+CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+
+pdf_js = QtCore.QUrl.fromLocalFile(
+    os.path.join(CURRENT_DIR, "pdfjs/web/viewer.html")
+).toString()
 
 
-class PdfReport(QWebEngineView):
-    def __init__(self, filename):
-        super(PdfReport, self).__init__()
 
-        print(
-            f"PyQt5 version: {QtCore.PYQT_VERSION_STR}, Qt version: {QtCore.QT_VERSION_STR}"
+class PdfReport(QtWebEngineWidgets.QWebEngineView):
+    def __init__(self,  parent=None):
+        super(PdfReport, self).__init__(parent)
+        QtWebEngineWidgets.QWebEngineProfile.defaultProfile().downloadRequested.connect(
+            self.on_downloadRequested
         )
 
-        filename, _ = QtWidgets.QFileDialog.getOpenFileName(None, filter="PDF (*.pdf)")
-        if not filename:
-            print("please select the .pdf file")
-            sys.exit(0)
+    def load_pdf(self, filename):
+        url  = QtCore.QUrl.fromLocalFile(
+    os.path.join(CURRENT_DIR, filename)
+).toString()
+        url_final = QtCore.QUrl.fromUserInput("%s?file=%s" % (pdf_js, url))
+        self.load(url_final)
+        print(url)
+        print(pdf_js)
+        print(url_final)
 
+    def sizeHint(self):
+        return QtCore.QSize(640, 480)
 
-        settings = self.settings()
-        settings.setAttribute(QtWebEngineWidgets.QWebEngineSettings.PluginsEnabled, True)
-        print(filename)
-        url = QtCore.QUrl.fromLocalFile(filename)
-        self.load(url)
+    @QtCore.pyqtSlot(QtWebEngineWidgets.QWebEngineDownloadItem)
+    def on_downloadRequested(self, download):
+        path, _ = QtWidgets.QFileDialog.getSaveFileName(
+            self, "Save File", "sample.pdf", "*.pdf"
+        )
+        if path:
+            download.setPath(path)
+            download.accept()
+
 
 

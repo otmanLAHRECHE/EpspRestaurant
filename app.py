@@ -1703,17 +1703,13 @@ class AppUi(QtWidgets.QMainWindow):
             print(prog_array)
 
             index = program_report(prog_array, self.programme_month.currentText(),self.programme_year.currentText())
-            viewer = PdfReport(index)
+
+            viewer = PdfReport()
+            viewer.load_pdf(index)
             viewer.showMaximized()
+            viewer.show()
         else:
             self.alert_("خطأ في المعلومات")
-
-
-
-
-
-
-
 
 
 
