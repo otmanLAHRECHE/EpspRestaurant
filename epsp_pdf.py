@@ -6,11 +6,10 @@ class EpspPdf(FPDF):
     def header(self):
         self.set_margins(10, 0, 10)
         self.set_auto_page_break(auto=False)
+        
         self.set_font("helvetica", "B", 12)
-        # Moving cursor to the right:
-
         self.cell(80)
-        self.cell(30, 10, "MINISTERE DE LA SANTE", 0, 0, "C")
+        self.cell(30, 10, "الجمهورية الجزائرية الديمقراطية الشعبية", 0, 0, "C")
 
         self.ln(5)
 

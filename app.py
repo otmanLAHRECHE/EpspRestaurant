@@ -1682,6 +1682,9 @@ class AppUi(QtWidgets.QMainWindow):
 
 
     def print_p(self):
+        for i in range(7):
+            for j in range(6):
+                self.programme.cellWidget(i, j).edit.setText("تجريب")
         prog_array = []
         go = True
         for i in range(7):
