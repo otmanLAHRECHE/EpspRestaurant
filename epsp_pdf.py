@@ -9,7 +9,7 @@ class EpspPdf(FPDF):
         
         self.set_font("helvetica", "B", 12)
         self.cell(80)
-        self.cell(30, 10, "الجمهورية الجزائرية الديمقراطية الشعبية", 0, 0, "C")
+        self.cell(30, 10, "DIRECTION DE LA SANTE ET DE LA POPULATION", 0, 0, "C")
 
         self.ln(5)
 

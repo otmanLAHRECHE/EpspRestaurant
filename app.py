@@ -11,6 +11,7 @@ from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSe
     ThreadFilterSortie, ThreadFilterSortieDialog
 from custom_widgets import ProductsList, Check, Menu_Edit_Text
 from pdf_reports import program_report
+from pdf_viewer import PdfReport
 
 
 WINDOW_SIZE = 0
@@ -1701,7 +1702,9 @@ class AppUi(QtWidgets.QMainWindow):
 
             print(prog_array)
 
-            program_report(prog_array, self.programme_month.currentText(),self.programme_year.currentText())
+            index = program_report(prog_array, self.programme_month.currentText(),self.programme_year.currentText())
+            viewer = PdfReport(index)
+            viewer.showMaximized()
         else:
             self.alert_("خطأ في المعلومات")
 
