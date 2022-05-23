@@ -11,7 +11,9 @@ from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSe
     ThreadFilterSortie, ThreadFilterSortieDialog
 from custom_widgets import ProductsList, Check, Menu_Edit_Text
 from pdf_reports import program_report
-from pdf_viewer import PdfReport
+from pdf_viewer import PdfReport, pdf_test
+
+from PyQt5 import QtWebEngineWidgets
 
 
 WINDOW_SIZE = 0
@@ -1700,14 +1702,21 @@ class AppUi(QtWidgets.QMainWindow):
                     day.append(self.programme.cellWidget(i, j).edit.text())
                 prog_array.append(day)
 
-            print(prog_array)
 
             index = program_report(prog_array, self.programme_month.currentText(),self.programme_year.currentText())
 
-            viewer = PdfReport()
-            viewer.load_pdf(index)
-            viewer.showMaximized()
-            viewer.show()
+
+
+            view = QtWebEngineWidgets.QWebEngineView()
+            settings = view.settings()
+            settings.setAttribute(QtWebEngineWidgets.QWebEngineSettings.PluginsEnabled, True)
+            print(index)
+            url = QtCore.QUrl.fromLocalFile(index)
+            view.load(url)
+            print(url)
+            view.showMaximized()
+
+            print("done")
         else:
             self.alert_("خطأ في المعلومات")
 

@@ -2,7 +2,9 @@ import os
 import sys
 
 from PyQt5 import QtCore, QtWidgets, QtWebEngineWidgets
-from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEngineDownloadItem
+from PyQt5.QtCore import QUrl
+from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEngineDownloadItem, QWebEngineSettings
+
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -18,6 +20,7 @@ class PdfReport(QtWebEngineWidgets.QWebEngineView):
         QtWebEngineWidgets.QWebEngineProfile.defaultProfile().downloadRequested.connect(
             self.on_downloadRequested
         )
+        self.settings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
 
     def load_pdf(self, filename):
         url  = QtCore.QUrl.fromLocalFile(
@@ -40,6 +43,17 @@ class PdfReport(QtWebEngineWidgets.QWebEngineView):
         if path:
             download.setPath(path)
             download.accept()
+
+
+class pdf_test(QWebEngineView):
+    def __int__(self):
+        print("start")
+        super(pdf_test, self).__int__()
+        settings = self.settings()
+        settings.setAttribute(QWebEngineSettings.PluginsEnabled, True)
+        url = QtCore.QUrl.fromLocalFile("pdf_reports/program_report.pdf")
+        self.load(url)
+        print(url)
 
 
 
