@@ -3,6 +3,7 @@ from PyQt5.QtCore import QSize, QPropertyAnimation, QDate
 from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp, QCompleter
 
+import export_data
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande, Filter_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
@@ -11,7 +12,6 @@ from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSe
     ThreadFilterSortie, ThreadFilterSortieDialog
 from custom_widgets import ProductsList, Check, Menu_Edit_Text
 from pdf_reports import program_report
-from pdf_viewer import PdfReport, pdf_test
 
 from PyQt5 import QtWebEngineWidgets
 
@@ -1703,20 +1703,13 @@ class AppUi(QtWidgets.QMainWindow):
                 prog_array.append(day)
 
 
-            index = program_report(prog_array, self.programme_month.currentText(),self.programme_year.currentText())
+            self.data = []
+            self.data.append(prog_array)
+            self.data.append(self.programme_month.currentText())
+            self.data.append(self.programme_year.currentText())
+            self.next_page = export_data.ExportUi("prog", self.data)
+            self.next_page.show()
 
-
-
-            view = QtWebEngineWidgets.QWebEngineView()
-            settings = view.settings()
-            settings.setAttribute(QtWebEngineWidgets.QWebEngineSettings.PluginsEnabled, True)
-            print(index)
-            url = QtCore.QUrl.fromLocalFile(index)
-            view.load(url)
-            print(url)
-            view.showMaximized()
-
-            print("done")
         else:
             self.alert_("خطأ في المعلومات")
 

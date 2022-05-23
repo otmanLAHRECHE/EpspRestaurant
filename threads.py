@@ -1095,3 +1095,24 @@ class ThreadFilterSortie(QThread):
         self._signal_result.emit(True)
 
 
+class ThreadExport(QThread):
+    _signal = pyqtSignal(int)
+    _signal_result = pyqtSignal(bool)
+
+    def __init__(self):
+        super(ThreadExport, self).__init__()
+
+    def __del__(self):
+        self.terminate()
+        self.wait()
+
+    def run(self):
+        for i in range(99):
+            self._signal.emit(i)
+            time.sleep(0.025)
+
+
+        self._signal_result.emit(True)
+
+
+
