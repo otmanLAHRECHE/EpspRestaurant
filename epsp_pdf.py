@@ -1,17 +1,11 @@
 
-from fpdf import FPDF
+from fpdf import FPDF, HTMLMixin
 
 
-class EpspPdf(FPDF):
+class EpspPdf(FPDF, HTMLMixin):
     def header(self):
         self.set_margins(10, 0, 10)
         self.set_auto_page_break(auto=False)
-        
-        self.set_font("helvetica", "B", 12)
-        self.cell(80)
-        self.cell(30, 10, "DIRECTION DE LA SANTE ET DE LA POPULATION", 0, 0, "C")
-
-        self.ln(5)
 
         self.cell(80)
         self.set_font("helvetica", "B", size=12)

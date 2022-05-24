@@ -3,7 +3,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 from pdf_reports import program_report
-from threads import ThreadExport
+from threads import ThreadCreateReport
 
 
 class ExportUi(QtWidgets.QMainWindow):

@@ -1,6 +1,7 @@
 import time
 
 import PyQt5
+from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtPrintSupport
 from PyQt5.QtCore import pyqtSignal, QThread
 
 from database_operation import is_product_exist, add_new_product, get_product_id_by_name, add_new_stock, \
@@ -1095,24 +1096,60 @@ class ThreadFilterSortie(QThread):
         self._signal_result.emit(True)
 
 
-class ThreadExport(QThread):
+class ThreadCreateReport(QThread):
     _signal = pyqtSignal(int)
+    _signal_list = pyqtSignal(list)
     _signal_result = pyqtSignal(bool)
 
     def __init__(self):
-        super(ThreadExport, self).__init__()
+        super(ThreadCreateReport, self).__init__()
 
     def __del__(self):
         self.terminate()
         self.wait()
 
     def run(self):
-        for i in range(99):
+        for i in range(35):
             self._signal.emit(i)
             time.sleep(0.025)
 
+        ret = []
+
+        document = QtGui.QTextDocument()
+        cursor = QtGui.QTextCursor(document)
+        rows = 5
+        columns = 3
+        table = cursor.insertTable(rows + 1, columns)
+        format = table.format()
+        format.setHeaderRowCount(1)
+        table.setFormat(format)
+        format = cursor.blockCharFormat()
+        format.setFontWeight(QtGui.QFont.Bold)
+        for column in range(columns):
+            cursor.setCharFormat(format)
+            cursor.insertText(
+                "تجريب")
+            cursor.movePosition(QtGui.QTextCursor.NextCell)
+        for row in range(rows):
+            for column in range(columns):
+                cursor.insertText(
+                    "تجريب")
+                cursor.movePosition(QtGui.QTextCursor.NextCell)
+
+
+        for i in range(35,99):
+            self._signal.emit(i)
+            time.sleep(0.025)
+
+        print("ddddddddddddddddddddddddddddddddddddddddddddd",document)
+        ret.append(document)
+        self._signal_list.emit(ret)
+
 
         self._signal_result.emit(True)
+
+
+
 
 
 

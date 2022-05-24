@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, uic, QtCore, QtGui
+from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtPrintSupport
 from PyQt5.QtCore import QSize, QPropertyAnimation, QDate
 from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp, QCompleter
@@ -9,7 +9,7 @@ from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSe
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
     ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande, ThreadFilterCommandDialog, ThreadFilterCommande, \
     ThreadAddBonSortie, ThreadLoadSortie, ThreadUpdateBonsortie, ThreadSortieDialogToUpdate, ThreadSortieDialog, \
-    ThreadFilterSortie, ThreadFilterSortieDialog
+    ThreadFilterSortie, ThreadFilterSortieDialog, ThreadCreateReport
 from custom_widgets import ProductsList, Check, Menu_Edit_Text
 from pdf_reports import program_report
 
@@ -1707,11 +1707,53 @@ class AppUi(QtWidgets.QMainWindow):
             self.data.append(prog_array)
             self.data.append(self.programme_month.currentText())
             self.data.append(self.programme_year.currentText())
-            self.next_page = export_data.ExportUi("prog", self.data)
-            self.next_page.show()
+
+            self.dialog = Threading_loading()
+            self.dialog.ttl.setText("إنتظر من فضلك")
+            self.dialog.progress.setValue(0)
+            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+            self.dialog.show()
+
+            self.thr = ThreadCreateReport()
+            self.thr._signal.connect(self.signal_programme_accepted)
+            self.thr._signal_list.connect(self.signal_programme_accepted)
+            self.thr._signal_result.connect(self.signal_programme_accepted)
+            self.thr.start()
 
         else:
             self.alert_("خطأ في المعلومات")
+
+
+    def signal_programme_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        elif type(progress) == list:
+            print("ok")
+            doc = progress[0]
+            self.doc = doc
+
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
+
+            try:
+                dialog = QtPrintSupport.QPrintPreviewDialog()
+                dialog.paintRequested.connect(self.handlePaintRequest)
+                dialog.exec_()
+            except Exception as e:
+                print(e.__class__, "occurred.")
+
+    def handlePaintRequest(self, printer):
+
+        printer.setOrientation(QtPrintSupport.QPrinter.Landscape)  # <------------
+        print("printer 2--> ", printer.orientation())
+        document = self.doc
+        print(document)
+        document.print_(printer)
+
+
+
 
 
 
