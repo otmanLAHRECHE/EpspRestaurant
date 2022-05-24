@@ -1113,15 +1113,11 @@ class ThreadCreateReport(QThread):
             self._signal.emit(i)
             time.sleep(0.025)
 
-        workbook = xlsxwriter.Workbook('xslx_models/Program_report.xlsx')
         wb = load_workbook('xslx_models/Program_report.xlsx')
         ws = wb.get_active_sheet()
 
-        worksheet = workbook.add_worksheet("programme")
 
-
-
-        workbook.close()
+        wb.save()
 
         for i in range(35,99):
             self._signal.emit(i)
