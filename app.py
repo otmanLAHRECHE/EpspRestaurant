@@ -1727,31 +1727,10 @@ class AppUi(QtWidgets.QMainWindow):
     def signal_programme_accepted(self, progress):
         if type(progress) == int:
             self.dialog.progress.setValue(progress)
-        elif type(progress) == list:
-            print("ok")
-            doc = progress[0]
-            self.doc = doc
-
         else:
             self.dialog.progress.setValue(100)
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
-
-            try:
-                dialog = QtPrintSupport.QPrintPreviewDialog()
-                dialog.paintRequested.connect(self.handlePaintRequest)
-                dialog.exec_()
-            except Exception as e:
-                print(e.__class__, "occurred.")
-
-    def handlePaintRequest(self, printer):
-
-        printer.setOrientation(QtPrintSupport.QPrinter.Landscape)
-        print("printer 2--> ", printer.orientation())
-        document = self.doc
-        print(document)
-        document.print_(printer)
-
 
 
 

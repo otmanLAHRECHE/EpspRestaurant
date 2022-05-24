@@ -1098,7 +1098,6 @@ class ThreadFilterSortie(QThread):
 
 class ThreadCreateReport(QThread):
     _signal = pyqtSignal(int)
-    _signal_list = pyqtSignal(list)
     _signal_result = pyqtSignal(bool)
 
     def __init__(self):
@@ -1113,37 +1112,32 @@ class ThreadCreateReport(QThread):
             self._signal.emit(i)
             time.sleep(0.025)
 
-        ret = []
+        workbook = xlsxwriter.Workbook('Example3.xlsx')
 
-        document = QtGui.QTextDocument()
-        cursor = QtGui.QTextCursor(document)
-        rows = 5
-        columns = 3
-        table = cursor.insertTable(rows + 1, columns)
-        format = table.format()
-        format.setHeaderRowCount(1)
-        table.setFormat(format)
-        format = cursor.blockCharFormat()
-        format.setFontWeight(QtGui.QFont.Bold)
-        for column in range(columns):
-            cursor.setCharFormat(format)
-            cursor.insertText(
-                "تجريب")
-            cursor.movePosition(QtGui.QTextCursor.NextCell)
-        for row in range(rows):
-            for column in range(columns):
-                cursor.insertText(
-                    "تجريب")
-                cursor.movePosition(QtGui.QTextCursor.NextCell)
+        # By default worksheet names in the spreadsheet will be
+        # Sheet1, Sheet2 etc., but we can also specify a name.
+        worksheet = workbook.add_worksheet("My sheet")
 
+        # Some data we want to write to the worksheet.
+        scores = (
+            ['ankit', 1000],
+            ['rahul', 100],
+            ['priya', 300],
+            ['harshita', 50],
+        )
 
-        for i in range(35,99):
-            self._signal.emit(i)
-            time.sleep(0.025)
+        # Start from the first cell. Rows and
+        # columns are zero indexed.
+        row = 0
+        col = 0
 
-        print("ddddddddddddddddddddddddddddddddddddddddddddd",document)
-        ret.append(document)
-        self._signal_list.emit(ret)
+        # Iterate over the data and write it out row by row.
+        for name, score in (scores):
+            worksheet.write(row, col, name)
+            worksheet.write(row, col + 1, score)
+            row += 1
+
+        workbook.close()
 
 
         self._signal_result.emit(True)
