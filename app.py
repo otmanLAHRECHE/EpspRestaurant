@@ -1684,7 +1684,6 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
 
-
     def print_p(self):
         prog_array = []
         go = True
