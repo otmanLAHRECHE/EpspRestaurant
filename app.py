@@ -1746,7 +1746,7 @@ class AppUi(QtWidgets.QMainWindow):
 
     def handlePaintRequest(self, printer):
 
-        printer.setOrientation(QtPrintSupport.QPrinter.Landscape)  # <------------
+        printer.setOrientation(QtPrintSupport.QPrinter.Landscape)
         print("printer 2--> ", printer.orientation())
         document = self.doc
         print(document)
