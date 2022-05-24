@@ -1101,8 +1101,9 @@ class ThreadCreateReport(QThread):
     _signal = pyqtSignal(int)
     _signal_result = pyqtSignal(bool)
 
-    def __init__(self):
+    def __init__(self, data):
         super(ThreadCreateReport, self).__init__()
+        self.data = data
 
     def __del__(self):
         self.terminate()

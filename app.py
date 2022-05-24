@@ -1702,22 +1702,21 @@ class AppUi(QtWidgets.QMainWindow):
                     day.append(self.programme.cellWidget(i, j).edit.text())
                 prog_array.append(day)
 
+                self.data = []
+                self.data.append(prog_array)
+                self.data.append(self.programme_month.currentText())
+                self.data.append(self.programme_year.currentText())
 
-            self.data = []
-            self.data.append(prog_array)
-            self.data.append(self.programme_month.currentText())
-            self.data.append(self.programme_year.currentText())
+                self.dialog = Threading_loading()
+                self.dialog.ttl.setText("إنتظر من فضلك")
+                self.dialog.progress.setValue(0)
+                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                self.dialog.show()
 
-            self.dialog = Threading_loading()
-            self.dialog.ttl.setText("إنتظر من فضلك")
-            self.dialog.progress.setValue(0)
-            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-            self.dialog.show()
-
-            self.thr = ThreadCreateReport()
-            self.thr._signal.connect(self.signal_programme_accepted)
-            self.thr._signal_result.connect(self.signal_programme_accepted)
-            self.thr.start()
+                self.thr = ThreadCreateReport(self.data)
+                self.thr._signal.connect(self.signal_programme_accepted)
+                self.thr._signal_result.connect(self.signal_programme_accepted)
+                self.thr.start()
 
         else:
             self.alert_("خطأ في المعلومات")
