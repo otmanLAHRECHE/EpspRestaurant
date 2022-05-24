@@ -3,7 +3,7 @@ from PyQt5.QtCore import QSize, QPropertyAnimation, QDate
 from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp, QCompleter
 
-import export_data
+
 from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande, Filter_commande
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
@@ -11,7 +11,7 @@ from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSe
     ThreadAddBonSortie, ThreadLoadSortie, ThreadUpdateBonsortie, ThreadSortieDialogToUpdate, ThreadSortieDialog, \
     ThreadFilterSortie, ThreadFilterSortieDialog, ThreadCreateReport
 from custom_widgets import ProductsList, Check, Menu_Edit_Text
-from pdf_reports import program_report
+from reports import program_report
 
 from PyQt5 import QtWebEngineWidgets
 
@@ -1716,7 +1716,6 @@ class AppUi(QtWidgets.QMainWindow):
 
             self.thr = ThreadCreateReport()
             self.thr._signal.connect(self.signal_programme_accepted)
-            self.thr._signal_list.connect(self.signal_programme_accepted)
             self.thr._signal_result.connect(self.signal_programme_accepted)
             self.thr.start()
 

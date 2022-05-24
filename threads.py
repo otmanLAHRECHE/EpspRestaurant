@@ -3,6 +3,7 @@ import time
 import PyQt5
 from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtPrintSupport
 from PyQt5.QtCore import pyqtSignal, QThread
+import openpyxl
 
 from database_operation import is_product_exist, add_new_product, get_product_id_by_name, add_new_stock, \
     get_all_product, get_product_id_by_stock_id, update_product, update_stock, search_food, add_new_four_ben, \
@@ -1112,32 +1113,19 @@ class ThreadCreateReport(QThread):
             self._signal.emit(i)
             time.sleep(0.025)
 
-        workbook = xlsxwriter.Workbook('Example3.xlsx')
+        workbook = xlsxwriter.Workbook('xslx_models/Program_report.xlsx')
+        wb = load_workbook('xslx_models/Program_report.xlsx')
+        ws = wb.get_active_sheet()
 
-        # By default worksheet names in the spreadsheet will be
-        # Sheet1, Sheet2 etc., but we can also specify a name.
-        worksheet = workbook.add_worksheet("My sheet")
+        worksheet = workbook.add_worksheet("programme")
 
-        # Some data we want to write to the worksheet.
-        scores = (
-            ['ankit', 1000],
-            ['rahul', 100],
-            ['priya', 300],
-            ['harshita', 50],
-        )
 
-        # Start from the first cell. Rows and
-        # columns are zero indexed.
-        row = 0
-        col = 0
-
-        # Iterate over the data and write it out row by row.
-        for name, score in (scores):
-            worksheet.write(row, col, name)
-            worksheet.write(row, col + 1, score)
-            row += 1
 
         workbook.close()
+
+        for i in range(35,99):
+            self._signal.emit(i)
+            time.sleep(0.025)
 
 
         self._signal_result.emit(True)
