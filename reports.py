@@ -2,7 +2,7 @@ from openpyxl import load_workbook
 
 
 def program_report(data):
-    wb = load_workbook('xslx/pr.xlsx')
+    wb = load_workbook('xslx/program.xlsx')
     ws = wb.active
 
     menu = data[0]
@@ -25,7 +25,7 @@ def program_report(data):
 
     ws["D8"] = month + "/" + year
 
-    wb.save("xslx/pr.xlsx")
+    wb.save("xslx/program.xlsx")
 
 
 

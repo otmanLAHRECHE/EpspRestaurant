@@ -1550,7 +1550,6 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.close()
             self.sortie_table.removeRow(self.to_update_row)
 
-
     def reset_sortie(self):
         self.load_sorties()
 
