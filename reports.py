@@ -1,29 +1,27 @@
-import xlsxwriter as xlsxwriter
+from openpyxl import load_workbook
 
 
+def program_report(data):
+    wb = load_workbook('xslx_models/Program_report.xlsx')
+    ws = wb.get_active_sheet()
 
+    menu = data[0]
+    month = data[1]
+    year = data[2]
 
-def program_report():
-    workbook = xlsxwriter.Workbook('xslx_models/Program_report.xlsx')
+    for i in range(11, 17):
+        day = menu[i-11]
+        print(day)
+        ws["F" + str(i)] = day[0]
+        ws["E" + str(i)] = day[1]
+        ws["D" + str(i)] = day[2]
+        ws["C" + str(i)] = day[3]
+        ws["B" + str(i)] = day[4]
+        ws["A" + str(i)] = day[5]
 
-    worksheet = workbook.add_worksheet("My sheet")
+    ws["D8"] = month + "/" + year
 
-    scores = (
-        ['ankit', 1000],
-        ['rahul', 100],
-        ['priya', 300],
-        ['harshita', 50],
-    )
-
-    row = 0
-    col = 0
-
-    for name, score in (scores):
-        worksheet.write(row, col, name)
-        worksheet.write(row, col + 1, score)
-        row += 1
-
-    workbook.close()
+    wb.save("xslx_models/Program_report.xlsx")
 
 
 

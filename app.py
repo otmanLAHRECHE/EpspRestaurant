@@ -1713,7 +1713,7 @@ class AppUi(QtWidgets.QMainWindow):
                 self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
                 self.dialog.show()
 
-                self.thr = ThreadCreateReport(self.data)
+                self.thr = ThreadCreateReport(self.data, "prog")
                 self.thr._signal.connect(self.signal_programme_accepted)
                 self.thr._signal_result.connect(self.signal_programme_accepted)
                 self.thr.start()
