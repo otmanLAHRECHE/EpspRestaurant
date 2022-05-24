@@ -2,14 +2,18 @@ from openpyxl import load_workbook
 
 
 def program_report(data):
-    wb = load_workbook('xslx_models/Program_report.xlsx')
-    ws = wb.get_active_sheet()
+    wb = load_workbook('xslx/pr.xlsx')
+    ws = wb.active
 
     menu = data[0]
     month = data[1]
     year = data[2]
 
-    for i in range(11, 17):
+    print(menu)
+    print(month)
+    print(year)
+
+    for i in range(11, 18):
         day = menu[i-11]
         print(day)
         ws["F" + str(i)] = day[0]
@@ -21,7 +25,7 @@ def program_report(data):
 
     ws["D8"] = month + "/" + year
 
-    wb.save("xslx_models/Program_report.xlsx")
+    wb.save("xslx/pr.xlsx")
 
 
 

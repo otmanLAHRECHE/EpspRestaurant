@@ -14,6 +14,7 @@ from custom_widgets import ProductsList, Check, Menu_Edit_Text
 from reports import program_report
 
 from PyQt5 import QtWebEngineWidgets
+from openpyxl import load_workbook
 
 
 WINDOW_SIZE = 0
@@ -1685,9 +1686,6 @@ class AppUi(QtWidgets.QMainWindow):
 
 
     def print_p(self):
-        for i in range(7):
-            for j in range(6):
-                self.programme.cellWidget(i, j).edit.setText("تجريب")
         prog_array = []
         go = True
         for i in range(7):
@@ -1707,16 +1705,18 @@ class AppUi(QtWidgets.QMainWindow):
                 self.data.append(self.programme_month.currentText())
                 self.data.append(self.programme_year.currentText())
 
-                self.dialog = Threading_loading()
-                self.dialog.ttl.setText("إنتظر من فضلك")
-                self.dialog.progress.setValue(0)
-                self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-                self.dialog.show()
 
-                self.thr = ThreadCreateReport(self.data, "prog")
-                self.thr._signal.connect(self.signal_programme_accepted)
-                self.thr._signal_result.connect(self.signal_programme_accepted)
-                self.thr.start()
+
+            self.dialog = Threading_loading()
+            self.dialog.ttl.setText("إنتظر من فضلك")
+            self.dialog.progress.setValue(0)
+            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+            self.dialog.show()
+
+            self.thr = ThreadCreateReport(self.data, "prog")
+            self.thr._signal.connect(self.signal_programme_accepted)
+            self.thr._signal_result.connect(self.signal_programme_accepted)
+            self.thr.start()
 
         else:
             self.alert_("خطأ في المعلومات")
