@@ -136,8 +136,6 @@ class AppUi(QtWidgets.QMainWindow):
         self.filter_commande_button.setIcon(QIcon("icons/filter.png"))
         self.reset_commande_buton = self.findChild(QtWidgets.QPushButton, "pushButton_21")
         self.reset_commande_buton.setIcon(QIcon("icons/refresh.png"))
-        self.report_commande_button = self.findChild(QtWidgets.QPushButton, "pushButton_20")
-        self.report_commande_button.setIcon(QIcon("icons/file-text.png"))
 
         self.commandes_table.setColumnWidth(0, 40)
         self.commandes_table.setColumnWidth(1, 200)
@@ -219,7 +217,34 @@ class AppUi(QtWidgets.QMainWindow):
         self.report_sortie_button.clicked.connect(self.report_sortie_event)
 
 
-        ##################### End sortie page initialisation
+        ##################### End sortie page
+
+
+        ##################### statestiques page initialisation :
+
+        self.statesiques_table = self.findChild(QtWidgets.QTableWidget, "tableWidget_8")
+        self.print_statestques = self.findChild(QtWidgets.QPushButton, "pushButton_31")
+        self.print_statestques.setIcon(QIcon("icons/printer.png"))
+
+        self.statesiques_table.setColumnWidth(0, 40)
+        self.statesiques_table.setColumnWidth(1, 800)
+
+        self.statesiques_table.setRowHeight(0, 60)
+        self.statesiques_table.setRowHeight(1, 60)
+        self.statesiques_table.setRowHeight(2, 60)
+        self.statesiques_table.setRowHeight(3, 60)
+
+        check = Check()
+        self.statesiques_table.setCellWidget(0, 0, check)
+        check = Check()
+        self.statesiques_table.setCellWidget(1, 0, check)
+        check = Check()
+        self.statesiques_table.setCellWidget(2, 0, check)
+        check = Check()
+        self.statesiques_table.setCellWidget(3, 0, check)
+
+
+        ##################### End statestiques page
 
         ##################### Programe page initialisation :
 
