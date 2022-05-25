@@ -5,7 +5,7 @@ from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtPrintSupport
 from PyQt5.QtCore import pyqtSignal, QThread
 import openpyxl
 
-from reports import program_report
+from reports import program_report, sortie_report
 from database_operation import is_product_exist, add_new_product, get_product_id_by_name, add_new_stock, \
     get_all_product, get_product_id_by_stock_id, update_product, update_stock, search_food, add_new_four_ben, \
     is_four_ben_exist, get_all_four_ben, update_four_ben, delete_four_ben, get_all_product_names_no_type, \
@@ -1120,8 +1120,14 @@ class ThreadCreateReport(QThread):
         if self.type == "prog":
             program_report(self.data)
         elif self.type == "sortie":
-            sortie = get_selected_sortie_by_sortie_number(self.data)
-            print("ssssssssssssssooooooooooooooorrrrrrtieeeeeee", sortie)
+            sortie = get_selected_sortie_by_sortie_number(self.data)[0]
+            operations = get_operations_by_commande_id(sortie[0])
+
+            d = []
+            d.append(sortie)
+            d.append(operations)
+
+            sortie_report(d)
 
         for i in range(35,99):
             self._signal.emit(i)
