@@ -1118,6 +1118,9 @@ class ThreadCreateReport(QThread):
         print(self.data)
         if self.type == "prog":
             program_report(self.data)
+        elif self.type == "sortie":
+            id = get_sortie_id_by_bon_sort_number(int(self.data))[0]
+
         for i in range(35,99):
             self._signal.emit(i)
             time.sleep(0.025)

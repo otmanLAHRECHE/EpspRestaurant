@@ -235,7 +235,6 @@ def add_operation(product_op_id, bon_op_id, qnt):
     connection.commit()
     connection.close()
 
-
 def get_product_type_by_name(name):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
@@ -473,6 +472,15 @@ def get_sortie_id_by_bon_sort_number(com_number):
     cur = connection.cursor()
     sql_q = 'Select bon.bon_id from bon  where bon.bon_number = ? and bon.type = ?'
     cur.execute(sql_q, (com_number, 'sortie'))
+    unit = cur.fetchall()
+    connection.close()
+    return unit
+
+def get_selected_sortie_by_sortie_number(bon_number):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select bon.bon_id, bon.bon_number, bon.dt, fb.name from bon inner join fb on bon.fb_fk_id = fb.fb_id where bon.type = ? and bon.bon_number = ? order by date(bon.dt) DESC LIMIT 50'
+    cur.execute(sql_q, ('sortie', bon_number))
     unit = cur.fetchall()
     connection.close()
     return unit

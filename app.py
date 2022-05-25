@@ -216,6 +216,7 @@ class AppUi(QtWidgets.QMainWindow):
         self.delete_sortie_button.clicked.connect(self.delete_sortie)
         self.reset_sortie_buton.clicked.connect(self.reset_sortie)
         self.filter_sortie_button.clicked.connect(self.filter_sortie_event)
+        self.report_sortie_button.clicked.connect(self.report_sortie_event)
 
 
         ##################### End sortie page initialisation
@@ -1728,6 +1729,37 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
 
+
+    def report_sortie_event(self):
+        ch = 0
+        for row in range(self.sortie_table.rowCount()):
+            if self.sortie_table.cellWidget(row, 0).check.isChecked():
+                row_selected = row
+                ch = ch + 1
+        if ch > 1 or ch == 0:
+            self.alert_("إختار التموين")
+            for row in range(self.sortie_table.rowCount()):
+                self.sortie_table.cellWidget(row, 0).check.setChecked(False)
+        else:
+            self.dialog = Threading_loading()
+            self.dialog.ttl.setText("إنتظر من فضلك")
+            self.dialog.progress.setValue(0)
+            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+            self.dialog.show()
+
+            self.thr = ThreadCreateReport(self.sortie_table.item(row_selected, 1).text(), "sortie")
+            self.thr._signal.connect(self.signal_report_sortie_accepted)
+            self.thr._signal_result.connect(self.signal_report_sortie_accepted)
+            self.thr.start()
+
+
+    def signal_report_sortie_accepted(self, progress):
+        if type(progress) == int:
+            self.dialog.progress.setValue(progress)
+        else:
+            self.dialog.progress.setValue(100)
+            self.dialog.ttl.setText("إنتها بنجاح")
+            self.dialog.close()
 
 
 
