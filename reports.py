@@ -45,26 +45,23 @@ def sortie_report(data):
     i = 0
     for operation in opertations:
         index = 13+i
-        prod = ""
         ws["G"+str(int(index))] = i + 1
         if operation[2] == "no_unit":
-            prod = operation[0]
+            prod = str(operation[1])
         else:
-            prod = operation[0] + operation[2]
+            prod = str(operation[1]) + operation[2]
 
-        ws["D" + str(index)] = operation[1]
+        ws["D" + str(index)] = operation[0]
         ws["B" + str(index)] = prod
-        ws.insert_rows(index + 1)
 
         i = i+1
 
 
+    index = 13 + i
 
+    ws.delete_rows(index, 47 - index)
 
-
-
-
-    wb.save("xslx/raports/program.xlsx")
+    wb.save("xslx/raports/sortie.xlsx")
 
 
 
