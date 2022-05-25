@@ -12,7 +12,8 @@ from database_operation import is_product_exist, add_new_product, get_product_id
     get_all_four_ben_names, get_last_bon_commande_number, is_commande_number_exist, add_bon, get_fourn_ben_id_from_name, \
     add_operation, get_stock_qte_by_product_id, update_stock_by_commande, get_all_commande, get_operations_by_commande_id, \
     get_commande_id_by_bon_com_number, update_bon, delete_all_bon_operation, delete_bon_commande, filter_commande, get_filtred_operations_by_commande_id, \
-    is_sortie_number_exist, get_all_sorties, get_sortie_id_by_bon_sort_number, filter_sorties, get_filtred_operations_by_sortie_id
+    is_sortie_number_exist, get_all_sorties, get_sortie_id_by_bon_sort_number, filter_sorties, get_filtred_operations_by_sortie_id, \
+    get_selected_sortie_by_sortie_number
 
 
 from tools import forming_date, un_forming_date
@@ -1119,7 +1120,8 @@ class ThreadCreateReport(QThread):
         if self.type == "prog":
             program_report(self.data)
         elif self.type == "sortie":
-            id = get_sortie_id_by_bon_sort_number(int(self.data))[0]
+            sortie = get_selected_sortie_by_sortie_number(self.data)
+            print("ssssssssssssssooooooooooooooorrrrrrtieeeeeee", sortie)
 
         for i in range(35,99):
             self._signal.emit(i)
