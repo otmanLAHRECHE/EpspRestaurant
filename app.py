@@ -244,6 +244,9 @@ class AppUi(QtWidgets.QMainWindow):
         self.statesiques_table.setCellWidget(3, 0, check)
 
 
+        self.print_statestques.clicked.connect(self.print_statestques_event)
+
+
         ##################### End statestiques page
 
         ##################### Programe page initialisation :
@@ -1786,7 +1789,29 @@ class AppUi(QtWidgets.QMainWindow):
             self.dialog.ttl.setText("إنتها بنجاح")
             self.dialog.close()
 
+    def print_statestques_event(self):
+        ch = 0
+        for row in range(self.statesiques_table.rowCount()):
+            if self.statesiques_table.cellWidget(row, 0).check.isChecked():
+                row_selected = row
+                ch = ch + 1
+        if ch > 1 or ch == 0:
+            self.alert_("إختار التقرير")
+            for row in range(self.statesiques_table.rowCount()):
+                self.statesiques_table.cellWidget(row, 0).check.setChecked(False)
+        else:
+            self.dialog = Threading_loading()
+            self.dialog.ttl.setText("إنتظر من فضلك")
+            self.dialog.progress.setValue(0)
+            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+            self.dialog.show()
 
+            data = []
+
+            self.thr = ThreadCreateReport(data, "entrée_mois")
+            self.thr._signal.connect(self.signal_programme_accepted)
+            self.thr._signal_result.connect(self.signal_programme_accepted)
+            self.thr.start()
 
 
     def h(self):
