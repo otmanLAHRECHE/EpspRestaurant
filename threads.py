@@ -1122,12 +1122,12 @@ class ThreadCreateReport(QThread):
         elif self.type == "sortie":
             sortie = get_selected_sortie_by_sortie_number(self.data)[0]
             operations = get_operations_by_commande_id(sortie[0])
-
             d = []
             d.append(sortie)
             d.append(operations)
-
             sortie_report(d)
+        elif self.type == "entrée_mois":
+
 
         for i in range(35,99):
             self._signal.emit(i)

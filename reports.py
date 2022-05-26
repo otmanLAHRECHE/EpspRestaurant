@@ -61,7 +61,18 @@ def sortie_report(data):
 
     ws.delete_rows(index, 47 - index)
 
-    wb.save("xslx/raports/sortie.xlsx")
+    wb.save("xslx/raports/طلبية التموين.xlsx")
+
+
+def entree_mois_report():
+    wb = load_workbook('xslx/entree_mois_model.xlsx')
+    ws = wb.active
+
+
+
+    wb.save("xslx/raports/تقرير المدخولات الشهري.xlsx")
+
+
 
 
 

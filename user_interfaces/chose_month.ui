@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>380</width>
+    <height>90</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>380</width>
+    <height>90</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>380</width>
+    <height>90</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>إختار الشهر</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(179, 230, 255);</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>20</y>
+     <width>81</width>
+     <height>241</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>30</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>جانفي</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>فيفري</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>مارس</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>أفريل</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>ماي</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>جوان</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>جويلية</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>أوت</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>سبتمبر</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>أكتوبر</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>نوفمبر</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>ديسمبر</string>
+    </property>
+   </item>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

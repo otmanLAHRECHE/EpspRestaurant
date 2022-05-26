@@ -1808,10 +1808,30 @@ class AppUi(QtWidgets.QMainWindow):
 
             data = []
 
-            self.thr = ThreadCreateReport(data, "entrée_mois")
-            self.thr._signal.connect(self.signal_programme_accepted)
-            self.thr._signal_result.connect(self.signal_programme_accepted)
-            self.thr.start()
+            if row_selected == 0:
+
+                self.thr = ThreadCreateReport(data, "entrée_mois")
+                self.thr._signal.connect(self.signal_programme_accepted)
+                self.thr._signal_result.connect(self.signal_programme_accepted)
+                self.thr.start()
+
+            elif row_selected == 1:
+                self.thr = ThreadCreateReport(data, "sortie_mois")
+                self.thr._signal.connect(self.signal_programme_accepted)
+                self.thr._signal_result.connect(self.signal_programme_accepted)
+                self.thr.start()
+
+            elif row_selected == 2:
+                self.thr = ThreadCreateReport(data, "entrée_year")
+                self.thr._signal.connect(self.signal_programme_accepted)
+                self.thr._signal_result.connect(self.signal_programme_accepted)
+                self.thr.start()
+
+            else:
+                self.thr = ThreadCreateReport(data, "sortie_year")
+                self.thr._signal.connect(self.signal_programme_accepted)
+                self.thr._signal_result.connect(self.signal_programme_accepted)
+                self.thr.start()
 
 
     def h(self):

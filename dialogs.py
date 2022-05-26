@@ -146,7 +146,6 @@ class Add_new_commande(QtWidgets.QDialog):
         else:
             self.commande_products_table.removeRow(row_selected)
 
-
 class Filter_commande(QtWidgets.QDialog):
     def __init__(self, products, fourn, filter):
         super(Filter_commande, self).__init__()
@@ -259,6 +258,20 @@ class Filter_commande(QtWidgets.QDialog):
 
     def empty_event(self):
         self.products_list.clear()
+
+class chose_month(QtWidgets.QDialog):
+    def __init__(self):
+        super(chose_month, self).__init__()
+        uic.loadUi('./user_interfaces/chose_month.ui', self)
+
+        self.chose_month = self.findChild(QtWidgets.QComboBox, "comboBox")
+
+class chose_year(QtWidgets.QDialog):
+    def __init__(self):
+        super(chose_year, self).__init__()
+        uic.loadUi('./user_interfaces/chose_year.ui', self)
+
+        self.chose_year = self.findChild(QtWidgets.QComboBox, "comboBox")
 
 
 
