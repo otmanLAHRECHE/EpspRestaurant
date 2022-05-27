@@ -55,7 +55,7 @@
     <rect>
      <x>60</x>
      <y>30</y>
-     <width>191</width>
+     <width>71</width>
      <height>31</height>
     </rect>
    </property>
@@ -117,6 +117,51 @@
    <item>
     <property name="text">
      <string>ديسمبر</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="comboBox_2">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>31</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>2022</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2023</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2024</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2025</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2026</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2027</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2028</string>
     </property>
    </item>
   </widget>

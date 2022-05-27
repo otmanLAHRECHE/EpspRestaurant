@@ -1813,7 +1813,12 @@ class AppUi(QtWidgets.QMainWindow):
                 dialog = chose_month()
                 if dialog.exec() == QtWidgets.QDialog.Accepted :
 
-                    self.thr = ThreadCreateReport(dialog.chose_month.currentIndex(), "entrée_mois")
+                    data = []
+                    data.append(dialog.chose_month.currentIndex())
+                    data.append(dialog.chose_month.currentText())
+                    data.append(dialog.chose_year.currentText())
+
+                    self.thr = ThreadCreateReport(data, "entrée_mois")
                     self.thr._signal.connect(self.signal_programme_accepted)
                     self.thr._signal_result.connect(self.signal_programme_accepted)
                     self.thr.start()
@@ -1822,7 +1827,12 @@ class AppUi(QtWidgets.QMainWindow):
 
                 dialog = chose_month()
                 if dialog.exec() == QtWidgets.QDialog.Accepted:
-                    self.thr = ThreadCreateReport(dialog.chose_month.currentIndex(), "sortie_mois")
+                    data = []
+                    data.append(dialog.chose_month.currentIndex())
+                    data.append(dialog.chose_month.currentText())
+                    data.append(dialog.chose_year.currentText())
+
+                    self.thr = ThreadCreateReport(data, "sortie_mois")
                     self.thr._signal.connect(self.signal_programme_accepted)
                     self.thr._signal_result.connect(self.signal_programme_accepted)
                     self.thr.start()

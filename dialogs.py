@@ -265,6 +265,7 @@ class chose_month(QtWidgets.QDialog):
         uic.loadUi('./user_interfaces/chose_month.ui', self)
 
         self.chose_month = self.findChild(QtWidgets.QComboBox, "comboBox")
+        self.chose_year = self.findChild(QtWidgets.QComboBox, "comboBox_2")
 
 class chose_year(QtWidgets.QDialog):
     def __init__(self):
