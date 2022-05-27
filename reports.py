@@ -64,13 +64,34 @@ def sortie_report(data):
     wb.save("xslx/raports/طلبية التموين.xlsx")
 
 
-def entree_mois_report():
+def entree_mois_report(month):
     wb = load_workbook('xslx/entree_mois_model.xlsx')
     ws = wb.active
 
 
-
     wb.save("xslx/raports/تقرير المدخولات الشهري.xlsx")
+
+
+def sortie_mois_report(month):
+    wb = load_workbook('xslx/sortie_mois_model.xlsx')
+    ws = wb.active
+
+
+    wb.save("xslx/raports/تقرير التموين الشهري.xlsx")
+
+def entree_year_report(year):
+    wb = load_workbook('xslx/entree_year_model.xlsx')
+    ws = wb.active
+
+
+    wb.save("xslx/raports/تقرير المدخولات السنوي.xlsx")
+
+def sortie_year_report(year):
+    wb = load_workbook('xslx/sortie_year_model.xlsx')
+    ws = wb.active
+
+
+    wb.save("xslx/raports/تقرير التموين السنوي.xlsx")
 
 
 

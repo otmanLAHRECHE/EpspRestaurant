@@ -4,7 +4,7 @@ from PyQt5.QtGui import QIcon, QColor
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QMessageBox, QTableWidgetItem, qApp, QCompleter
 
 
-from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande, Filter_commande
+from dialogs import Add_new_stock, Threading_loading, Add_new_fb, Add_new_commande, Filter_commande, chose_month, chose_year
 from threads import ThreadAddStock, ThreadLoadStock, ThreadUpdateStock, ThreadSearchStock, ThreadAddFourBen, \
     ThreadUpdateFourBen, ThreadLoadFourBen, ThreadDeleteFourBen, ThreadCommandDialog, ThreadAddBonCommande, ThreadLoadCommande, \
     ThreadCommandDialogToUpdate, ThreadUpdateBonCommande, ThreadDeleteBonCommande, ThreadFilterCommandDialog, ThreadFilterCommande, \
@@ -1810,28 +1810,38 @@ class AppUi(QtWidgets.QMainWindow):
 
             if row_selected == 0:
 
-                self.thr = ThreadCreateReport(data, "entrée_mois")
-                self.thr._signal.connect(self.signal_programme_accepted)
-                self.thr._signal_result.connect(self.signal_programme_accepted)
-                self.thr.start()
+                dialog = chose_month()
+                if dialog.exec() == QtWidgets.QDialog.Accepted :
+
+                    self.thr = ThreadCreateReport(dialog.chose_month.currentIndex(), "entrée_mois")
+                    self.thr._signal.connect(self.signal_programme_accepted)
+                    self.thr._signal_result.connect(self.signal_programme_accepted)
+                    self.thr.start()
 
             elif row_selected == 1:
-                self.thr = ThreadCreateReport(data, "sortie_mois")
-                self.thr._signal.connect(self.signal_programme_accepted)
-                self.thr._signal_result.connect(self.signal_programme_accepted)
-                self.thr.start()
+
+                dialog = chose_month()
+                if dialog.exec() == QtWidgets.QDialog.Accepted:
+                    self.thr = ThreadCreateReport(dialog.chose_month.currentIndex(), "sortie_mois")
+                    self.thr._signal.connect(self.signal_programme_accepted)
+                    self.thr._signal_result.connect(self.signal_programme_accepted)
+                    self.thr.start()
 
             elif row_selected == 2:
-                self.thr = ThreadCreateReport(data, "entrée_year")
-                self.thr._signal.connect(self.signal_programme_accepted)
-                self.thr._signal_result.connect(self.signal_programme_accepted)
-                self.thr.start()
+                dialog = chose_year()
+                if dialog.exec() == QtWidgets.QDialog.Accepted:
+                    self.thr = ThreadCreateReport(dialog.chose_year.currentText(), "entrée_year")
+                    self.thr._signal.connect(self.signal_programme_accepted)
+                    self.thr._signal_result.connect(self.signal_programme_accepted)
+                    self.thr.start()
 
             else:
-                self.thr = ThreadCreateReport(data, "sortie_year")
-                self.thr._signal.connect(self.signal_programme_accepted)
-                self.thr._signal_result.connect(self.signal_programme_accepted)
-                self.thr.start()
+                dialog = chose_year()
+                if dialog.exec() == QtWidgets.QDialog.Accepted:
+                    self.thr = ThreadCreateReport(dialog.chose_year.currentText(), "sortie_year")
+                    self.thr._signal.connect(self.signal_programme_accepted)
+                    self.thr._signal_result.connect(self.signal_programme_accepted)
+                    self.thr.start()
 
 
     def h(self):
