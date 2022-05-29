@@ -64,9 +64,13 @@ def sortie_report(data):
     wb.save("xslx/raports/طلبية التموين.xlsx")
 
 
-def entree_mois_report(month):
+def entree_mois_report(data):
     wb = load_workbook('xslx/entree_mois_model.xlsx')
     ws = wb.active
+
+    month = data[1] + str(data[2])
+
+    ws["D7"] = month
 
 
 
@@ -74,7 +78,7 @@ def entree_mois_report(month):
     wb.save("xslx/raports/تقرير المدخولات الشهري.xlsx")
 
 
-def sortie_mois_report(month):
+def sortie_mois_report(data):
     wb = load_workbook('xslx/sortie_mois_model.xlsx')
     ws = wb.active
 
