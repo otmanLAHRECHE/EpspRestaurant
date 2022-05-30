@@ -1,5 +1,6 @@
 from openpyxl import load_workbook
 
+from database_operation import get_bon_by_month
 from tools import un_forming_date
 
 
@@ -68,12 +69,11 @@ def entree_mois_report(data):
     wb = load_workbook('xslx/entree_mois_model.xlsx')
     ws = wb.active
 
-    month = data[1] + str(data[2])
+    month = data[1] + " / " + str(data[2])
 
     ws["D7"] = month
 
-
-
+    bons = get_bon_by_month()
 
     wb.save("xslx/raports/تقرير المدخولات الشهري.xlsx")
 

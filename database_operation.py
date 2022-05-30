@@ -1,4 +1,6 @@
 import sqlite3
+from calendar import monthrange
+
 from tools import forming_date, forming_date_filter
 
 
@@ -628,6 +630,50 @@ def get_filtred_operations_by_sortie_id(id_bon_commande, filter):
         cur.execute(sql_q, (id_bon_commande,))
 
 
+    unit = cur.fetchall()
+    connection.close()
+    return unit
+
+
+def get_bon_by_month(type, data):
+
+    year = data[2]
+    month = int(data[0]) + 1
+    day_start = 1
+    day_end = monthrange(year, month)[1]
+
+    date1 = day_start + "/" + month + "/" + year
+    date1 = forming_date(date1)
+    date2 = day_end + "/" + month + "/" + year
+    date2 = forming_date(date2)
+
+
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select bon.bon_id from bon  where bon.type = ? and date(bon.dt) >= date(?) and date(bon.dt) <= date(?)'
+    cur.execute(sql_q, (type, date1, date2))
+    unit = cur.fetchall()
+    connection.close()
+    return unit
+
+
+def get_bon_by_year(type, year):
+
+
+    month = 1
+    day_start = 1
+    day_end = monthrange(year, 12)[1]
+
+    date1 = day_start + "/" + "01" + "/" + year
+    date1 = forming_date(date1)
+    date2 = day_end + "/" + "12" + "/" + year
+    date2 = forming_date(date2)
+
+
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select bon.bon_id from bon  where bon.type = ? and date(bon.dt) >= date(?) and date(bon.dt) <= date(?)'
+    cur.execute(sql_q, (type, date1, date2))
     unit = cur.fetchall()
     connection.close()
     return unit
