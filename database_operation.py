@@ -659,15 +659,13 @@ def get_bon_by_month(type, data):
 
 def get_bon_by_year(type, year):
 
-
-
     day_start = 1
     year = int(year)
     day_end = monthrange(year, 12)[1]
 
-    date1 = day_start + "/" + "01" + "/" + year
+    date1 = str(day_start) + "/" + "01" + "/" + str(year)
     date1 = forming_date(date1)
-    date2 = day_end + "/" + "12" + "/" + year
+    date2 = str(day_end) + "/" + "12" + "/" + str(year)
     date2 = forming_date(date2)
 
 
@@ -678,6 +676,18 @@ def get_bon_by_year(type, year):
     unit = cur.fetchall()
     connection.close()
     return unit
+
+def check_user(username, password):
+    connection = sqlite3.connect("database/database.db")
+    cur = connection.cursor()
+    sql_q = 'Select * from user  where user.user_name = ? and user.password = ?'
+    cur.execute(sql_q, (type, username, password))
+    unit = cur.fetchall()
+    connection.close()
+    return unit
+
+
+
 
 
 

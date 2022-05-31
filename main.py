@@ -6,6 +6,7 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QApplication, QGraphicsDropShadowEffect
 
 import app
+import login
 from threads import ThreadLoadingApp
 
 try:
@@ -47,7 +48,9 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             self.progress.setValue(100)
             self.label.setText("Wellcome")
-            self.next_page = app.AppUi()
+            #self.next_page = app.AppUi()
+            #self.next_page.show()
+            self.next_page = login.LoginUi()
             self.next_page.show()
             self.close()
 
