@@ -681,7 +681,7 @@ def check_user(username, password):
     connection = sqlite3.connect("database/database.db")
     cur = connection.cursor()
     sql_q = 'Select * from user  where user.user_name = ? and user.password = ?'
-    cur.execute(sql_q, (type, username, password))
+    cur.execute(sql_q, (username, password))
     unit = cur.fetchall()
     connection.close()
     return unit

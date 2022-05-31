@@ -36,7 +36,7 @@ class LoginUi(QtWidgets.QMainWindow):
         if self.username.text() == "" or self.password.text() == "":
             self.alert_("خطأ في إسم المستخدم أو كلمة المرور")
         else:
-            check = check_user(self.username, self.password)
+            check = check_user(self.username.text(), self.password.text())
 
             if check:
                 self.next_page = app.AppUi()
@@ -44,6 +44,8 @@ class LoginUi(QtWidgets.QMainWindow):
                 self.close()
             else:
                 self.alert_("خطأ في إسم المستخدم أو كلمة المرور")
+                self.username.setText("")
+                self.password.setText("")
 
 
 
