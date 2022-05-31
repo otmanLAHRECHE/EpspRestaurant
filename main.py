@@ -2,7 +2,7 @@
 
 import sys
 from PyQt5 import uic, QtWidgets, QtCore
-from PyQt5.QtGui import QColor
+from PyQt5.QtGui import QColor, QIcon
 from PyQt5.QtWidgets import QApplication, QGraphicsDropShadowEffect
 
 import app
@@ -60,6 +60,7 @@ class MainWindow(QtWidgets.QMainWindow):
 def main():
     app = QApplication(sys.argv)
     # app.setLayoutDirection(Qt.RightToLeft)
+    app.setWindowIcon(QIcon("./icons/app_icon.ico"))
     window = MainWindow()
     window.show()
     app.exec_()
