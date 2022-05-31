@@ -1,6 +1,6 @@
 from openpyxl import load_workbook
 
-from database_operation import get_bon_by_month
+from database_operation import get_bon_by_month, get_operations_by_commande_id
 from tools import un_forming_date
 
 
@@ -73,7 +73,26 @@ def entree_mois_report(data):
 
     ws["D7"] = month
 
-    bons = get_bon_by_month()
+    bons = get_bon_by_month("commande", data)
+
+    prods = []
+    for bon in bons:
+        opertaions = get_operations_by_commande_id(bon[0])
+        for operation in opertaions:
+            go = True
+            prod = []
+            name = operation[0]
+            for i in range(len(prods)):
+                p = prods[i]
+                if p[0] == name:
+                    go = False
+            if go:
+                prod.append(operation[0])
+                prod.append(operation[1])
+                prod.append(operation[2])
+                prods.append(prod)
+
+
 
     wb.save("xslx/raports/تقرير المدخولات الشهري.xlsx")
 
