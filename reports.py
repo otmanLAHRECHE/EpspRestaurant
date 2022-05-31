@@ -86,6 +86,8 @@ def entree_mois_report(data):
                 p = prods[i]
                 if p[0] == name:
                     go = False
+                    p[1] = p[1] + operation[1]
+                    prods[i] = p
             if go:
                 prod.append(operation[0])
                 prod.append(operation[1])
@@ -93,8 +95,32 @@ def entree_mois_report(data):
                 prods.append(prod)
 
 
+    print(prods)
+
+
+    for i in range(len(prods)):
+        print("indeeeeeeeeeeeeeeeeeex", i)
+        index = 11 + i
+        prod = prods[i]
+        ws["G" + str(index)] = i + 1
+        ws["D" + str(index)] = prod[0]
+        if prod[2] == "no_unit":
+            ws["A" + str(index)] = str(prod[1])
+        else:
+            ws["A" + str(index)] = str(prod[1]) + prod[2]
+
+        ind = 11 + i
+
+    ind = ind + 1
+
+    ws.delete_rows(ind, 99 - ind)
+
 
     wb.save("xslx/raports/تقرير المدخولات الشهري.xlsx")
+    
+
+    
+
 
 
 def sortie_mois_report(data):

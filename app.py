@@ -1800,18 +1800,20 @@ class AppUi(QtWidgets.QMainWindow):
             for row in range(self.statesiques_table.rowCount()):
                 self.statesiques_table.cellWidget(row, 0).check.setChecked(False)
         else:
-            self.dialog = Threading_loading()
-            self.dialog.ttl.setText("إنتظر من فضلك")
-            self.dialog.progress.setValue(0)
-            self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-            self.dialog.show()
 
-            data = []
+
+
 
             if row_selected == 0:
 
                 dialog = chose_month()
-                if dialog.exec() == QtWidgets.QDialog.Accepted :
+                if dialog.exec() == QtWidgets.QDialog.Accepted:
+
+                    self.dialog = Threading_loading()
+                    self.dialog.ttl.setText("إنتظر من فضلك")
+                    self.dialog.progress.setValue(0)
+                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                    self.dialog.show()
 
                     data = []
                     data.append(dialog.chose_month.currentIndex())
@@ -1827,6 +1829,11 @@ class AppUi(QtWidgets.QMainWindow):
 
                 dialog = chose_month()
                 if dialog.exec() == QtWidgets.QDialog.Accepted:
+                    self.dialog = Threading_loading()
+                    self.dialog.ttl.setText("إنتظر من فضلك")
+                    self.dialog.progress.setValue(0)
+                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                    self.dialog.show()
                     data = []
                     data.append(dialog.chose_month.currentIndex())
                     data.append(dialog.chose_month.currentText())
@@ -1840,6 +1847,11 @@ class AppUi(QtWidgets.QMainWindow):
             elif row_selected == 2:
                 dialog = chose_year()
                 if dialog.exec() == QtWidgets.QDialog.Accepted:
+                    self.dialog = Threading_loading()
+                    self.dialog.ttl.setText("إنتظر من فضلك")
+                    self.dialog.progress.setValue(0)
+                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                    self.dialog.show()
                     self.thr = ThreadCreateReport(dialog.chose_year.currentText(), "entrée_year")
                     self.thr._signal.connect(self.signal_programme_accepted)
                     self.thr._signal_result.connect(self.signal_programme_accepted)
@@ -1848,6 +1860,11 @@ class AppUi(QtWidgets.QMainWindow):
             else:
                 dialog = chose_year()
                 if dialog.exec() == QtWidgets.QDialog.Accepted:
+                    self.dialog = Threading_loading()
+                    self.dialog.ttl.setText("إنتظر من فضلك")
+                    self.dialog.progress.setValue(0)
+                    self.dialog.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+                    self.dialog.show()
                     self.thr = ThreadCreateReport(dialog.chose_year.currentText(), "sortie_year")
                     self.thr._signal.connect(self.signal_programme_accepted)
                     self.thr._signal_result.connect(self.signal_programme_accepted)

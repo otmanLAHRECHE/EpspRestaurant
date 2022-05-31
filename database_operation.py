@@ -637,14 +637,14 @@ def get_filtred_operations_by_sortie_id(id_bon_commande, filter):
 
 def get_bon_by_month(type, data):
 
-    year = data[2]
+    year = int(data[2])
     month = int(data[0]) + 1
     day_start = 1
     day_end = monthrange(year, month)[1]
 
-    date1 = day_start + "/" + month + "/" + year
+    date1 = str(day_start) + "/" + str(month) + "/" + str(year)
     date1 = forming_date(date1)
-    date2 = day_end + "/" + month + "/" + year
+    date2 = str(day_end) + "/" + str(month) + "/" + str(year)
     date2 = forming_date(date2)
 
 
