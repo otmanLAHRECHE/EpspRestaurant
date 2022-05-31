@@ -94,12 +94,7 @@ def entree_mois_report(data):
                 prod.append(operation[2])
                 prods.append(prod)
 
-
-    print(prods)
-
-
     for i in range(len(prods)):
-        print("indeeeeeeeeeeeeeeeeeex", i)
         index = 11 + i
         prod = prods[i]
         ws["G" + str(index)] = i + 1
@@ -126,6 +121,47 @@ def entree_mois_report(data):
 def sortie_mois_report(data):
     wb = load_workbook('xslx/sortie_mois_model.xlsx')
     ws = wb.active
+
+    month = data[1] + " / " + str(data[2])
+
+    ws["D7"] = month
+
+    bons = get_bon_by_month("sortie", data)
+
+    prods = []
+    for bon in bons:
+        opertaions = get_operations_by_commande_id(bon[0])
+        for operation in opertaions:
+            go = True
+            prod = []
+            name = operation[0]
+            for i in range(len(prods)):
+                p = prods[i]
+                if p[0] == name:
+                    go = False
+                    p[1] = p[1] + operation[1]
+                    prods[i] = p
+            if go:
+                prod.append(operation[0])
+                prod.append(operation[1])
+                prod.append(operation[2])
+                prods.append(prod)
+
+    for i in range(len(prods)):
+        index = 11 + i
+        prod = prods[i]
+        ws["G" + str(index)] = i + 1
+        ws["D" + str(index)] = prod[0]
+        if prod[2] == "no_unit":
+            ws["A" + str(index)] = str(prod[1])
+        else:
+            ws["A" + str(index)] = str(prod[1]) + prod[2]
+
+        ind = 11 + i
+
+    ind = ind + 1
+
+    ws.delete_rows(ind, 99 - ind)
 
 
     wb.save("xslx/raports/تقرير التموين الشهري.xlsx")
