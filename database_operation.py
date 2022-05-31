@@ -620,7 +620,7 @@ def get_filtred_operations_by_sortie_id(id_bon_commande, filter):
 
     args = filter_type[2]
     if args:
-        args.insert(0,id_bon_commande)
+        args.insert(0, id_bon_commande)
         l = len(args) - 1
         sql_q = 'Select product.name, opertation.qnt, product.unit from product inner join opertation on product.product_id = opertation.product_op_id where opertation.bon_op_id = ? and product.name in ({seq})'.format(
     seq=','.join(['?']*l))
@@ -660,8 +660,9 @@ def get_bon_by_month(type, data):
 def get_bon_by_year(type, year):
 
 
-    month = 1
+
     day_start = 1
+    year = int(year)
     day_end = monthrange(year, 12)[1]
 
     date1 = day_start + "/" + "01" + "/" + year

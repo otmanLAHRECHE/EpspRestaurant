@@ -1,6 +1,6 @@
 from openpyxl import load_workbook
 
-from database_operation import get_bon_by_month, get_operations_by_commande_id
+from database_operation import get_bon_by_month, get_operations_by_commande_id, get_bon_by_year
 from tools import un_forming_date
 
 
@@ -112,11 +112,6 @@ def entree_mois_report(data):
 
 
     wb.save("xslx/raports/تقرير المدخولات الشهري.xlsx")
-    
-
-    
-
-
 
 def sortie_mois_report(data):
     wb = load_workbook('xslx/sortie_mois_model.xlsx')
@@ -171,11 +166,91 @@ def entree_year_report(year):
     ws = wb.active
 
 
+
+    ws["D7"] = year
+
+    bons = get_bon_by_year("commande", year)
+
+    prods = []
+    for bon in bons:
+        opertaions = get_operations_by_commande_id(bon[0])
+        for operation in opertaions:
+            go = True
+            prod = []
+            name = operation[0]
+            for i in range(len(prods)):
+                p = prods[i]
+                if p[0] == name:
+                    go = False
+                    p[1] = p[1] + operation[1]
+                    prods[i] = p
+            if go:
+                prod.append(operation[0])
+                prod.append(operation[1])
+                prod.append(operation[2])
+                prods.append(prod)
+
+    for i in range(len(prods)):
+        index = 11 + i
+        prod = prods[i]
+        ws["G" + str(index)] = i + 1
+        ws["D" + str(index)] = prod[0]
+        if prod[2] == "no_unit":
+            ws["A" + str(index)] = str(prod[1])
+        else:
+            ws["A" + str(index)] = str(prod[1]) + prod[2]
+
+        ind = 11 + i
+
+    ind = ind + 1
+
+    ws.delete_rows(ind, 99 - ind)
+
+
     wb.save("xslx/raports/تقرير المدخولات السنوي.xlsx")
 
 def sortie_year_report(year):
     wb = load_workbook('xslx/sortie_year_model.xlsx')
     ws = wb.active
+
+    ws["D7"] = year
+
+    bons = get_bon_by_year("sortie", year)
+
+    prods = []
+    for bon in bons:
+        opertaions = get_operations_by_commande_id(bon[0])
+        for operation in opertaions:
+            go = True
+            prod = []
+            name = operation[0]
+            for i in range(len(prods)):
+                p = prods[i]
+                if p[0] == name:
+                    go = False
+                    p[1] = p[1] + operation[1]
+                    prods[i] = p
+            if go:
+                prod.append(operation[0])
+                prod.append(operation[1])
+                prod.append(operation[2])
+                prods.append(prod)
+
+    for i in range(len(prods)):
+        index = 11 + i
+        prod = prods[i]
+        ws["G" + str(index)] = i + 1
+        ws["D" + str(index)] = prod[0]
+        if prod[2] == "no_unit":
+            ws["A" + str(index)] = str(prod[1])
+        else:
+            ws["A" + str(index)] = str(prod[1]) + prod[2]
+
+        ind = 11 + i
+
+    ind = ind + 1
+
+    ws.delete_rows(ind, 99 - ind)
 
 
     wb.save("xslx/raports/تقرير التموين السنوي.xlsx")
