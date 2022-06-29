@@ -1,9 +1,9 @@
 import time
+import openpyxl
 
 import PyQt5
 from PyQt5 import QtWidgets, uic, QtCore, QtGui, QtPrintSupport
 from PyQt5.QtCore import pyqtSignal, QThread
-import openpyxl
 
 from reports import program_report, sortie_report, entree_mois_report, sortie_mois_report, entree_year_report, \
     sortie_year_report
